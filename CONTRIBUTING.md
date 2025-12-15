@@ -22,16 +22,17 @@ can also provide general help about using Rust in GNOME.
 
 ### Prerequisites
 
-Fractal is written in Rust, so you will need to have at least Rust 1.80 and Cargo available on your
-system. You will also need to install the Rust nightly toolchain to be able to run our
+Fractal is written in Rust, so you will need to have at least Rust (the minimum required version is
+available in the `Cargo.toml` file as `package.rust-version`) and Cargo available on your system.
+You will also need to install the Rust nightly toolchain to be able to run our
 [pre-commit hook](#pre-commit), which can be done with:
 
 ```sh
 rustup toolchain install nightly
 ```
 
-If you're building Fractal with Flatpak (via GNOME Builder or the command line), you will need to
-manually add the necessary remotes and install the required freedesktop.org extensions:
+If you are building Fractal with Flatpak (via GNOME Builder or the command line), you will need to
+manually add the necessary remotes and install the Rust freedesktop.org extension:
 
 ```sh
 # Add Flathub and the gnome-nightly repo
@@ -43,9 +44,6 @@ flatpak install --user gnome-nightly org.gnome.Sdk//master org.gnome.Platform//m
 
 # Install the required rust-stable extension from Flathub
 flatpak install --user flathub org.freedesktop.Sdk.Extension.rust-stable//25.08
-
-# Install the required llvm extension from Flathub
-flatpak install --user flathub org.freedesktop.Sdk.Extension.llvm20//25.08
 ```
 
 If you are building the flatpak manually you will also need flatpak-builder on your system, or the

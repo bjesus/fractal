@@ -4,8 +4,7 @@
     "runtime-version": "master",
     "sdk": "org.gnome.Sdk",
     "sdk-extensions": [
-        "org.freedesktop.Sdk.Extension.rust-stable",
-        "org.freedesktop.Sdk.Extension.llvm20"
+        "org.freedesktop.Sdk.Extension.rust-stable"
     ],
     "command": "fractal",
     "finish-args": [
@@ -20,13 +19,9 @@
         "--env=RUST_BACKTRACE=1"
     ],
     "build-options": {
-        "append-ld-library-path": "/usr/lib/sdk/llvm20/lib",
-        "append-path": "/usr/lib/sdk/llvm20/bin:/usr/lib/sdk/rust-stable/bin",
+        "append-path": "/usr/lib/sdk/rust-stable/bin",
         "env": {
-            "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_LINKER": "clang",
-            "CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_RUSTFLAGS": "-C force-frame-pointers=yes -C link-arg=-fuse-ld=/usr/lib/sdk/rust-stable/bin/mold --cfg=ruma_identifiers_storage=\"Arc\"",
-            "CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER": "clang",
-            "CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_RUSTFLAGS": "-C force-frame-pointers=yes -C link-arg=-fuse-ld=/usr/lib/sdk/rust-stable/bin/mold --cfg=ruma_identifiers_storage=\"Arc\""
+            "RUSTFLAGS": "-C link-arg=-fuse-ld=mold --cfg=ruma_identifiers_storage=\"Arc\""
         },
         "build-args": [
             "--share=network"
