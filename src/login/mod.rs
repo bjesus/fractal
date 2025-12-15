@@ -499,7 +499,7 @@ mod imp {
 }
 
 glib::wrapper! {
-    /// A widget managing the login flows.
+    /// A widget managing the login flows.
     pub struct Login(ObjectSubclass<imp::Login>)
         @extends gtk::Widget, adw::Bin,
         @implements gtk::Accessible, gtk::Buildable, gtk::ConstraintTarget;
