@@ -27,7 +27,6 @@ use ruma::{
     serde::Raw,
 };
 use thiserror::Error;
-use tracing::error;
 
 pub(crate) mod ext_traits;
 mod media_message;
