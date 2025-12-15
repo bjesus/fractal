@@ -73,7 +73,9 @@ template $EncryptionPage: Adw.PreferencesPage {
 
   Adw.PreferencesGroup {
     title: _("Account Recovery");
-    description: _("Allows to fully recover your account with a recovery key or passphrase, if you ever lose access to all your sessions");
+    description: _(
+      "Allows to fully recover your account with a recovery key or passphrase, if you ever lose access to all your sessions"
+    );
 
     Adw.PreferencesRow recovery_row {
       activatable: false;

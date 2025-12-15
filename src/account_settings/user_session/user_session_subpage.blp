@@ -36,7 +36,9 @@ template $UserSessionSubpage: Adw.NavigationPage {
 
         Adw.ActionRow {
           title: _("Last Seen");
-          subtitle: bind $unwrap_string_or_empty(template.user-session as <$UserSession>.last-seen-datetime-string) as <string>;
+          subtitle: bind $unwrap_string_or_empty(
+            template.user-session as <$UserSession>.last-seen-datetime-string
+            ) as <string>;
           visible: bind $string_not_empty(template.user-session as <$UserSession>.last-seen-datetime-string) as <bool>;
 
           styles [

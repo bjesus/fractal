@@ -11,7 +11,9 @@ template $RoomDetailsAddressesSubpage: Adw.NavigationPage {
     content: Adw.PreferencesPage {
       Adw.PreferencesGroup public_addresses_group {
         title: _("Public Addresses");
-        description: _("Public addresses are advertised for all users in the room and the main address is used to identify a room publicly. Before adding an address to this list, it must be registered as a local address.");
+        description: _(
+          "Public addresses are advertised for all users in the room and the main address is used to identify a room publicly. Before adding an address to this list, it must be registered as a local address."
+        );
 
         Gtk.ListBox public_addresses_list {
           styles [
@@ -39,7 +41,9 @@ template $RoomDetailsAddressesSubpage: Adw.NavigationPage {
       }
 
       Adw.PreferencesGroup local_addresses_group {
-        description: _("Local addresses can only be registered with your own homeserver. If they are not made public, only people on your homeserver can discover them.");
+        description: _(
+          "Local addresses can only be registered with your own homeserver. If they are not made public, only people on your homeserver can discover them."
+        );
 
         Gtk.ListBox local_addresses_list {
           styles [

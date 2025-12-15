@@ -20,8 +20,17 @@ template $SidebarSectionRow: Adw.Bin {
 
     [end]
     Gtk.Stack {
-      visible: bind $invert_boolean($logical_or(template.section as <$SidebarSection>.is-expanded, template.section as <$SidebarSection>.is-read) as <bool>) as <bool>;
-      visible-child-name: bind $ternary_string(template.section as <$SidebarSection>.has-notifications, "count", "dot") as <string>;
+      visible: bind $invert_boolean(
+        $logical_or(
+          template.section as <$SidebarSection>.is-expanded,
+          template.section as <$SidebarSection>.is-read
+          ) as <bool>
+      ) as <bool>;
+      visible-child-name: bind $ternary_string(
+        template.section as <$SidebarSection>.has-notifications,
+        "count",
+        "dot"
+      ) as <string>;
 
       Gtk.StackPage {
         name: "dot";

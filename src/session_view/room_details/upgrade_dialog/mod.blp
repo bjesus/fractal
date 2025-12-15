@@ -61,7 +61,9 @@ template $RoomDetailsUpgradeDialog: Adw.Dialog {
             justify: center;
             xalign: 0.5;
             max-width-chars: 60;
-            label: _("Upgrading a room to a more recent version allows to benefit from new features from the Matrix specification. It can also be used to reset the room state, which should make the room faster to join. However it should be used sparingly because it can be disruptive, as room members need to join the new room manually.");
+            label: _(
+              "Upgrading a room to a more recent version allows to benefit from new features from the Matrix specification. It can also be used to reset the room state, which should make the room faster to join. However it should be used sparingly because it can be disruptive, as room members need to join the new room manually."
+            );
 
             styles [
               "body",
@@ -91,7 +93,9 @@ template $RoomDetailsUpgradeDialog: Adw.Dialog {
             justify: center;
             xalign: 0.5;
             max-width-chars: 60;
-            label: _("After the upgrade, you will be the only member of the room and other members will need to be re-invited manually. This could be avoided by using third-party upgrade tooling that handles this for you.");
+            label: _(
+              "After the upgrade, you will be the only member of the room and other members will need to be re-invited manually. This could be avoided by using third-party upgrade tooling that handles this for you."
+            );
 
             styles [
               "warning",

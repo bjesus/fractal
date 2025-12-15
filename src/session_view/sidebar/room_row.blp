@@ -25,7 +25,10 @@ template $SidebarRoomRow: Adw.Bin {
 
     [end]
     Gtk.Stack {
-      visible: bind $logical_or(template.room as <$Room>.has-notifications, $invert_boolean(template.room as <$Room>.is-read) as <bool>) as <bool>;
+      visible: bind $logical_or(
+        template.room as <$Room>.has-notifications,
+        $invert_boolean(template.room as <$Room>.is-read) as <bool>
+      ) as <bool>;
       visible-child-name: bind $ternary_string(template.room as <$Room>.has-notifications, "count", "dot") as <string>;
 
       Gtk.StackPage {

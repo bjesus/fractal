@@ -60,7 +60,9 @@ template $UserSessionRow: Gtk.ListBoxRow {
       Gtk.Label {
         xalign: 0.0;
         ellipsize: end;
-        label: bind $unwrap_string_or_empty(template.user-session as <$UserSession>.last-seen-datetime-string) as <string>;
+        label: bind $unwrap_string_or_empty(
+          template.user-session as <$UserSession>.last-seen-datetime-string
+          ) as <string>;
         visible: bind $string_not_empty(template.user-session as <$UserSession>.last-seen-datetime-string) as <bool>;
 
         styles [

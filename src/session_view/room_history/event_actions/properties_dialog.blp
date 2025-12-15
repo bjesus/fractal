@@ -62,7 +62,11 @@ template $EventPropertiesDialog: $ToastableDialog {
                   $CopyableRow room_id_row {
                     main-title: "subtitle";
                     title: _("Room ID");
-                    subtitle: bind template.event as <$RoomEvent>.timeline as <$Timeline>.room as <$Room>.room-id-string;
+                    subtitle: bind template
+                      .event as <$RoomEvent>
+                      .timeline as <$Timeline>
+                      .room as <$Room>
+                      .room-id-string;
                     copy-button-tooltip-text: _("Copy Room ID");
                     toast-text: _("Room ID copied to clipboard");
                   }

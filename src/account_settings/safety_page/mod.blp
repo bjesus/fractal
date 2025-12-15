@@ -9,7 +9,9 @@ template $SafetyPage: Adw.PreferencesPage {
   Adw.PreferencesGroup {
     $ButtonCountRow ignored_users_row {
       title: _("Ignored Users");
-      subtitle: _("All messages or invitations sent by these users will be ignored. You will still see some of their activity, like when they join or leave a room.");
+      subtitle: _(
+        "All messages or invitations sent by these users will be ignored. You will still see some of their activity, like when they join or leave a room."
+      );
       action-name: "account-settings.show-subpage";
       action-target: "'ignored-users'";
     }
@@ -33,7 +35,9 @@ template $SafetyPage: Adw.PreferencesPage {
 
   Adw.PreferencesGroup media_previews {
     title: _("Media Previews");
-    description: _("Which rooms automatically show previews for images and videos. Hidden previews can always be shown by clicking on the media.");
+    description: _(
+      "Which rooms automatically show previews for images and videos. Hidden previews can always be shown by clicking on the media."
+    );
 
     $CheckLoadingRow media_previews_on_row {
       title: _("Show in all rooms");

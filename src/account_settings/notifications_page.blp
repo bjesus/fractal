@@ -45,7 +45,9 @@ template $NotificationsPage: Adw.PreferencesPage {
 
   Adw.PreferencesGroup {
     title: _("Keywords");
-    description: _("Messages that contain one of these keywords trigger notifications. Matching on these keywords is case-insensitive.");
+    description: _(
+      "Messages that contain one of these keywords trigger notifications. Matching on these keywords is case-insensitive."
+    );
 
     ListBox keywords {
       styles [
