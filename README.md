@@ -175,10 +175,10 @@ following dependencies at runtime:
 Fractal doesn’t store your **password**, but it stores your **access token** and the **passphrase**
 used to encrypt the database and the local cache.
 
-The Fractal Flatpaks use the [Secret **Portal**](https://docs.flatpak.org/en/latest/portal-api-reference.html#gdbus-org.freedesktop.portal.Secret)
+The Fractal Flatpaks use the [Secret **Portal**](https://flatpak.github.io/xdg-desktop-portal/docs/doc-org.freedesktop.portal.Secret.html)
 to store those secrets. If you are using GNOME this should just work. If you are using a different
 desktop environment or are facing issues, make sure `xdg-desktop-portal` is installed along with a
-service that provides the [Secret portal backend interface](https://docs.flatpak.org/en/latest/portal-api-reference.html#gdbus-org.freedesktop.impl.portal.Secret),
+service that provides the [Secret portal backend interface](https://flatpak.github.io/xdg-desktop-portal/docs/doc-org.freedesktop.impl.portal.Secret.html),
 like gnome-keyring or KWallet (since version 6.2).
 
 Any version that is not sandboxed relies on software that implements the [Secret **Service** API](https://www.freedesktop.org/wiki/Specifications/secret-storage-spec/)
