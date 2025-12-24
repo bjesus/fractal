@@ -20,8 +20,6 @@ lint-metainfo:
 
 # Run the Rust tests.
 rust-tests:
-  extends:
-    - .remove_build_only_modules
   stage: test
   image: 'quay.io/gnome_infrastructure/gnome-runtime-images:gnome-master'
   tags:
@@ -37,11 +35,11 @@ rust-tests:
     # Initialize the Flatpak sandbox.
     - flatpak-builder --keep-build-dirs --user --disable-rofiles-fuse --stop-at=${FLATPAK_MODULE} flatpak_app --repo=repo ${BRANCH:+--default-branch=$BRANCH} ${MANIFEST_PATH}
     # Run the tests.
-    - echo "cargo-nextest nextest run --config-file ../.gitlab-ci/nextest.toml" | flatpak-builder --disable-rofiles-fuse --build-shell=${FLATPAK_MODULE} flatpak_app ${MANIFEST_PATH}
+    - echo "meson compile src/cargo-test" | flatpak-builder --disable-rofiles-fuse --build-shell=${FLATPAK_MODULE} flatpak_app ${MANIFEST_PATH}
   dependencies: []
   artifacts:
     reports:
-      junit: '.flatpak-builder/build/${FLATPAK_MODULE}/target/nextest/default/junit.xml'
+      junit: '.flatpak-builder/build/${FLATPAK_MODULE}/_flatpak_build/src/junit.xml'
 
 # Test that there are no errors in the docs.
 build-docs:
@@ -62,8 +60,8 @@ build-docs:
     # Do not use the mold linker because it doesn't work with the rust-nightly extension at the moment
     - sed -i 's|-C link-arg=-fuse-ld=mold||g' ${MANIFEST_PATH}
     - flatpak-builder --keep-build-dirs --user --disable-rofiles-fuse --stop-at=${FLATPAK_MODULE} flatpak_app --repo=repo ${BRANCH:+--default-branch=$BRANCH} ${MANIFEST_PATH}
-    - echo "ninja src/doc" | flatpak-builder --disable-rofiles-fuse --build-shell=${FLATPAK_MODULE} flatpak_app ${MANIFEST_PATH}
-    - tar --auto-compress --create --file "${CI_PROJECT_DIR}/${CI_PROJECT_NAME}-docs.tar.gz" --directory ".flatpak-builder/build/${FLATPAK_MODULE}/_flatpak_build/cargo-target/doc" .
+    - echo "meson compile src/cargo-doc" | flatpak-builder --disable-rofiles-fuse --build-shell=${FLATPAK_MODULE} flatpak_app ${MANIFEST_PATH}
+    - tar --auto-compress --create --file "${CI_PROJECT_DIR}/${CI_PROJECT_NAME}-docs.tar.gz" --directory ".flatpak-builder/build/${FLATPAK_MODULE}/_flatpak_build/src/doc" .
   dependencies: []
   artifacts:
     paths:

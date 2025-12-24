@@ -3,7 +3,7 @@ project(
     'rust',
     version: '13',
     license: 'GPL-3.0-or-later',
-    meson_version: '>= 1.2',
+    meson_version: '>= 1.4',
 )
 
 fs = import('fs')
@@ -111,6 +111,18 @@ if profile == 'Devel'
     message('Setting up git pre-commit hook…')
     run_command('cp', '-f', 'hooks/pre-commit.hook', '.git/hooks/pre-commit')
 endif
+
+# Generate nextest config file
+# We generate it dynamically to put the test report inside the build directory,
+# like all other artefacts
+nextest_store_dir = meson.project_build_root() / 'nextest'
+nextest_data = configuration_data()
+nextest_data.set_quoted('STORE_DIR', nextest_store_dir)
+nextest_config = configure_file(
+    input: 'nextest.toml.in',
+    output: 'nextest.toml',
+    configuration: nextest_data,
+)
 
 if not build_env_only
     subdir('data')

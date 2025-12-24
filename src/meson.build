@@ -87,9 +87,6 @@ run_command(
 # Cargo settings
 cargo_options = ['--manifest-path', meson.project_source_root() / 'Cargo.toml']
 
-target_dir = meson.project_build_root() / 'cargo-target'
-cargo_options += ['--target-dir', target_dir]
-
 if profile == 'Devel'
     rust_target = 'debug'
     message('Building in debug mode')
@@ -99,7 +96,12 @@ else
     message('Building in release mode')
 endif
 
-cargo_env = ['CARGO_HOME=' + meson.project_build_root() / 'cargo-home']
+cargo_target_dir = meson.project_build_root() / 'cargo-target'
+
+cargo_env = [
+    'CARGO_HOME=' + meson.project_build_root() / 'cargo-home',
+    'CARGO_TARGET_DIR=' + cargo_target_dir,
+]
 
 if not build_env_only
     # Build binary with cargo
@@ -120,7 +122,30 @@ if not build_env_only
             cargo_options,
             '&&',
             'cp',
-            target_dir / rust_target / meson.project_name(),
+            cargo_target_dir / rust_target / meson.project_name(),
+            '@OUTPUT@',
+        ],
+    )
+
+    # Run Rust tests with cargo-nextest
+    custom_target(
+        'cargo-test',
+        build_always_stale: true,
+        output: 'junit.xml',
+        console: true,
+        depends: [resources, ui_resources],
+        command: [
+            'env',
+            cargo_env,
+            'cargo-nextest',
+            'nextest',
+            'run',
+            cargo_options,
+            '--config-file',
+            nextest_config.full_path(),
+            '&&',
+            'cp',
+            nextest_store_dir / 'default/junit.xml',
             '@OUTPUT@',
         ],
     )
@@ -169,5 +194,10 @@ custom_target(
         cargo,
         'doc',
         cargo_options + doc_deps + ['--no-deps', '-Zrustdoc-map'],
+        '&&',
+        'cp',
+        '-r',
+        cargo_target_dir / 'doc',
+        '@OUTPUT@',
     ],
 )

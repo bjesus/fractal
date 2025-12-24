@@ -1,3 +1,6 @@
+[store]
+dir = @STORE_DIR@
+
 [profile.default]
 fail-fast = false
 
