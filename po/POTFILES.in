@@ -93,6 +93,7 @@ src/login/homeserver_page.rs
 src/login/homeserver_page.blp
 src/login/in_browser_page.rs
 src/login/in_browser_page.blp
+src/login/local_server.rs
 src/login/method_page.rs
 src/login/method_page.blp
 src/login/mod.rs

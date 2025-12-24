@@ -10,16 +10,17 @@ use matrix_sdk::{
         registration::{ApplicationType, ClientMetadata, Localized, OAuthGrantType},
     },
     sanitize_server_name,
-    utils::local_server::{LocalServerBuilder, LocalServerRedirectHandle, LocalServerResponse},
+    utils::local_server::LocalServerRedirectHandle,
 };
 use ruma::{OwnedServerName, api::client::session::get_login_types::v3::LoginType, serde::Raw};
-use tracing::{error, warn};
+use tracing::warn;
 use url::Url;
 
 mod advanced_dialog;
 mod greeter;
 mod homeserver_page;
 mod in_browser_page;
+mod local_server;
 mod method_page;
 mod session_setup_view;
 mod sso_idp_button;
@@ -29,6 +30,7 @@ use self::{
     greeter::Greeter,
     homeserver_page::LoginHomeserverPage,
     in_browser_page::{LoginInBrowserData, LoginInBrowserPage},
+    local_server::spawn_local_server,
     method_page::LoginMethodPage,
     session_setup_view::SessionSetupView,
 };
@@ -278,7 +280,7 @@ mod imp {
                 return;
             };
 
-            let Ok((redirect_uri, local_server_handle)) = self.spawn_local_server().await else {
+            let Ok((redirect_uri, local_server_handle)) = spawn_local_server().await else {
                 return;
             };
 
@@ -346,7 +348,7 @@ mod imp {
                 return;
             };
 
-            let Ok((redirect_uri, local_server_handle)) = self.spawn_local_server().await else {
+            let Ok((redirect_uri, local_server_handle)) = spawn_local_server().await else {
                 return;
             };
 
@@ -367,22 +369,6 @@ mod imp {
                     toast!(self.obj(), gettext("Could not set up login"));
                 }
             }
-        }
-
-        /// Spawn a local server for listening to redirects.
-        async fn spawn_local_server(&self) -> Result<(Url, LocalServerRedirectHandle), ()> {
-            spawn_tokio!(async move {
-                LocalServerBuilder::new()
-                    .response(local_server_landing_page())
-                    .spawn()
-                    .await
-            })
-            .await
-            .expect("task was not aborted")
-            .map_err(|error| {
-                warn!("Could not spawn local server: {error}");
-                toast!(self.obj(), gettext("Could not set up login"));
-            })
         }
 
         /// Show the page to chose a login method with the given data.
@@ -575,111 +561,4 @@ fn client_registration_data() -> ClientRegistrationData {
     Raw::new(&client_metadata)
         .expect("client metadata should serialize to JSON successfully")
         .into()
-}
-
-/// The landing page, after the user performed the authentication and is
-/// redirected to the local server.
-fn local_server_landing_page() -> LocalServerResponse {
-    let title = gettext("Authorization Completed");
-    let message = gettext(
-        "The authorization step is complete. You can close this page and go back to Fractal.",
-    );
-    let icon = svg_icon().unwrap_or_default();
-
-    let css = "
-        /* Add support for light and dark schemes. */
-        :root {
-            color-scheme: light dark;
-        }
-
-        body {
-            /* Make sure that the page takes all the visible height. */
-            height: 100vh;
-
-            /* Cancel default margin in some browsers. */
-            margin: 0;
-
-            /* Apply the same colors as libadwaita. */
-            color: light-dark(RGB(0 0 6 / 80%), #ffffff);
-            background-color: light-dark(#ffffff, #1d1d20);
-        }
-
-        .content {
-            /* Center the content in the page. */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-
-            /* It looks better if the content is not absolutely vertically
-             * centered, so we cheat by reducing the height of the container.
-             */
-            height: 80%;
-
-            /* Use the GNOME default font if possible.
-             * Since Adwaita Sans is based on Inter, use it as a fallback.
-             */
-            font-family: \"Adwaita Sans\", Inter, sans-serif;
-
-            /* Add padding to have space around the text when the window is
-             * narrow.
-             */
-            padding: 12px;
-        }
-        ";
-    let html = format!(
-        "\
-        <!doctype html>
-        <html>
-            <head>
-                <meta charset=\"utf-8\">
-                <title>{APP_NAME} - {title}</title>
-                <style>{css}</style>
-            </head>
-            <body>
-                <div class=\"content\">
-                    {icon}
-                    <h1>{title}</h1>
-                    <p>{message}</p>
-                </div>
-            </body>
-        </html>
-        "
-    );
-
-    LocalServerResponse::Html(html)
-}
-
-/// Get the application SVG icon, ready to be embedded in HTML code.
-///
-/// Returns `None` if it failed to be imported.
-fn svg_icon() -> Option<String> {
-    // Load the icon from the application resources.
-    let Ok(bytes) = gio::resources_lookup_data(
-        "/org/gnome/Fractal/icons/scalable/apps/org.gnome.Fractal.svg",
-        gio::ResourceLookupFlags::NONE,
-    ) else {
-        error!("Could not find application icon in GResources");
-        return None;
-    };
-
-    // Convert the bytes to a string, since it should be SVG.
-    let Ok(icon) = String::from_utf8(bytes.to_vec()) else {
-        error!("Could not parse application icon as a UTF-8 string");
-        return None;
-    };
-
-    // Remove the XML prologue, to inline the SVG directly into the HTML.
-    let Some(stripped_icon) = icon
-        .trim()
-        .strip_prefix(r#"<?xml version="1.0" encoding="UTF-8"?>"#)
-    else {
-        error!("Could not strip XML prologue of application icon");
-        return None;
-    };
-
-    // Wrap the SVG into a div that is hidden in the accessibility tree, since the
-    // icon is only here for presentation purposes.
-    Some(format!(r#"<div aria-hidden="true">{stripped_icon}</div>"#))
 }

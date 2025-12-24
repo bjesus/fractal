@@ -72,6 +72,7 @@ global_conf.set_quoted('LOCALEDIR', localedir)
 global_conf.set_quoted('PKGDATADIR', pkgdatadir)
 global_conf.set('PROFILE', profile)
 global_conf.set_quoted('VERSION', full_version)
+global_conf.set_quoted('BUILD_DIR', meson.project_build_root())
 config = configure_file(
     input: 'config.rs.in',
     output: 'config.rs',
