@@ -156,32 +156,34 @@ endif
 rustdoc_flags = ' '.join(
     '-Zunstable-options',
     '--enable-index-page',
+    # The gtk-rs project docs on docs.rs don't build or don't have comments.
+    '--extern-html-root-url=gdk4=https://gtk-rs.org/gtk4-rs/stable/latest/docs/',
     '--extern-html-root-url=gio=https://gtk-rs.org/gtk-rs-core/stable/latest/docs/',
     '--extern-html-root-url=glib=https://gtk-rs.org/gtk-rs-core/stable/latest/docs/',
     '--extern-html-root-url=gsk4=https://gtk-rs.org/gtk4-rs/stable/latest/docs/',
-    '--extern-html-root-url=gdk4=https://gtk-rs.org/gtk4-rs/stable/latest/docs/',
     '--extern-html-root-url=gtk4=https://gtk-rs.org/gtk4-rs/stable/latest/docs/',
     '--extern-html-root-url=libadwaita=https://world.pages.gitlab.gnome.org/Rust/libadwaita-rs/stable/latest/docs/',
+    # We are usually on a commit rather than on a stable release, so we are more likely to have up-to-date comments on nightly docs.
+    '--extern-html-root-url=matrix-sdk=https://matrix-org.github.io/matrix-rust-sdk/',
+    '--extern-html-root-url=matrix-sdk-base=https://matrix-org.github.io/matrix-rust-sdk/',
+    '--extern-html-root-url=matrix-sdk-common=https://matrix-org.github.io/matrix-rust-sdk/',
+    '--extern-html-root-url=matrix-sdk-crypto=https://matrix-org.github.io/matrix-rust-sdk/',
+    '--extern-html-root-url=matrix-sdk-qrcode=https://matrix-org.github.io/matrix-rust-sdk/',
+    '--extern-html-root-url=matrix-sdk-sqlite=https://matrix-org.github.io/matrix-rust-sdk/',
+    '--extern-html-root-url=matrix-sdk-store-encryption=https://matrix-org.github.io/matrix-rust-sdk/',
+    '--extern-html-root-url=matrix-sdk-ui=https://matrix-org.github.io/matrix-rust-sdk/',
+    '--extern-html-root-url=matrix-sdk-ui=https://matrix-org.github.io/matrix-rust-sdk/',
+    '--extern-html-root-url=ruma=https://docs.ruma.dev/',
+    '--extern-html-root-url=ruma-client-api=https://docs.ruma.dev/',
+    '--extern-html-root-url=ruma-common=https://docs.ruma.dev/',
+    '--extern-html-root-url=ruma-events=https://docs.ruma.dev/',
+    '--extern-html-root-url=ruma-html=https://docs.ruma.dev/',
+    '--extern-html-root-url=ruma-signatures=https://docs.ruma.dev/',
     '--cfg=docsrs',
     '-Dwarnings',
 )
-doc_env = ['RUSTDOCFLAGS=' + rustdoc_flags]
-doc_deps = [
-    '--package=ruma',
-    '--package=ruma-common',
-    '--package=ruma-client-api',
-    '--package=ruma-events',
-    '--package=matrix-sdk',
-    '--package=matrix-sdk-base',
-    '--package=matrix-sdk-common',
-    '--package=matrix-sdk-crypto',
-    '--package=matrix-sdk-qrcode',
-    '--package=matrix-sdk-sqlite',
-    '--package=matrix-sdk-store-encryption',
-    '--package=matrix-sdk-ui',
-    '--package=fractal',
-    '--package=ashpd',
-]
+cargo_doc_env = ['RUSTDOCFLAGS=' + rustdoc_flags]
+cargo_doc_options = ['--package=fractal', '--no-deps', '-Zrustdoc-map']
 
 custom_target(
     'cargo-doc',
@@ -191,10 +193,10 @@ custom_target(
     console: true,
     command: [
         'env',
-        cargo_env + doc_env,
+        cargo_env + cargo_doc_env,
         cargo,
         'doc',
-        cargo_options + doc_deps + ['--no-deps', '-Zrustdoc-map'],
+        cargo_options + cargo_doc_options,
         '&&',
         'cp',
         '-r',
