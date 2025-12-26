@@ -76,23 +76,23 @@ sourceview = { version = "0.10", package = "sourceview5" }
 [dependencies.matrix-sdk]
 # version = "0.14"
 git = "https://github.com/matrix-org/matrix-rust-sdk.git"
-rev = "19b703611934e054f05062cf91bf5f9068e00d3f"
+rev = "cd9f433358586e8717417fc043650f46362aa14c"
 features = ["socks", "sso-login", "markdown", "qrcode"]
 
 [dependencies.matrix-sdk-store-encryption]
 # version = "0.14"
 git = "https://github.com/matrix-org/matrix-rust-sdk.git"
-rev = "19b703611934e054f05062cf91bf5f9068e00d3f"
+rev = "cd9f433358586e8717417fc043650f46362aa14c"
 
 [dependencies.matrix-sdk-ui]
 # version = "0.14"
 git = "https://github.com/matrix-org/matrix-rust-sdk.git"
-rev = "19b703611934e054f05062cf91bf5f9068e00d3f"
+rev = "cd9f433358586e8717417fc043650f46362aa14c"
 
 [dependencies.ruma]
-version = "0.14"
-# git = "https://github.com/ruma/ruma.git"
-# rev = "c441eccb92a36467217ff929cd71462fbeeeaf1a"
+# version = "0.14"
+git = "https://github.com/ruma/ruma.git"
+rev = "a67081e402dce14365089b34f50489dacc9c53b5"
 features = [
     "client-api-c",
     "markdown",
