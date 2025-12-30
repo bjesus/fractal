@@ -106,6 +106,8 @@ mod imp {
         #[template_child]
         pub(super) message_entry: TemplateChild<sourceview::View>,
         #[template_child]
+        attach_button: TemplateChild<gtk::Button>,
+        #[template_child]
         send_button: TemplateChild<gtk::Button>,
         #[template_child]
         related_event_header: TemplateChild<LabelWithWidgets>,
@@ -544,6 +546,7 @@ mod imp {
             self.related_event_content
                 .update_for_related_event(&msgtype, message_event, &sender);
             self.related_event_content.set_visible(true);
+            self.enable_sending_non_text_messages(false);
         }
 
         /// Update the displayed related event for the given edit.
@@ -552,14 +555,24 @@ mod imp {
             let label = pgettext("room-history", "Edit");
             self.related_event_header
                 .set_label_and_widgets::<gtk::Widget>(label, vec![]);
-
             self.related_event_content.set_visible(false);
+            self.enable_sending_non_text_messages(false);
+        }
+
+        /// Toggle UI for sending non-text messages.
+        fn enable_sending_non_text_messages(&self, enable: bool) {
+            self.attach_button.set_sensitive(enable);
+            self.obj().action_set_enabled(
+                "message-toolbar.send-location",
+                enable && Location::new().is_available(),
+            );
         }
 
         /// Clear the related event.
         #[template_callback]
         fn clear_related_event(&self) {
             self.current_composer_state().set_related_to(None);
+            self.enable_sending_non_text_messages(true);
         }
 
         /// Add a mention of the given member to the message composer.
