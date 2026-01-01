@@ -74,7 +74,7 @@ Publishing a version of Fractal on Flathub is done via its [Flathub repository o
 A permission from the Flathub team granted to your GitHub account is necessary to merge PRs on this
 repository, but anyone can open a PR.
 
-1. Open a PR against the correct branch. For a stable build, work against the `master` branch, for a
+- Open a PR against the correct branch. For a stable build, work against the `master` branch, for a
   beta build, work against the `beta` branch.
 
   It must contain a commit that updates the manifest to:
@@ -86,13 +86,13 @@ repository, but anyone can open a PR.
 
   If the list of Rust modules to build changes, the `MODULES` variable in the
   `update-cargo-sources.sh` script must also be updated.
-2. When the PR is opened, a CI job will update the `*-cargo-sources.json` files with the latest
+- When the PR is opened, a CI job will update the `*-cargo-sources.json` files with the latest
   dependencies for the Rust modules and add a commit to the PR if necessary.
-3. Trigger a test build by posting a comment saying `bot, build`.
+- Trigger a test build by posting a comment saying `bot, build`.
 
   If the build succeeds, test the generated Flatpak as instructed and watch for obvious errors. If
   there are no issues, merge the PR.
-4. Merging the PR will trigger an "official" build that will then be published on Flathub or Flathub
+- Merging the PR will trigger an "official" build that will then be published on Flathub or Flathub
   beta within 1 to 2 hours. If this build fails, an issue will be opened on the GitHub repository.
   The Flathub admins need to be contacted to launch it again.
 
