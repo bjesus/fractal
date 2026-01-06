@@ -1,7 +1,7 @@
 use std::{cell::RefCell, fmt, rc::Rc};
 
+use quick_cache::unsync::Cache;
 use ruma::{OwnedRoomOrAliasId, OwnedUserId, RoomId};
-use wtinylfu::WTinyLfuCache;
 
 use super::{RemoteRoom, RemoteUser};
 use crate::{session::Session, utils::matrix::MatrixRoomIdUri};
@@ -9,9 +9,9 @@ use crate::{session::Session, utils::matrix::MatrixRoomIdUri};
 /// The data of the [`RemoteCache`].
 struct RemoteCacheData {
     /// Remote rooms.
-    rooms: RefCell<WTinyLfuCache<OwnedRoomOrAliasId, RemoteRoom>>,
+    rooms: RefCell<Cache<OwnedRoomOrAliasId, RemoteRoom>>,
     /// Remote users.
-    users: RefCell<WTinyLfuCache<OwnedUserId, RemoteUser>>,
+    users: RefCell<Cache<OwnedUserId, RemoteUser>>,
 }
 
 /// An API to query remote data and cache it.
@@ -27,8 +27,8 @@ impl RemoteCache {
         Self {
             session,
             data: RemoteCacheData {
-                rooms: WTinyLfuCache::new(30, 10).into(),
-                users: WTinyLfuCache::new(30, 10).into(),
+                rooms: Cache::new(30).into(),
+                users: Cache::new(30).into(),
             }
             .into(),
         }
@@ -78,7 +78,7 @@ impl RemoteCache {
         // We did not find it, create the room.
         let id = uri.id.clone();
         let room = RemoteRoom::new(&self.session, uri);
-        rooms.push(id, room.clone());
+        rooms.insert(id, room.clone());
 
         room
     }
@@ -95,7 +95,7 @@ impl RemoteCache {
 
         // We did not find it, create the user.
         let user = RemoteUser::new(&self.session, user_id.clone());
-        users.push(user_id, user.clone());
+        users.insert(user_id, user.clone());
 
         user
     }
