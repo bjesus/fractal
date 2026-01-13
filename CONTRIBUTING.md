@@ -129,7 +129,7 @@ sudo ninja -C _build install
 ## Pre-commit
 
 We expect all code contributions to be correctly formatted. To help with that, a pre-commit hook
-should get installed as part of the building process. It runs the `hooks/checks.sh` script. It's a
+should get installed as part of the building process. It runs the `hooks/checks` crate. It's a
 quick script that makes sure that the code is correctly formatted with `rustfmt`, among other
 things. Make sure that this script is effectively run before submitting your merge request,
 otherwise CI will probably fail right away.

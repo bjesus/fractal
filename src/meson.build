@@ -97,13 +97,6 @@ else
     message('Building in release mode')
 endif
 
-cargo_target_dir = meson.project_build_root() / 'cargo-target'
-
-cargo_env = [
-    'CARGO_HOME=' + meson.project_build_root() / 'cargo-home',
-    'CARGO_TARGET_DIR=' + cargo_target_dir,
-]
-
 if not build_env_only
     # Build binary with cargo
     custom_target(

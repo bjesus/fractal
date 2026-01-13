@@ -1,5 +1,5 @@
 #!/bin/bash
-# Depends on: hooks/checks.sh
+# Depends on: hooks/checks-bin (generated with `meson setup`)
 
 # Style helpers
 act="\e[1;32m"
@@ -11,7 +11,7 @@ res="\e[0m"
 echo "-- Pre-commit checks --"
 echo "To ignore these checks next time, run: git commit --no-verify"
 echo ""
-if hooks/checks.sh --git-staged; then
+if hooks/checks-bin --git-staged; then
     echo ""
     echo -e "Pre-commit checks result: ${pos}ok${res}"
 elif [[ $? -eq 2 ]]; then

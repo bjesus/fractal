@@ -15,5 +15,6 @@ target/
 *.ui.in~
 *.ui~
 
-# Dynamically-generated file
+# Dynamically-generated files
 src/config.rs
+hooks/checks-bin

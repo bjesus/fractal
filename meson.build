@@ -96,8 +96,16 @@ else
     profile = 'Stable'
 endif
 
+cargo_target_dir = meson.project_build_root() / 'cargo-target'
+cargo_home = meson.project_build_root() / 'cargo-home'
+
+cargo_env = [
+    'CARGO_HOME=' + cargo_home,
+    'CARGO_TARGET_DIR=' + cargo_target_dir,
+]
+
 if profile == 'Devel'
-    vcs_tag = run_command('git', 'rev-parse', '--short', 'HEAD').stdout().strip()
+    vcs_tag = run_command('git', 'rev-parse', '--short', 'HEAD', check: false).stdout().strip()
     if vcs_tag == ''
         devel_version = profile.to_lower()
     else
@@ -105,11 +113,41 @@ if profile == 'Devel'
     endif
     full_version += '-' + devel_version
 
-    release_date = run_command('git', 'show', '-s', '--format=%cI').stdout().strip()
+    release_date = run_command('git', 'show', '-s', '--format=%cI', check: true).stdout().strip()
 
     # Setup pre-commit hook for ensuring coding style is always consistent
-    message('Setting up git pre-commit hook…')
-    run_command('cp', '-f', 'hooks/pre-commit.hook', '.git/hooks/pre-commit')
+    checks_build_result = run_command(
+        'env',
+        cargo_env,
+        cargo,
+        'build',
+        '--manifest-path',
+        'hooks/checks/Cargo.toml',
+        check: true,
+    )
+
+    if checks_build_result.returncode() == 0
+        run_command(
+            'ln',
+            '-s',
+            cargo_target_dir / 'debug/checks',
+            'hooks/checks-bin',
+            check: false,
+        )
+        cp_result = run_command(
+            'cp',
+            '-f',
+            'hooks/pre-commit.hook',
+            '.git/hooks/pre-commit',
+            check: false,
+        )
+
+        if cp_result.returncode() == 0
+            message('Pre-commit hook installed')
+        else
+            message('Could not install pre-commit hook: ' + cp_result.stderr())
+        endif
+    endif
 endif
 
 # Generate nextest config file
