@@ -10,8 +10,8 @@ use std::{
 mod utils;
 
 use crate::utils::{
-    CargoManifest, CheckDependency, CommandData, GitStagedFiles, InstallationCommand,
-    check_files_sorted, file_contains, load_files, print_error, visit_dir,
+    CargoInstallMethod, CargoManifest, CheckDependency, CommandData, GitStagedFiles,
+    InstallationCommand, check_files_sorted, file_contains, load_files, print_error, visit_dir,
 };
 
 /// The path to the directory containing the workspace.
@@ -70,6 +70,9 @@ impl ScriptCommand {
                     }
                     "force-install" => {
                         check_cmd.force_install = true;
+                    }
+                    "cargo-binstall" => {
+                        check_cmd.cargo_install_method = CargoInstallMethod::CargoBinstall;
                     }
                     "verbose" => {
                         VERBOSE.store(true, Ordering::Relaxed);
@@ -153,6 +156,8 @@ USAGE: {name} [OPTIONS]
 OPTIONS:
     -s, --git-staged        Only check files staged to be committed
     -f, --force-install     Install missing dependencies without asking
+    --cargo-binstall     Use cargo-binstall instead of `cargo install` when installing
+                            missing crate dependencies
     -v, --verbose           Use verbose output
     --version               Print the version of this script
     -h, --help              Print this help and exit
@@ -185,6 +190,8 @@ struct CheckCmd {
     staged_files: Option<GitStagedFiles>,
     /// Whether to install missing dependencies without asking.
     force_install: bool,
+    /// Which program to use to install crate dependencies.
+    cargo_install_method: CargoInstallMethod,
 }
 
 impl CheckCmd {
@@ -216,7 +223,7 @@ impl CheckCmd {
                 &["component", "add", "--toolchain", "nightly", "rustfmt"],
             )),
         }
-        .check(self.force_install)?;
+        .check(self.force_install, self.cargo_install_method)?;
 
         if let Some(staged_files) = &self.staged_files {
             let cmd = CommandData::new(
@@ -267,7 +274,7 @@ impl CheckCmd {
                 &["component", "add", "clippy"],
             )),
         }
-        .check(self.force_install)?;
+        .check(self.force_install, self.cargo_install_method)?;
 
         let manifest_path = format!("{WORKSPACE_DIR}/hooks/checks/Cargo.toml");
 
@@ -295,7 +302,7 @@ impl CheckCmd {
             version: CommandData::new("typos", &["--version"]),
             install: InstallationCommand::Cargo("typos-cli"),
         }
-        .check(self.force_install)?;
+        .check(self.force_install, self.cargo_install_method)?;
 
         let cmd = CommandData::new("typos", &["--color", "always"]).print_output();
 
@@ -322,7 +329,7 @@ impl CheckCmd {
             version: CommandData::new("cargo-machete", &["--version"]),
             install: InstallationCommand::Cargo("cargo-machete"),
         }
-        .check(self.force_install)?;
+        .check(self.force_install, self.cargo_install_method)?;
 
         let output = CommandData::new("cargo-machete", &["--with-metadata"])
             .print_output()
@@ -345,7 +352,7 @@ impl CheckCmd {
             version: CommandData::new("cargo", &["deny", "--version"]),
             install: InstallationCommand::Cargo("cargo-deny"),
         }
-        .check(self.force_install)?;
+        .check(self.force_install, self.cargo_install_method)?;
 
         let output = CommandData::new("cargo", &["deny", "check"])
             .print_output()
@@ -625,7 +632,7 @@ impl CheckCmd {
             version: CommandData::new("cargo", &["sort", "--version"]),
             install: InstallationCommand::Cargo("cargo-sort"),
         }
-        .check(self.force_install)?;
+        .check(self.force_install, self.cargo_install_method)?;
 
         let output = CommandData::new(
             "cargo",

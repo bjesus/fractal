@@ -116,7 +116,11 @@ impl CheckDependency {
     /// Check whether the dependency is available.
     ///
     /// Returns `Ok` if the dependency was available or successfully installed.
-    pub(crate) fn check(self, force_install: bool) -> Result<(), ScriptError> {
+    pub(crate) fn check(
+        self,
+        force_install: bool,
+        cargo_method: CargoInstallMethod,
+    ) -> Result<(), ScriptError> {
         let Self {
             name,
             version,
@@ -136,12 +140,14 @@ impl CheckDependency {
         }
 
         if !force_install {
-            self.ask_install()?;
+            self.ask_install(cargo_method)?;
         }
 
         println!("\x1B[1;92mInstalling\x1B[0m {name}…");
 
-        if install.run()?.status.success() && version.run()?.status.success() {
+        if install.run(force_install, cargo_method)?.status.success()
+            && version.run()?.status.success()
+        {
             // The dependency was installed successfully.
             Ok(())
         } else {
@@ -152,7 +158,7 @@ impl CheckDependency {
 
     /// Ask the user whether we should try to install the dependency, if we are
     /// in a terminal.
-    fn ask_install(self) -> Result<(), ScriptError> {
+    fn ask_install(self, cargo_method: CargoInstallMethod) -> Result<(), ScriptError> {
         let name = self.name;
 
         let stdin = stdin();
@@ -163,7 +169,7 @@ impl CheckDependency {
         }
 
         println!("{name} is needed for this check, but it isn’t available\n");
-        println!("y: Install {name} via {}", self.install.via());
+        println!("y: Install {name} via {}", self.install.via(cargo_method));
         println!("N: Don’t install {name} and abort checks\n");
 
         let mut input = String::new();
@@ -313,21 +319,62 @@ pub(crate) enum InstallationCommand {
 
 impl InstallationCommand {
     /// The program used for the installation.
-    pub(crate) fn via(self) -> &'static str {
+    pub(crate) fn via(self, cargo_method: CargoInstallMethod) -> &'static str {
         match self {
-            Self::Cargo(_) => "cargo",
+            Self::Cargo(_) => cargo_method.name(),
             Self::Custom(cmd) => cmd.program,
         }
     }
 
     /// Run this command.
-    pub(crate) fn run(self) -> Result<Output, ScriptError> {
+    pub(crate) fn run(
+        self,
+        force_install: bool,
+        cargo_method: CargoInstallMethod,
+    ) -> Result<Output, ScriptError> {
         match self {
-            Self::Cargo(dep) => CommandData::new("cargo", &["install"])
-                .print_output()
-                .run_with_args(&[dep]),
+            Self::Cargo(dep) => cargo_method.run(dep, force_install),
             Self::Custom(cmd) => cmd.print_output().run(),
         }
+    }
+}
+
+/// The method used to install crate dependencies.
+#[derive(Clone, Copy, Default)]
+pub(crate) enum CargoInstallMethod {
+    /// Use `cargo install`.
+    #[default]
+    Cargo,
+    /// Use `cargo-binstall`.
+    CargoBinstall,
+}
+
+impl CargoInstallMethod {
+    /// The name of this method.
+    fn name(self) -> &'static str {
+        match self {
+            Self::Cargo => "cargo",
+            Self::CargoBinstall => "cargo-binstall",
+        }
+    }
+
+    /// Run tis method for the given dependency.
+    fn run(self, dep: &str, force_install: bool) -> Result<Output, ScriptError> {
+        if matches!(self, Self::CargoBinstall) {
+            CheckDependency {
+                name: "cargo-binstall",
+                version: CommandData::new("cargo", &["binstall", "-V"]),
+                install: InstallationCommand::Cargo("cargo-binstall"),
+            }
+            .check(force_install, CargoInstallMethod::Cargo)?;
+        }
+
+        let cmd = match self {
+            Self::Cargo => CommandData::new("cargo", &["install"]),
+            Self::CargoBinstall => CommandData::new("cargo", &["binstall"]),
+        };
+
+        cmd.print_output().run_with_args(&[dep])
     }
 }
 
