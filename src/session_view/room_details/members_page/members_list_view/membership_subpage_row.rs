@@ -1,4 +1,4 @@
-use gettextrs::npgettext;
+use gettextrs::{gettext, pgettext};
 use gtk::{glib, glib::clone, prelude::*, subclass::prelude::*};
 
 use crate::{
@@ -110,14 +110,35 @@ mod imp {
             let item = self.item.borrow().clone()?;
             let count = item.model().n_items();
 
+            // We don't use the count in the strings so we use separate pgettext calls for
+            // singular and plural rather than using npgettext.
             let label = match item.kind() {
                 MembershipListKind::Join => return None,
                 // Translators: As in 'Invited Room Member(s)'.
-                MembershipListKind::Invite => npgettext("members", "Invited", "Invited", count),
-                // Translators: As in 'Banned Room Member(s)'.
-                MembershipListKind::Ban => npgettext("members", "Banned", "Banned", count),
+                MembershipListKind::Invite => {
+                    if count == 1 {
+                        // Translators: This is singular, as in 'Invited Room Member'.
+                        pgettext("members", "Invited")
+                    } else {
+                        // Translators: This is plural, as in 'Invited Room Members'.
+                        pgettext("members", "Invited")
+                    }
+                }
+                MembershipListKind::Ban => {
+                    if count == 1 {
+                        // Translators: This is singular, as in 'Banned Room Member'.
+                        pgettext("members", "Banned")
+                    } else {
+                        // Translators: This is plural, as in 'Banned Room Members'.
+                        pgettext("members", "Banned")
+                    }
+                }
                 MembershipListKind::Knock => {
-                    npgettext("members", "Invite Request", "Invite Requests", count)
+                    if count == 1 {
+                        gettext("Invite Request")
+                    } else {
+                        gettext("Invite Requests")
+                    }
                 }
             };
 

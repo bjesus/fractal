@@ -1,5 +1,5 @@
 use adw::{prelude::*, subclass::prelude::*};
-use gettextrs::{gettext, ngettext};
+use gettextrs::gettext;
 use gtk::{
     gio,
     glib::{self, clone},
@@ -458,7 +458,13 @@ mod imp {
             // the members count to make sure we do not show a list that is too long.
             let is_direct_with_few_members = room.is_direct() && joined_members_count < 5;
             if is_direct_with_few_members {
-                let title = ngettext("Member", "Members", joined_members_count);
+                // We don't use the count in the strings so we use separate gettext calls for
+                // singular and plural rather than using ngettext.
+                let title = if joined_members_count == 1 {
+                    gettext("Member")
+                } else {
+                    gettext("Members")
+                };
                 self.direct_members_group.set_title(&title);
 
                 // Set model of direct members list dynamically to avoid creating unnecessary
@@ -503,8 +509,13 @@ mod imp {
                     server_joined_members_count.max(joined_members_count.into());
                 self.members_row.set_count(joined_members_count.to_string());
 
-                let n = joined_members_count.try_into().unwrap_or(u32::MAX);
-                let title = ngettext("Member", "Members", n);
+                // We don't use the count in the strings so we use separate gettext calls for
+                // singular and plural rather than using ngettext.
+                let title = if joined_members_count == 1 {
+                    gettext("Member")
+                } else {
+                    gettext("Members")
+                };
                 self.members_row.set_title(&title);
 
                 if self.direct_members_list_has_bound_model.get() {

@@ -369,24 +369,35 @@ pub(crate) async fn confirm_mute_room_member_dialog(
         .first()
         .expect("there should be at least one member")
         .upcast_ref();
-    let count = members.len() as u32;
+    let is_single_member = members.len() == 1;
 
-    let heading = ngettext_f(
-        // Translators: Do NOT translate the content between '{' and '}',
-        // this is a variable name. The count cannot be zero.
-        "Mute {user}?",
-        "Mute Members?",
-        count,
-        &[("user", &first_member.display_name())],
-    );
-    let body = ngettext_f(
-        // Translators: Do NOT translate the content between '{' and '}',
-        // this is a variable name. The count cannot be zero.
-        "Are you sure you want to mute {user_id}? They will not be able to send new messages to this room.",
-        "Are you sure you want to mute these members? They will not be able to send new messages to this room.",
-        count,
-        &[("user_id", first_member.user_id().as_str())],
-    );
+    // We don't use the count in the strings so we use separate gettext calls for
+    // singular and plural rather than using ngettext.
+    let heading = if is_single_member {
+        gettext_f(
+            // Translators: Do NOT translate the content between '{' and '}',
+            // this is a variable name.
+            "Mute {user}?",
+            &[("user", &first_member.display_name())],
+        )
+    } else {
+        gettext("Mute Members?")
+    };
+
+    // We don't use the count in the strings so we use separate gettext calls for
+    // singular and plural rather than using ngettext.
+    let body = if is_single_member {
+        gettext_f(
+            // Translators: Do NOT translate the content between '{' and '}',
+            // this is a variable name.
+            "Are you sure you want to mute {user_id}? They will not be able to send new messages to this room.",
+            &[("user_id", first_member.user_id().as_str())],
+        )
+    } else {
+        gettext(
+            "Are you sure you want to mute these members? They will not be able to send new messages to this room.",
+        )
+    };
 
     // Ask for confirmation.
     let confirm_dialog = adw::AlertDialog::builder()
@@ -418,24 +429,35 @@ pub(crate) async fn confirm_set_room_member_power_level_same_as_own_dialog(
         .first()
         .expect("there should be at least one member")
         .upcast_ref();
-    let count = members.len() as u32;
+    let is_single_member = members.len() == 1;
 
-    let heading = ngettext_f(
-        // Translators: Do NOT translate the content between '{' and '}',
-        // this is a variable name. The count cannot be zero.
-        "Promote {user}?",
-        "Promote Members?",
-        count,
-        &[("user", &first_member.display_name())],
-    );
-    let body = ngettext_f(
-        // Translators: Do NOT translate the content between '{' and '}',
-        // this is a variable name. The count cannot be zero.
-        "If you promote {user_id} to the same level as yours, you will not be able to demote them in the future.",
-        "If you promote these members to the same level as yours, you will not be able to demote them in the future.",
-        count,
-        &[("user_id", first_member.user_id().as_str())],
-    );
+    // We don't use the count in the strings so we use separate gettext calls for
+    // singular and plural rather than using ngettext.
+    let heading = if is_single_member {
+        gettext_f(
+            // Translators: Do NOT translate the content between '{' and '}',
+            // this is a variable name.
+            "Promote {user}?",
+            &[("user", &first_member.display_name())],
+        )
+    } else {
+        gettext("Promote Members?")
+    };
+
+    // We don't use the count in the strings so we use separate gettext calls for
+    // singular and plural rather than using ngettext.
+    let body = if is_single_member {
+        gettext_f(
+            // Translators: Do NOT translate the content between '{' and '}',
+            // this is a variable name. The count cannot be zero.
+            "If you promote {user_id} to the same level as yours, you will not be able to demote them in the future.",
+            &[("user_id", first_member.user_id().as_str())],
+        )
+    } else {
+        gettext(
+            "If you promote these members to the same level as yours, you will not be able to demote them in the future.",
+        )
+    };
 
     // Ask for confirmation.
     let confirm_dialog = adw::AlertDialog::builder()

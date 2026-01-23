@@ -1,5 +1,5 @@
 use adw::{prelude::*, subclass::prelude::*};
-use gettextrs::ngettext;
+use gettextrs::{gettext, ngettext};
 use gtk::{gdk, glib, glib::clone};
 use tracing::error;
 
@@ -219,22 +219,35 @@ mod imp {
                         );
                     }
 
+                    // We don't use the count in the strings so we use separate gettext calls for
+                    // singular and plural rather than using ngettext.
                     if n == 0 {
                         self.close();
-                    } else {
+                    } else if n == 1 {
                         let first_failed =
                             invite_list.first_invitee().map(|item| item.user()).unwrap();
 
                         toast!(
                             self.obj(),
-                            ngettext(
+                            gettext(
                                 // Translators: Do NOT translate the content between '{' and '}', these
                                 // are variable names.
                                 "Could not invite {user} to {room}",
+                            ),
+                            @user = first_failed,
+                            @room,
+                            n,
+                        );
+                    } else {
+                        toast!(
+                            self.obj(),
+                            ngettext(
+                                // Translators: Do NOT translate the content between '{' and '}', these
+                                // are variable names. The count is always greater than 1.
+                                "Could not invite 1 user to {room}",
                                 "Could not invite {n} users to {room}",
                                 n as u32,
                             ),
-                            @user = first_failed,
                             @room,
                             n,
                         );

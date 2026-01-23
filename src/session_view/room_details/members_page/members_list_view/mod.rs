@@ -1,5 +1,5 @@
 use adw::{prelude::*, subclass::prelude::*};
-use gettextrs::{gettext, ngettext};
+use gettextrs::gettext;
 use gtk::{
     gio, glib,
     glib::{clone, closure},
@@ -354,15 +354,37 @@ mod imp {
             let count = membership_list.n_items();
             let is_empty = count == 0;
 
+            // We don't use the count in the strings so we use separate gettext calls for
+            // singular and plural rather than using ngettext.
             let title = match kind {
-                MembershipListKind::Join => ngettext("Room Member", "Room Members", count),
+                MembershipListKind::Join => {
+                    if count == 1 {
+                        gettext("Room Member")
+                    } else {
+                        gettext("Room Members")
+                    }
+                }
                 MembershipListKind::Invite => {
-                    ngettext("Invited Room Member", "Invited Room Members", count)
+                    if count == 1 {
+                        gettext("Invited Room Member")
+                    } else {
+                        gettext("Invited Room Members")
+                    }
                 }
                 MembershipListKind::Ban => {
-                    ngettext("Banned Room Member", "Banned Room Members", count)
+                    if count == 1 {
+                        gettext("Banned Room Member")
+                    } else {
+                        gettext("Banned Room Members")
+                    }
                 }
-                MembershipListKind::Knock => ngettext("Invite Request", "Invite Requests", count),
+                MembershipListKind::Knock => {
+                    if count == 1 {
+                        gettext("Invite Request")
+                    } else {
+                        gettext("Invite Requests")
+                    }
+                }
             };
 
             self.obj().set_title(&title);

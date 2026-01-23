@@ -1,7 +1,7 @@
 use std::cmp::Ordering;
 
 use adw::{prelude::*, subclass::prelude::*};
-use gettextrs::{gettext, ngettext};
+use gettextrs::gettext;
 use gtk::{gio, glib, pango};
 use ruma::{
     OwnedUserId, RoomVersionId,
@@ -196,19 +196,25 @@ mod imp {
                 return;
             }
 
-            let other_creators_count = u32::try_from(info.other_creators_count).unwrap_or(u32::MAX);
-
+            // We don't use the count in the strings so we use separate gettext calls for
+            // singular and plural rather than using ngettext.
             let text = if info.own_user_is_creator {
-                ngettext(
-                    "After the upgrade, you will be the only creator in the room. The other creator will be demoted to the default power level.",
-                    "After the upgrade, you will be the only creator in the room. The other creators will be demoted to the default power level.",
-                    other_creators_count,
+                if info.other_creators_count == 1 {
+                    gettext(
+                        "After the upgrade, you will be the only creator in the room. The other creator will be demoted to the default power level.",
+                    )
+                } else {
+                    gettext(
+                        "After the upgrade, you will be the only creator in the room. The other creators will be demoted to the default power level.",
+                    )
+                }
+            } else if info.other_creators_count == 1 {
+                gettext(
+                    "After the upgrade, you will be the only creator in the room. The current creator will be demoted to the default power level.",
                 )
             } else {
-                ngettext(
-                    "After the upgrade, you will be the only creator in the room. The current creator will be demoted to the default power level.",
+                gettext(
                     "After the upgrade, you will be the only creator in the room. The current creators will be demoted to the default power level.",
-                    other_creators_count,
                 )
             };
 
