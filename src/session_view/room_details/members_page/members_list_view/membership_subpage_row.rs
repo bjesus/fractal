@@ -118,7 +118,7 @@ mod imp {
                 MembershipListKind::Invite => {
                     if count == 1 {
                         // Translators: This is singular, as in 'Invited Room Member'.
-                        pgettext("members", "Invited")
+                        pgettext("member", "Invited")
                     } else {
                         // Translators: This is plural, as in 'Invited Room Members'.
                         pgettext("members", "Invited")
@@ -127,7 +127,7 @@ mod imp {
                 MembershipListKind::Ban => {
                     if count == 1 {
                         // Translators: This is singular, as in 'Banned Room Member'.
-                        pgettext("members", "Banned")
+                        pgettext("member", "Banned")
                     } else {
                         // Translators: This is plural, as in 'Banned Room Members'.
                         pgettext("members", "Banned")
