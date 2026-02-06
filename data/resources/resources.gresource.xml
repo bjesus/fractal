@@ -19,16 +19,6 @@
     <file preprocess="xml-stripblanks">icons/scalable/actions/go-next-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/go-previous-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/hide-symbolic.svg</file>
-    <file preprocess="xml-stripblanks">icons/scalable/actions/idp-apple-dark.svg</file>
-    <file preprocess="xml-stripblanks">icons/scalable/actions/idp-apple.svg</file>
-    <file preprocess="xml-stripblanks">icons/scalable/actions/idp-facebook.svg</file>
-    <file preprocess="xml-stripblanks">icons/scalable/actions/idp-github-dark.svg</file>
-    <file preprocess="xml-stripblanks">icons/scalable/actions/idp-github.svg</file>
-    <file preprocess="xml-stripblanks">icons/scalable/actions/idp-gitlab.svg</file>
-    <file preprocess="xml-stripblanks">icons/scalable/actions/idp-google-dark.svg</file>
-    <file preprocess="xml-stripblanks">icons/scalable/actions/idp-google.svg</file>
-    <file preprocess="xml-stripblanks">icons/scalable/actions/idp-x-dark.svg</file>
-    <file preprocess="xml-stripblanks">icons/scalable/actions/idp-x-light.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/map-marker-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/media-playback-pause-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/actions/media-playback-start-symbolic.svg</file>

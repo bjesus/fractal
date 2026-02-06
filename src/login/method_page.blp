@@ -113,28 +113,16 @@ template $LoginMethodPage: Adw.NavigationPage {
               }
             }
 
-            Gtk.Box sso_idp_box {
-              visible: false;
-              spacing: 12;
-              homogeneous: true;
-              hexpand: true;
-              vexpand: true;
-
-              accessibility {
-                label: _("Single Sign-On Providers");
-              }
-            }
-
-            Gtk.Button more_sso_btn {
+            Gtk.Button sso_button {
               styles [
                 "standalone-button",
                 "pill",
               ]
 
+              label: _("Login via SSO");
               can-shrink: true;
               halign: center;
               action-name: "login.sso";
-              action-target: "@ms nothing";
             }
 
             $LoadingButton next_button {

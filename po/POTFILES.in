@@ -99,7 +99,6 @@ src/login/method_page.rs
 src/login/mod.blp
 src/login/mod.rs
 src/login/session_setup_view.blp
-src/login/sso_idp_button.rs
 src/secret/linux.rs
 src/session/mod.rs
 src/session/notifications/mod.rs

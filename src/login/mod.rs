@@ -23,7 +23,6 @@ mod in_browser_page;
 mod local_server;
 mod method_page;
 mod session_setup_view;
-mod sso_idp_button;
 
 use self::{
     advanced_dialog::LoginAdvancedDialog,
@@ -105,14 +104,9 @@ mod imp {
             klass.set_css_name("login");
             klass.set_accessible_role(gtk::AccessibleRole::Group);
 
-            klass.install_action_async(
-                "login.sso",
-                Some(&Option::<String>::static_variant_type()),
-                |obj, _, variant| async move {
-                    let idp = variant.and_then(|v| v.get::<Option<String>>()).flatten();
-                    obj.imp().init_matrix_sso_login(idp).await;
-                },
-            );
+            klass.install_action_async("login.sso", None, |obj, _, _| async move {
+                obj.imp().init_matrix_sso_login().await;
+            });
 
             klass.install_action_async("login.open-advanced", None, |obj, _, _| async move {
                 obj.imp().open_advanced_dialog().await;
@@ -328,6 +322,9 @@ mod imp {
             let supports_password = login_types
                 .iter()
                 .any(|login_type| matches!(login_type, LoginType::Password(_)));
+            let supports_sso = login_types
+                .iter()
+                .any(|login_type| matches!(login_type, LoginType::Sso(_)));
 
             if supports_password {
                 let server_name = self
@@ -336,14 +333,14 @@ mod imp {
                     .then(|| self.homeserver_page.homeserver())
                     .and_then(|s| sanitize_server_name(&s).ok());
 
-                self.show_method_page(&client.homeserver(), server_name.as_ref(), login_types);
+                self.show_method_page(&client.homeserver(), server_name.as_ref(), supports_sso);
             } else {
-                self.init_matrix_sso_login(None).await;
+                self.init_matrix_sso_login().await;
             }
         }
 
         /// Prepare to log in via the Matrix SSO API.
-        pub(super) async fn init_matrix_sso_login(&self, idp: Option<String>) {
+        pub(super) async fn init_matrix_sso_login(&self) {
             let Some(client) = self.client.borrow().clone() else {
                 return;
             };
@@ -355,7 +352,7 @@ mod imp {
             let matrix_auth = client.matrix_auth();
             let handle = spawn_tokio!(async move {
                 matrix_auth
-                    .get_sso_login_url(redirect_uri.as_str(), idp.as_deref())
+                    .get_sso_login_url(redirect_uri.as_str(), None)
                     .await
             });
 
@@ -376,10 +373,10 @@ mod imp {
             &self,
             homeserver: &Url,
             server_name: Option<&OwnedServerName>,
-            login_types: Vec<LoginType>,
+            supports_sso: bool,
         ) {
             self.method_page
-                .update(homeserver, server_name, login_types);
+                .update(homeserver, server_name, supports_sso);
             self.navigation.push_by_tag(LoginPage::Method.as_ref());
         }
 

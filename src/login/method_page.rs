@@ -1,16 +1,14 @@
 use adw::{prelude::*, subclass::prelude::*};
 use gettextrs::gettext;
 use gtk::glib;
-use ruma::{OwnedServerName, api::client::session::get_login_types::v3::LoginType};
+use ruma::OwnedServerName;
 use tracing::warn;
 use url::Url;
 
-use super::{Login, sso_idp_button::SsoIdpButton};
+use super::Login;
 use crate::{components::LoadingButton, gettext_f, prelude::*, spawn_tokio, toast};
 
 mod imp {
-    use std::cell::RefCell;
-
     use glib::subclass::InitializingObject;
 
     use super::*;
@@ -28,10 +26,7 @@ mod imp {
         #[template_child]
         password_entry: TemplateChild<adw::PasswordEntryRow>,
         #[template_child]
-        sso_idp_box: TemplateChild<gtk::Box>,
-        sso_idp_box_children: RefCell<Vec<SsoIdpButton>>,
-        #[template_child]
-        more_sso_btn: TemplateChild<gtk::Button>,
+        sso_button: TemplateChild<gtk::Button>,
         #[template_child]
         next_button: TemplateChild<LoadingButton>,
         /// The parent `Login` object.
@@ -108,45 +103,8 @@ mod imp {
         }
 
         /// Update the SSO group.
-        pub(super) fn update_sso(&self, login_types: Vec<LoginType>) {
-            let Some(sso_login) = login_types.into_iter().find_map(|t| match t {
-                LoginType::Sso(sso) => Some(sso),
-                _ => None,
-            }) else {
-                self.sso_idp_box.set_visible(false);
-                self.more_sso_btn.set_visible(false);
-                return;
-            };
-
-            self.clean_idp_box();
-
-            let mut has_unknown_methods = false;
-            let mut has_known_methods = false;
-
-            if !sso_login.identity_providers.is_empty() {
-                let mut sso_idp_box_children = self.sso_idp_box_children.borrow_mut();
-                sso_idp_box_children.reserve(sso_login.identity_providers.len());
-
-                for identity_provider in sso_login.identity_providers {
-                    if let Some(btn) = SsoIdpButton::new(identity_provider) {
-                        self.sso_idp_box.append(&btn);
-                        sso_idp_box_children.push(btn);
-
-                        has_known_methods = true;
-                    } else {
-                        has_unknown_methods = true;
-                    }
-                }
-            }
-            self.sso_idp_box.set_visible(has_known_methods);
-
-            if has_known_methods {
-                self.more_sso_btn.set_label(&gettext("More SSO Providers"));
-                self.more_sso_btn.set_visible(has_unknown_methods);
-            } else {
-                self.more_sso_btn.set_label(&gettext("Login via SSO"));
-                self.more_sso_btn.set_visible(true);
-            }
+        pub(super) fn update_sso(&self, supports_sso: bool) {
+            self.sso_button.set_visible(supports_sso);
         }
 
         /// Whether the current state allows to login with a password.
@@ -210,14 +168,6 @@ mod imp {
             self.password_entry.set_text("");
             self.next_button.set_is_loading(false);
             self.update_next_state();
-            self.clean_idp_box();
-        }
-
-        /// Empty the identity providers box.
-        fn clean_idp_box(&self) {
-            for child in self.sso_idp_box_children.borrow_mut().drain(..) {
-                self.sso_idp_box.remove(&child);
-            }
         }
     }
 }
@@ -239,11 +189,11 @@ impl LoginMethodPage {
         &self,
         homeserver_url: &Url,
         domain_name: Option<&OwnedServerName>,
-        login_types: Vec<LoginType>,
+        supports_sso: bool,
     ) {
         let imp = self.imp();
         imp.update_title(homeserver_url, domain_name);
-        imp.update_sso(login_types);
+        imp.update_sso(supports_sso);
         imp.update_next_state();
     }
 
