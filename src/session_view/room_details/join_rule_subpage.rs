@@ -110,7 +110,7 @@ mod imp {
             let supports_knocking = room.rules().authorization.knocking;
             if !supports_knocking {
                 self.info_description.set_label(&gettext("The version of this room does not support all possibilities. Upgrade this room to the latest version to see more options."));
-                self.info_image.set_icon_name(Some("info-symbolic"));
+                self.info_image.set_icon_name(Some("about-symbolic"));
             }
 
             self.info_box.set_visible(!supports_knocking);

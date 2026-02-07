@@ -363,7 +363,7 @@ impl MembershipListKind {
         match self {
             Self::Join | Self::Knock => "users-symbolic",
             Self::Invite => "user-add-symbolic",
-            Self::Ban => "blocked-symbolic",
+            Self::Ban => "safety-symbolic",
         }
     }
 }

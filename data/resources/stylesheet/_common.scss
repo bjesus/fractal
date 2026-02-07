@@ -124,3 +124,10 @@ scrolledwindow.card {
 .padded-top-bar {
   padding: 0 12px;
 }
+
+.accent-circle {
+  color: var(--accent-fg-color);
+  border-radius: 9999px;
+  border: solid var(--accent-bg-color) 2px;
+  background-color: var(--accent-bg-color);
+}

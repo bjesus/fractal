@@ -55,12 +55,13 @@ template $MessageStateStack: Adw.Bin {
 
       child: Gtk.Image {
         valign: center;
-        icon-name: "done-symbolic";
+        icon-name: "checkmark-symbolic";
         // Translators: As in 'Sent message'.
         tooltip-text: _("Sent");
 
         styles [
           "success",
+          "accent-circle",
         ]
       };
     }
