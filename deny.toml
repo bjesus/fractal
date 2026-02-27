@@ -1,8 +1,5 @@
 [advisories]
 yanked = "deny"
-ignore = [
-    { id = "RUSTSEC-2026-0002", reason = "lru is not a direct dependency: requires new release of rqrr, and then of aperture" },
-]
 
 [bans]
 multiple-versions = "allow"
