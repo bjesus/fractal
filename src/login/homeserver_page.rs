@@ -282,6 +282,9 @@ glib::wrapper! {
 }
 
 impl LoginHomeserverPage {
+    /// The tag for this page.
+    pub(super) const TAG: &str = "homeserver";
+
     pub fn new() -> Self {
         glib::Object::new()
     }

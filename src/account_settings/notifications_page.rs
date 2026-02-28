@@ -1,7 +1,6 @@
 use adw::{prelude::*, subclass::prelude::*};
 use gettextrs::gettext;
 use gtk::{gio, glib, glib::clone};
-use tracing::error;
 
 use crate::{
     components::{CheckLoadingRow, EntryAddRow, RemovableRow, SwitchLoadingRow},
@@ -234,7 +233,7 @@ mod imp {
                 return String::new();
             };
 
-            settings.global_setting().to_string()
+            settings.global_setting().as_str().to_owned()
         }
 
         /// Update the global section.
@@ -254,10 +253,7 @@ mod imp {
 
         /// Set the global setting, as a string.
         fn set_global_setting(&self, default: &str) {
-            let Ok(default) = default.parse::<NotificationsGlobalSetting>() else {
-                error!("Invalid value to set global default notifications setting: {default}");
-                return;
-            };
+            let default = NotificationsGlobalSetting::from_str(default);
 
             spawn!(clone!(
                 #[weak(rename_to = imp)]

@@ -180,6 +180,9 @@ glib::wrapper! {
 }
 
 impl LoginMethodPage {
+    /// The tag for this page.
+    pub(super) const TAG: &str = "method";
+
     pub fn new() -> Self {
         glib::Object::new()
     }

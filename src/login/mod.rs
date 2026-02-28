@@ -40,8 +40,7 @@ use crate::{
 };
 
 /// A page of the login stack.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, strum::EnumString, strum::AsRefStr)]
-#[strum(serialize_all = "kebab-case")]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum LoginPage {
     /// The greeter page.
     Greeter,
@@ -55,6 +54,35 @@ enum LoginPage {
     SessionSetup,
     /// The login is completed.
     Completed,
+}
+
+impl LoginPage {
+    /// Get the tag for this page.
+    const fn tag(self) -> &'static str {
+        match self {
+            Self::Greeter => Greeter::TAG,
+            Self::Homeserver => LoginHomeserverPage::TAG,
+            Self::Method => LoginMethodPage::TAG,
+            Self::InBrowser => LoginInBrowserPage::TAG,
+            Self::SessionSetup => SessionSetupView::TAG,
+            Self::Completed => "completed",
+        }
+    }
+
+    /// Get the page matching the given tag.
+    ///
+    /// Panics if the tag does not match any of the variants.
+    fn from_tag(tag: &str) -> Self {
+        match tag {
+            Greeter::TAG => Self::Greeter,
+            LoginHomeserverPage::TAG => Self::Homeserver,
+            LoginMethodPage::TAG => Self::Method,
+            LoginInBrowserPage::TAG => Self::InBrowser,
+            SessionSetupView::TAG => Self::SessionSetup,
+            "completed" => Self::Completed,
+            _ => panic!("Unknown LoginPage: {tag}"),
+        }
+    }
 }
 
 mod imp {
@@ -175,11 +203,14 @@ mod imp {
     impl Login {
         /// The visible page of the view.
         pub(super) fn visible_page(&self) -> LoginPage {
-            self.navigation
-                .visible_page()
-                .and_then(|p| p.tag())
-                .and_then(|s| s.as_str().try_into().ok())
-                .unwrap()
+            LoginPage::from_tag(
+                &self
+                    .navigation
+                    .visible_page()
+                    .expect("Login navigation view should always have a visible page")
+                    .tag()
+                    .expect("Login navigation page should always have a tag"),
+            )
         }
 
         /// Set whether auto-discovery is enabled.
@@ -195,7 +226,7 @@ mod imp {
         /// Get the session setup view, if any.
         pub(super) fn session_setup(&self) -> Option<SessionSetupView> {
             self.navigation
-                .find_page(LoginPage::SessionSetup.as_ref())
+                .find_page(LoginPage::SessionSetup.tag())
                 .and_downcast()
         }
 
@@ -377,7 +408,7 @@ mod imp {
         ) {
             self.method_page
                 .update(homeserver, server_name, supports_sso);
-            self.navigation.push_by_tag(LoginPage::Method.as_ref());
+            self.navigation.push_by_tag(LoginPage::Method.tag());
         }
 
         /// Show the page to log in with the browser with the given data.
@@ -387,7 +418,7 @@ mod imp {
             data: LoginInBrowserData,
         ) {
             self.in_browser_page.set_up(local_server_handle, data);
-            self.navigation.push_by_tag(LoginPage::InBrowser.as_ref());
+            self.navigation.push_by_tag(LoginPage::InBrowser.tag());
         }
 
         /// Create the session after a successful login.
@@ -414,7 +445,7 @@ mod imp {
                 #[weak(rename_to = imp)]
                 self,
                 move |_| {
-                    imp.navigation.push_by_tag(LoginPage::Completed.as_ref());
+                    imp.navigation.push_by_tag(LoginPage::Completed.tag());
                 }
             ));
             self.navigation.push(&setup_view);
@@ -465,7 +496,7 @@ mod imp {
             self.drop_session();
 
             // Reinitialize UI.
-            self.navigation.pop_to_tag(LoginPage::Greeter.as_ref());
+            self.navigation.pop_to_tag(LoginPage::Greeter.tag());
             self.unfreeze();
         }
 

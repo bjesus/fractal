@@ -23,8 +23,7 @@ use crate::{
 };
 
 /// A page of the main window stack.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, strum::EnumString, strum::AsRefStr)]
-#[strum(serialize_all = "kebab-case")]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum WindowPage {
     /// The loading page.
     Loading,
@@ -34,6 +33,31 @@ enum WindowPage {
     Session,
     /// The error page.
     Error,
+}
+
+impl WindowPage {
+    /// Get the name of this page.
+    const fn name(self) -> &'static str {
+        match self {
+            Self::Loading => "loading",
+            Self::Login => "login",
+            Self::Session => "session",
+            Self::Error => "error",
+        }
+    }
+
+    /// Get the page matching the given name.
+    ///
+    /// Panics if the name does not match any of the variants.
+    fn from_name(name: &str) -> Self {
+        match name {
+            "loading" => Self::Loading,
+            "login" => Self::Login,
+            "session" => Self::Session,
+            "error" => Self::Error,
+            _ => panic!("Unknown WindowPage: {name}"),
+        }
+    }
 }
 
 mod imp {
@@ -339,12 +363,12 @@ mod imp {
 
         /// The visible page of the window.
         pub(super) fn visible_page(&self) -> WindowPage {
-            self.main_stack
-                .visible_child_name()
-                .expect("stack should always have a visible child name")
-                .as_str()
-                .try_into()
-                .expect("stack child name should be convertible to a WindowPage")
+            WindowPage::from_name(
+                &self
+                    .main_stack
+                    .visible_child_name()
+                    .expect("stack should always have a visible child name"),
+            )
         }
 
         /// The ID of the currently visible session, if any.
@@ -447,8 +471,8 @@ mod imp {
         }
 
         /// Set the visible page of the window.
-        fn set_visible_page(&self, name: WindowPage) {
-            self.main_stack.set_visible_child_name(name.as_ref());
+        fn set_visible_page(&self, page: WindowPage) {
+            self.main_stack.set_visible_child_name(page.name());
         }
 
         /// Open the error page and display the given secret error message.

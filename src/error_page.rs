@@ -5,13 +5,22 @@ use gtk::glib;
 use crate::{APP_ID, toast};
 
 /// The possible error subpages.
-#[derive(Debug, Clone, Copy, strum::AsRefStr)]
-#[strum(serialize_all = "kebab-case")]
+#[derive(Debug, Clone, Copy)]
 pub enum ErrorSubpage {
     /// The page to present when there was an error with the secret API.
     Secret,
     /// The page to present when there was an error when initializing a session.
     Session,
+}
+
+impl ErrorSubpage {
+    /// The name of this page.
+    const fn name(self) -> &'static str {
+        match self {
+            Self::Secret => "secret",
+            Self::Session => "name",
+        }
+    }
 }
 
 mod imp {
@@ -74,14 +83,14 @@ mod imp {
 
             self.secret_error_page.set_description(Some(message));
             self.stack
-                .set_visible_child_name(ErrorSubpage::Secret.as_ref());
+                .set_visible_child_name(ErrorSubpage::Secret.name());
         }
 
         /// Display the given session error.
         pub(super) fn display_session_error(&self, message: &str) {
             self.session_error_page.set_description(Some(message));
             self.stack
-                .set_visible_child_name(ErrorSubpage::Session.as_ref());
+                .set_visible_child_name(ErrorSubpage::Session.name());
         }
 
         /// Copy the secret service override command to the clipboard.

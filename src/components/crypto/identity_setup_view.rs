@@ -18,8 +18,7 @@ use crate::{
 };
 
 /// A page of the crypto identity setup navigation stack.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, strum::EnumString, strum::AsRefStr, glib::Variant)]
-#[strum(serialize_all = "kebab-case")]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum CryptoIdentitySetupPage {
     /// Choose a verification method.
     ChooseMethod,
@@ -31,6 +30,33 @@ enum CryptoIdentitySetupPage {
     Reset,
     /// Use recovery or reset cross-signing and recovery.
     Recovery,
+}
+
+impl CryptoIdentitySetupPage {
+    /// Get the tag for this page.
+    const fn tag(self) -> &'static str {
+        match self {
+            Self::ChooseMethod => "choose-method",
+            Self::Verify => "verify",
+            Self::Bootstrap => "bootstrap",
+            Self::Reset => "reset",
+            Self::Recovery => "recovery",
+        }
+    }
+
+    /// Get page matching the given tag.
+    ///
+    /// Panics if the tag does not match any of the variants.
+    fn from_tag(tag: &str) -> Self {
+        match tag {
+            "choose-method" => Self::ChooseMethod,
+            "verify" => Self::Verify,
+            "bootstrap" => Self::Bootstrap,
+            "reset" => Self::Reset,
+            "recovery" => Self::Recovery,
+            _ => panic!("Unknown CryptoIdentitySetupPage: {tag}"),
+        }
+    }
 }
 
 /// The result of the crypto identity setup.
@@ -151,11 +177,16 @@ mod imp {
     impl CryptoIdentitySetupView {
         /// The visible page of the view.
         fn visible_page(&self) -> CryptoIdentitySetupPage {
-            self.navigation
-                .visible_page()
-                .and_then(|p| p.tag())
-                .and_then(|t| t.as_str().try_into().ok())
-                .unwrap()
+            CryptoIdentitySetupPage::from_tag(
+                &self
+                    .navigation
+                    .visible_page()
+                    .expect(
+                        "CryptoIdentitySetupView navigation view should always have a visible page",
+                    )
+                    .tag()
+                    .expect("CryptoIdentitySetupView navigation page should always have a tag"),
+            )
         }
 
         /// The recovery view.
@@ -216,7 +247,7 @@ mod imp {
             let verification_state = security.verification_state();
             if verification_state == SessionVerificationState::Verified {
                 self.navigation
-                    .replace_with_tags(&[CryptoIdentitySetupPage::Reset.as_ref()]);
+                    .replace_with_tags(&[CryptoIdentitySetupPage::Reset.tag()]);
                 return;
             }
 
@@ -226,7 +257,7 @@ mod imp {
             // If there is no crypto identity, we need to bootstrap it.
             if crypto_identity_state == CryptoIdentityState::Missing {
                 self.navigation
-                    .replace_with_tags(&[CryptoIdentitySetupPage::Bootstrap.as_ref()]);
+                    .replace_with_tags(&[CryptoIdentitySetupPage::Bootstrap.tag()]);
                 return;
             }
 
@@ -331,10 +362,10 @@ mod imp {
                     .navigation
                     .visible_page()
                     .and_then(|p| p.tag())
-                    .is_none_or(|t| t != CryptoIdentitySetupPage::Verify.as_ref())
+                    .is_none_or(|t| t != CryptoIdentitySetupPage::Verify.tag())
             {
                 self.navigation
-                    .push_by_tag(CryptoIdentitySetupPage::Verify.as_ref());
+                    .push_by_tag(CryptoIdentitySetupPage::Verify.tag());
             }
 
             self.obj().notify_verification();
@@ -349,7 +380,7 @@ mod imp {
             recovery_view.set_initial_page(initial_page);
 
             let page = adw::NavigationPage::builder()
-                .tag(CryptoIdentitySetupPage::Recovery.as_ref())
+                .tag(CryptoIdentitySetupPage::Recovery.tag())
                 .child(recovery_view)
                 .build();
             page.connect_shown(clone!(
@@ -404,7 +435,7 @@ mod imp {
                 self.navigation.push(&recovery_view);
             } else {
                 self.navigation
-                    .push_by_tag(CryptoIdentitySetupPage::Bootstrap.as_ref());
+                    .push_by_tag(CryptoIdentitySetupPage::Bootstrap.tag());
             }
         }
 

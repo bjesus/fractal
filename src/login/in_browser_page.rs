@@ -247,6 +247,9 @@ glib::wrapper! {
 }
 
 impl LoginInBrowserPage {
+    /// The tag for this page.
+    pub(super) const TAG: &str = "in-browser";
+
     pub fn new() -> Self {
         glib::Object::new()
     }

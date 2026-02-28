@@ -177,7 +177,7 @@ mod imp {
         /// Set the kind of the membership list.
         fn set_kind(&self, kind: MembershipListKind) {
             self.kind.set(kind);
-            self.obj().set_tag(Some(kind.as_ref()));
+            self.obj().set_tag(Some(kind.tag()));
             self.update_empty_page();
         }
 

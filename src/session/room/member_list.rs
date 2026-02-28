@@ -322,11 +322,8 @@ impl MemberList {
 /// The kind of membership used to filter a list of room members.
 ///
 /// This is a subset of [`Membership`].
-#[derive(
-    Debug, Default, Hash, Eq, PartialEq, Clone, Copy, glib::Enum, glib::Variant, strum::AsRefStr,
-)]
+#[derive(Debug, Default, Hash, Eq, PartialEq, Clone, Copy, glib::Enum, glib::Variant)]
 #[enum_type(name = "MembershipListKind")]
-#[strum(serialize_all = "lowercase")]
 pub enum MembershipListKind {
     /// The user is currently in the room.
     #[default]
@@ -358,8 +355,18 @@ impl MembershipListKind {
             .upcast()
     }
 
+    /// The tag to use for pages that present this kind.
+    pub(crate) const fn tag(self) -> &'static str {
+        match self {
+            Self::Join => "join",
+            Self::Invite => "invite",
+            Self::Ban => "ban",
+            Self::Knock => "knock",
+        }
+    }
+
     /// The name of the icon that represents this kind.
-    pub(crate) fn icon_name(self) -> &'static str {
+    pub(crate) const fn icon_name(self) -> &'static str {
         match self {
             Self::Join | Self::Knock => "users-symbolic",
             Self::Invite => "user-add-symbolic",

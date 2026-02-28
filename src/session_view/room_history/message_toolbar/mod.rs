@@ -54,8 +54,7 @@ use crate::{
 type ComposerStatesMap = HashMap<Option<String>, HashMap<Option<OwnedRoomId>, ComposerState>>;
 
 /// The available stack pages of the [`MessageToolbar`].
-#[derive(Debug, Clone, Copy, PartialEq, Eq, strum::AsRefStr, strum::EnumString)]
-#[strum(serialize_all = "kebab-case")]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum MessageToolbarPage {
     /// The composer and other buttons to send messages.
     Composer,
@@ -63,6 +62,29 @@ enum MessageToolbarPage {
     NoPermission,
     /// The room was tombstoned.
     Tombstoned,
+}
+
+impl MessageToolbarPage {
+    /// The name of this page.
+    const fn name(self) -> &'static str {
+        match self {
+            Self::Composer => "composer",
+            Self::NoPermission => "no-permission",
+            Self::Tombstoned => "tombstoned",
+        }
+    }
+
+    /// Get the page matching the given name.
+    ///
+    /// Panics if the name does not match any variant.
+    fn from_name(name: &str) -> Self {
+        match name {
+            "composer" => Self::Composer,
+            "no-permission" => Self::NoPermission,
+            "tombstoned" => Self::Tombstoned,
+            _ => panic!("Unknown MessageToolbarPage: {name}"),
+        }
+    }
 }
 
 mod imp {
@@ -195,7 +217,7 @@ mod imp {
             let Some(visible_page) = self
                 .main_stack
                 .visible_child_name()
-                .and_then(|name| MessageToolbarPage::try_from(name.as_str()).ok())
+                .map(|name| MessageToolbarPage::from_name(&name))
             else {
                 return false;
             };
@@ -315,7 +337,7 @@ mod imp {
         /// Update the visible stack page.
         fn update_visible_page(&self) {
             self.main_stack
-                .set_visible_child_name(self.visible_page().as_ref());
+                .set_visible_child_name(self.visible_page().name());
         }
 
         /// Update the identifier to watch for the successor of the current

@@ -11,8 +11,7 @@ use crate::{
 };
 
 /// A page of the content stack.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, strum::EnumString, strum::AsRefStr)]
-#[strum(serialize_all = "kebab-case")]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum ContentPage {
     /// The placeholder page when no content is presented.
     Empty,
@@ -26,6 +25,35 @@ enum ContentPage {
     Explore,
     /// The selected identity verification.
     Verification,
+}
+
+impl ContentPage {
+    /// The name of this page.
+    const fn name(self) -> &'static str {
+        match self {
+            Self::Empty => "empty",
+            Self::RoomHistory => "room-history",
+            Self::InviteRequest => "invite-request",
+            Self::Invite => "invite",
+            Self::Explore => "explore",
+            Self::Verification => "verification",
+        }
+    }
+
+    /// Get the page matching the given name.
+    ///
+    /// Panics if the name does not match any of the variants.
+    fn from_name(name: &str) -> Self {
+        match name {
+            "empty" => Self::Empty,
+            "room-history" => Self::RoomHistory,
+            "invite-request" => Self::InviteRequest,
+            "invite" => Self::Invite,
+            "explore" => Self::Explore,
+            "verification" => Self::Verification,
+            _ => panic!("Unknown ContentPage: {name}"),
+        }
+    }
 }
 
 mod imp {
@@ -123,12 +151,12 @@ mod imp {
     impl Content {
         /// The visible page of the content.
         pub(super) fn visible_page(&self) -> ContentPage {
-            self.stack
-                .visible_child_name()
-                .expect("stack should always have a visible child name")
-                .as_str()
-                .try_into()
-                .expect("stack child name should be convertible to a ContentPage")
+            ContentPage::from_name(
+                &self
+                    .stack
+                    .visible_child_name()
+                    .expect("Content stack should always have a visible child name"),
+            )
         }
 
         /// Set the visible page of the content.
@@ -137,7 +165,7 @@ mod imp {
                 return;
             }
 
-            self.stack.set_visible_child_name(page.as_ref());
+            self.stack.set_visible_child_name(page.name());
         }
 
         /// Set the current session.

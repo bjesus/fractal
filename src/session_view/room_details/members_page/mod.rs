@@ -69,7 +69,7 @@ mod imp {
     impl MembersPage {
         /// Show the subpage for the list with the given membership.
         pub(super) fn show_membership_list(&self, kind: MembershipListKind) {
-            let tag = kind.as_ref();
+            let tag = kind.tag();
 
             if self.navigation_view.find_page(tag).is_some() {
                 self.navigation_view.push_by_tag(tag);

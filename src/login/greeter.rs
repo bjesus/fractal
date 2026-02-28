@@ -51,6 +51,9 @@ glib::wrapper! {
 }
 
 impl Greeter {
+    /// The tag for this page.
+    pub(super) const TAG: &str = "greeter";
+
     pub fn new() -> Self {
         glib::Object::new()
     }

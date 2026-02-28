@@ -14,8 +14,7 @@ use crate::{
 };
 
 /// A page of the [`CryptoRecoverySetupView`] navigation stack.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, strum::EnumString, strum::AsRefStr)]
-#[strum(serialize_all = "kebab-case")]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum CryptoRecoverySetupPage {
     /// Use account recovery.
     Recover,
@@ -29,10 +28,35 @@ enum CryptoRecoverySetupPage {
     Incomplete,
 }
 
+impl CryptoRecoverySetupPage {
+    /// Get the tag for this page.
+    const fn tag(self) -> &'static str {
+        match self {
+            Self::Recover => "recover",
+            Self::Reset => "reset",
+            Self::Enable => "enable",
+            Self::Success => "success",
+            Self::Incomplete => "incomplete",
+        }
+    }
+
+    /// Get the page matching the given tag.
+    ///
+    /// Panics if the tag does not match any variant.
+    fn from_tag(tag: &str) -> Self {
+        match tag {
+            "recover" => Self::Recover,
+            "reset" => Self::Reset,
+            "enable" => Self::Enable,
+            "success" => Self::Success,
+            "incomplete" => Self::Incomplete,
+            _ => panic!("Unknown CryptoRecoverySetupPage: {tag}"),
+        }
+    }
+}
+
 /// The initial page of the [`CryptoRecoverySetupView`].
-#[derive(Debug, Default, Clone, Copy, PartialEq, Eq, glib::Enum, strum::AsRefStr)]
-#[enum_type(name = "CryptoRecoverySetupInitialPage")]
-#[strum(serialize_all = "kebab-case")]
+#[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
 pub enum CryptoRecoverySetupInitialPage {
     /// Use account recovery.
     #[default]
@@ -41,6 +65,16 @@ pub enum CryptoRecoverySetupInitialPage {
     Reset,
     /// Enable recovery.
     Enable,
+}
+
+impl From<CryptoRecoverySetupInitialPage> for CryptoRecoverySetupPage {
+    fn from(value: CryptoRecoverySetupInitialPage) -> Self {
+        match value {
+            CryptoRecoverySetupInitialPage::Recover => Self::Recover,
+            CryptoRecoverySetupInitialPage::Reset => Self::Reset,
+            CryptoRecoverySetupInitialPage::Enable => Self::Enable,
+        }
+    }
 }
 
 mod imp {
@@ -140,11 +174,16 @@ mod imp {
     impl CryptoRecoverySetupView {
         /// The visible page of the view.
         fn visible_page(&self) -> CryptoRecoverySetupPage {
-            self.navigation
-                .visible_page()
-                .and_then(|p| p.tag())
-                .and_then(|t| t.as_str().try_into().ok())
-                .unwrap()
+            CryptoRecoverySetupPage::from_tag(
+                &self
+                    .navigation
+                    .visible_page()
+                    .expect(
+                        "CryptoRecoverySetupView navigation view should always have a visible page",
+                    )
+                    .tag()
+                    .expect("CryptoRecoverySetupView navigation page should always have a tag"),
+            )
         }
 
         /// Set the current session.
@@ -213,7 +252,8 @@ mod imp {
 
         /// Set the initial page of this view.
         pub(super) fn set_initial_page(&self, initial_page: CryptoRecoverySetupInitialPage) {
-            self.navigation.replace_with_tags(&[initial_page.as_ref()]);
+            self.navigation
+                .replace_with_tags(&[CryptoRecoverySetupPage::from(initial_page).tag()]);
         }
 
         /// Update the success page for the given recovery key.
@@ -276,7 +316,7 @@ mod imp {
                     // sure of the SDK's recovery state at this point, not the Session's.
                     if encryption.recovery().state() == SdkRecoveryState::Incomplete {
                         self.navigation
-                            .push_by_tag(CryptoRecoverySetupPage::Incomplete.as_ref());
+                            .push_by_tag(CryptoRecoverySetupPage::Incomplete.tag());
                     } else {
                         self.emit_completed();
                     }
@@ -424,7 +464,7 @@ mod imp {
 
                     self.update_success(key);
                     self.navigation
-                        .push_by_tag(CryptoRecoverySetupPage::Success.as_ref());
+                        .push_by_tag(CryptoRecoverySetupPage::Success.tag());
                 }
                 Err(error) => {
                     error!("Could not re-enable account recovery: {error}");
@@ -458,7 +498,7 @@ mod imp {
 
                     self.update_success(key);
                     self.navigation
-                        .push_by_tag(CryptoRecoverySetupPage::Success.as_ref());
+                        .push_by_tag(CryptoRecoverySetupPage::Success.tag());
                 }
                 Err(error) => {
                     error!("Could not reset account recovery key: {error}");
@@ -496,7 +536,7 @@ mod imp {
 
                     self.update_success(key);
                     self.navigation
-                        .push_by_tag(CryptoRecoverySetupPage::Success.as_ref());
+                        .push_by_tag(CryptoRecoverySetupPage::Success.tag());
                 }
                 Err(error) => {
                     error!("Could not enable account recovery: {error}");
@@ -531,7 +571,7 @@ mod imp {
         fn show_reset(&self) {
             self.update_reset();
             self.navigation
-                .push_by_tag(CryptoRecoverySetupPage::Reset.as_ref());
+                .push_by_tag(CryptoRecoverySetupPage::Reset.tag());
         }
     }
 }

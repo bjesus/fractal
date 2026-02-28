@@ -317,8 +317,8 @@ pub(super) struct MediaPreviewsSetting {
 /// previews.
 ///
 /// Legacy setting from version 0 of the stored settings.
-#[derive(Debug, Clone, Default, strum::EnumString)]
-#[strum(serialize_all = "lowercase")]
+#[derive(Debug, Clone, Default, Deserialize)]
+#[serde(rename_all = "lowercase")]
 pub(super) enum MediaPreviewsGlobalSetting {
     /// All rooms show media previews.
     All,
@@ -327,16 +327,6 @@ pub(super) enum MediaPreviewsGlobalSetting {
     Private,
     /// No rooms show media previews.
     None,
-}
-
-impl<'de> Deserialize<'de> for MediaPreviewsGlobalSetting {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        let cow = ruma::serde::deserialize_cow_str(deserializer)?;
-        cow.parse().map_err(serde::de::Error::custom)
-    }
 }
 
 impl From<MediaPreviewsGlobalSetting> for MediaPreviews {

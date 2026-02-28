@@ -13,8 +13,7 @@ use crate::{
 };
 
 /// A page of the session setup stack.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, strum::EnumString, strum::AsRefStr)]
-#[strum(serialize_all = "kebab-case")]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum SessionSetupPage {
     /// The loading page.
     Loading,
@@ -22,6 +21,29 @@ enum SessionSetupPage {
     CryptoIdentity,
     /// The recovery view.
     Recovery,
+}
+
+impl SessionSetupPage {
+    /// Get the name of this page.
+    const fn name(self) -> &'static str {
+        match self {
+            Self::Loading => "loading",
+            Self::CryptoIdentity => "crypto-identity",
+            Self::Recovery => "recovery",
+        }
+    }
+
+    /// Get the page matching the given name.
+    ///
+    /// Panics if the name does not match any of the variants.
+    fn from_name(name: &str) -> Self {
+        match name {
+            "loading" => Self::Loading,
+            "crypto-identity" => Self::CryptoIdentity,
+            "recovery" => Self::Recovery,
+            _ => panic!("Unknown SessionSetupPage: {name}"),
+        }
+    }
 }
 
 mod imp {
@@ -113,10 +135,12 @@ mod imp {
     impl SessionSetupView {
         /// The visible page of the stack.
         fn visible_stack_page(&self) -> SessionSetupPage {
-            self.stack
-                .visible_child_name()
-                .and_then(|n| n.as_str().try_into().ok())
-                .unwrap()
+            SessionSetupPage::from_name(
+                &self
+                    .stack
+                    .visible_child_name()
+                    .expect("SessionSetupView stack should always have a visible child name"),
+            )
         }
 
         /// The crypto identity view.
@@ -280,10 +304,10 @@ mod imp {
 
                 self.stack.add_named(
                     crypto_identity_view,
-                    Some(SessionSetupPage::CryptoIdentity.as_ref()),
+                    Some(SessionSetupPage::CryptoIdentity.name()),
                 );
                 self.stack
-                    .set_visible_child_name(SessionSetupPage::CryptoIdentity.as_ref());
+                    .set_visible_child_name(SessionSetupPage::CryptoIdentity.name());
             } else {
                 self.switch_to_recovery();
             }
@@ -313,9 +337,9 @@ mod imp {
             let recovery_view = self.recovery_view();
 
             self.stack
-                .add_named(recovery_view, Some(SessionSetupPage::Recovery.as_ref()));
+                .add_named(recovery_view, Some(SessionSetupPage::Recovery.name()));
             self.stack
-                .set_visible_child_name(SessionSetupPage::Recovery.as_ref());
+                .set_visible_child_name(SessionSetupPage::Recovery.name());
         }
 
         /// Focus the proper widget for the current page.
@@ -343,6 +367,9 @@ glib::wrapper! {
 }
 
 impl SessionSetupView {
+    /// The tag for this page.
+    pub(super) const TAG: &str = "session-setup";
+
     pub fn new(session: &Session) -> Self {
         glib::Object::builder().property("session", session).build()
     }

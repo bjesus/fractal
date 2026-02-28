@@ -29,7 +29,7 @@ use crate::{
 };
 
 /// A subpage of the account settings.
-#[derive(Debug, Clone, Copy, Eq, PartialEq, glib::Variant, strum::AsRefStr)]
+#[derive(Debug, Clone, Copy, Eq, PartialEq, glib::Variant)]
 pub(crate) enum AccountSettingsSubpage {
     /// A form to change the account's password.
     ChangePassword,
@@ -298,7 +298,7 @@ impl AccountSettings {
                 ));
 
                 let page = adw::NavigationPage::builder()
-                    .tag(AccountSettingsSubpage::CryptoIdentitySetup.as_ref())
+                    .tag("crypto-identity-setup")
                     .child(&view)
                     .build();
                 page.connect_shown(clone!(
@@ -322,7 +322,7 @@ impl AccountSettings {
                 ));
 
                 let page = adw::NavigationPage::builder()
-                    .tag(AccountSettingsSubpage::RecoverySetup.as_ref())
+                    .tag("crypto-recovery-setup")
                     .child(&view)
                     .build();
                 page.connect_shown(clone!(

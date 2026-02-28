@@ -22,11 +22,8 @@ use crate::{
 };
 
 /// The possible values for the global notifications setting.
-#[derive(
-    Debug, Default, Hash, Eq, PartialEq, Clone, Copy, glib::Enum, strum::Display, strum::EnumString,
-)]
+#[derive(Debug, Default, Eq, PartialEq, Clone, Copy, glib::Enum)]
 #[enum_type(name = "NotificationsGlobalSetting")]
-#[strum(serialize_all = "kebab-case")]
 pub enum NotificationsGlobalSetting {
     /// Every message in every room.
     #[default]
@@ -37,10 +34,32 @@ pub enum NotificationsGlobalSetting {
     MentionsOnly,
 }
 
+impl NotificationsGlobalSetting {
+    /// Get the string representation of this value.
+    pub(crate) fn as_str(self) -> &'static str {
+        match self {
+            Self::All => "all",
+            Self::DirectAndMentions => "direct-and-mentions",
+            Self::MentionsOnly => "mentions-only",
+        }
+    }
+
+    /// Construct a `NotificationsGlobalSetting` from its string representation.
+    ///
+    /// Panics if the string does not match a variant of this enum.
+    pub(crate) fn from_str(s: &str) -> Self {
+        match s {
+            "all" => Self::All,
+            "direct-and-mentions" => Self::DirectAndMentions,
+            "mentions-only" => Self::MentionsOnly,
+            _ => panic!("Unknown NotificationsGlobalSetting: {s}"),
+        }
+    }
+}
+
 /// The possible values for a room notifications setting.
-#[derive(Debug, Default, Hash, Eq, PartialEq, Clone, Copy, glib::Enum, strum::EnumString)]
+#[derive(Debug, Default, Eq, PartialEq, Clone, Copy, glib::Enum)]
 #[enum_type(name = "NotificationsRoomSetting")]
-#[strum(serialize_all = "kebab-case")]
 pub enum NotificationsRoomSetting {
     /// Use the global setting.
     #[default]
