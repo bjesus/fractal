@@ -1,13 +1,17 @@
 use adw::{prelude::*, subclass::prelude::*};
 use gettextrs::gettext;
 use gtk::{gio, glib, glib::clone};
-use matrix_sdk::authentication::oauth::{AccountManagementActionFull, AccountManagementUrlBuilder};
 use ruma::{
     OwnedMxcUri,
     api::{
         Metadata, SupportedVersions,
         client::{
-            discovery::get_capabilities::v3::Capabilities,
+            discovery::{
+                get_authorization_server_metadata::v1::{
+                    AccountManagementActionData, AuthorizationServerMetadata,
+                },
+                get_capabilities::v3::Capabilities,
+            },
             profile::{ProfileFieldName, delete_profile_field},
         },
     },
@@ -191,7 +195,7 @@ mod imp {
             self.account_settings.set(account_settings);
 
             if let Some(account_settings) = account_settings {
-                account_settings.connect_account_management_url_builder_changed(clone!(
+                account_settings.connect_oauth_server_metadata_changed(clone!(
                     #[weak(rename_to = imp)]
                     self,
                     move |_| {
@@ -203,12 +207,11 @@ mod imp {
             self.update_capabilities();
         }
 
-        /// The builder for the account management URL of the OAuth 2.0
-        /// authorization server, if any.
-        fn account_management_url_builder(&self) -> Option<AccountManagementUrlBuilder> {
+        /// The OAuth 2.0 authorization server metadata, if any.
+        fn oauth_server_metadata(&self) -> Option<AuthorizationServerMetadata> {
             self.account_settings
                 .upgrade()
-                .and_then(|s| s.account_management_url_builder())
+                .and_then(|s| s.oauth_server_metadata())
         }
 
         /// Load the possible changes on the user account.
@@ -255,7 +258,9 @@ mod imp {
             };
 
             let uses_oauth_api = session.uses_oauth_api();
-            let has_account_management_url = self.account_management_url_builder().is_some();
+            let has_account_management_url = self
+                .oauth_server_metadata()
+                .is_some_and(|metadata| metadata.account_management_uri.is_some());
             let capabilities_data = self.capabilities_data.borrow();
 
             self.avatar.set_editable(
@@ -276,20 +281,23 @@ mod imp {
         /// Open the URL to manage the account.
         #[template_callback]
         async fn manage_account(&self) {
-            let Some(url_builder) = self.account_management_url_builder() else {
-                error!("Could not find open account management URL");
+            let Some(metadata) = self.oauth_server_metadata() else {
+                error!("Could not find OAuth 2.0 authorization server metadata");
                 return;
             };
 
-            let url = url_builder
-                .action(AccountManagementActionFull::Profile)
-                .build();
+            let Some(url) =
+                metadata.account_management_url_with_action(AccountManagementActionData::Profile)
+            else {
+                error!("Could not build OAuth 2.0 account management URL");
+                return;
+            };
 
             if let Err(error) = gtk::UriLauncher::new(url.as_str())
                 .launch_future(self.obj().root().and_downcast_ref::<gtk::Window>())
                 .await
             {
-                error!("Could not launch account management URL: {error}");
+                error!("Could not launch OAuth 2.0 account management URL: {error}");
             }
         }
 

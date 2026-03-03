@@ -1,7 +1,9 @@
 use adw::{prelude::*, subclass::prelude::*};
 use gettextrs::gettext;
 use gtk::{glib, glib::clone};
-use matrix_sdk::authentication::oauth::{AccountManagementActionFull, AccountManagementUrlBuilder};
+use ruma::api::client::discovery::get_authorization_server_metadata::v1::{
+    AccountManagementActionData, AuthorizationServerMetadata,
+};
 use tracing::error;
 
 use super::AccountSettings;
@@ -71,7 +73,7 @@ mod imp {
         fn set_account_settings(&self, account_settings: &AccountSettings) {
             self.account_settings.set(Some(account_settings));
 
-            account_settings.connect_account_management_url_builder_changed(clone!(
+            account_settings.connect_oauth_server_metadata_changed(clone!(
                 #[weak(rename_to = imp)]
                 self,
                 move |_| {
@@ -81,17 +83,18 @@ mod imp {
             self.update_visible_button();
         }
 
-        /// The builder for the account management URL of the OAuth 2.0
-        /// authorization server, if any.
-        fn account_management_url_builder(&self) -> Option<AccountManagementUrlBuilder> {
+        /// The OAuth 2.0 authorization server metadata, if any.
+        fn oauth_server_metadata(&self) -> Option<AuthorizationServerMetadata> {
             self.account_settings
                 .upgrade()
-                .and_then(|s| s.account_management_url_builder())
+                .and_then(|s| s.oauth_server_metadata())
         }
 
         /// Update the visible button for the current state.
         fn update_visible_button(&self) {
-            let should_open_url = self.account_management_url_builder().is_some();
+            let should_open_url = self
+                .oauth_server_metadata()
+                .is_some_and(|metadata| metadata.account_management_uri.is_some());
             self.loading_button.set_visible(!should_open_url);
             self.open_url_button.set_visible(should_open_url);
         }
@@ -112,7 +115,10 @@ mod imp {
         /// Deactivate the account with the proper method.
         #[template_callback]
         async fn deactivate_account(&self) {
-            if self.account_management_url_builder().is_some() {
+            if self
+                .oauth_server_metadata()
+                .is_some_and(|metadata| metadata.account_management_uri.is_some())
+            {
                 self.open_deactivate_account_url().await;
             } else {
                 self.deactivate_account_with_request().await;
@@ -165,20 +171,23 @@ mod imp {
         // Open the account management URL to deactivate the account.
         #[template_callback]
         async fn open_deactivate_account_url(&self) {
-            let Some(url_builder) = self.account_management_url_builder() else {
-                error!("Could not find open account management URL");
+            let Some(metadata) = self.oauth_server_metadata() else {
+                error!("Could not find OAuth 2.0 authorization server metadata");
                 return;
             };
 
-            let url = url_builder
-                .action(AccountManagementActionFull::AccountDeactivate)
-                .build();
+            let Some(url) = metadata
+                .account_management_url_with_action(AccountManagementActionData::AccountDeactivate)
+            else {
+                error!("Could not build OAuth 2.0 account management URL");
+                return;
+            };
 
             if let Err(error) = gtk::UriLauncher::new(url.as_str())
                 .launch_future(self.obj().root().and_downcast_ref::<gtk::Window>())
                 .await
             {
-                error!("Could not launch account management URL: {error}");
+                error!("Could not launch OAuth 2.0 account management URL: {error}");
             }
         }
     }

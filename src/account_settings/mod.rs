@@ -3,9 +3,8 @@ use gtk::{
     glib,
     glib::{clone, closure_local},
 };
-use matrix_sdk::authentication::oauth::{
-    AccountManagementUrlBuilder, OAuthError, error::OAuthDiscoveryError,
-};
+use matrix_sdk::authentication::oauth::error::OAuthDiscoveryError;
+use ruma::api::client::discovery::get_authorization_server_metadata::v1::AuthorizationServerMetadata;
 use tracing::{error, warn};
 
 mod encryption_page;
@@ -65,9 +64,8 @@ mod imp {
         /// The current session.
         #[property(get, set = Self::set_session, nullable)]
         session: BoundObjectWeakRef<Session>,
-        /// The builder for the account management URL of the OAuth 2.0
-        /// authorization server, if any.
-        account_management_url_builder: RefCell<Option<AccountManagementUrlBuilder>>,
+        /// The OAuth 2.0 authorization server metadata, if any.
+        oauth_server_metadata: RefCell<Option<AuthorizationServerMetadata>>,
     }
 
     #[glib::object_subclass]
@@ -133,9 +131,8 @@ mod imp {
     #[glib::derived_properties]
     impl ObjectImpl for AccountSettings {
         fn signals() -> &'static [Signal] {
-            static SIGNALS: LazyLock<Vec<Signal>> = LazyLock::new(|| {
-                vec![Signal::builder("account-management-url-builder-changed").build()]
-            });
+            static SIGNALS: LazyLock<Vec<Signal>> =
+                LazyLock::new(|| vec![Signal::builder("oauth-server-metadata-changed").build()]);
             SIGNALS.as_ref()
         }
     }
@@ -153,7 +150,7 @@ mod imp {
             let obj = self.obj();
 
             self.session.disconnect_signals();
-            self.set_account_management_url_builder(None);
+            self.set_oauth_server_metadata(None);
 
             if let Some(session) = session {
                 let logged_out_handler = session.connect_logged_out(clone!(
@@ -179,7 +176,7 @@ mod imp {
                     #[weak(rename_to = imp)]
                     self,
                     async move {
-                        imp.load_account_management_url_builder().await;
+                        imp.load_oauth_server_metadata().await;
                     }
                 ));
             }
@@ -187,47 +184,39 @@ mod imp {
             obj.notify_session();
         }
 
-        /// Load the builder for the account management URL of the OAuth 2.0
-        /// authorization server.
-        async fn load_account_management_url_builder(&self) {
+        /// Load the the OAuth 2.0 authorization server metadata.
+        async fn load_oauth_server_metadata(&self) {
             let Some(session) = self.session.obj() else {
                 return;
             };
 
             let oauth = session.client().oauth();
-            let handle = spawn_tokio!(async move { oauth.account_management_url().await });
+            let handle = spawn_tokio!(async move { oauth.cached_server_metadata().await });
 
-            let url_builder = match handle.await.expect("task was not aborted") {
-                Ok(url_builder) => url_builder,
+            let metadata = match handle.await.expect("task was not aborted") {
+                Ok(metadata) => Some(metadata),
                 Err(error) => {
                     // Ignore the error that says that OAuth 2.0 is not supported, it can happen.
-                    if !matches!(
-                        error,
-                        OAuthError::Discovery(OAuthDiscoveryError::NotSupported)
-                    ) {
-                        warn!("Could not fetch OAuth 2.0 account management URL: {error}");
+                    if !matches!(error, OAuthDiscoveryError::NotSupported) {
+                        warn!("Could not fetch OAuth 2.0 authorization server metadata: {error}");
                     }
                     None
                 }
             };
-            self.set_account_management_url_builder(url_builder);
+            self.set_oauth_server_metadata(metadata);
         }
 
         /// Set the builder for the account management URL of the OAuth 2.0
         /// authorization server.
-        fn set_account_management_url_builder(
-            &self,
-            url_builder: Option<AccountManagementUrlBuilder>,
-        ) {
-            self.account_management_url_builder.replace(url_builder);
+        fn set_oauth_server_metadata(&self, metadata: Option<AuthorizationServerMetadata>) {
+            self.oauth_server_metadata.replace(metadata);
             self.obj()
-                .emit_by_name::<()>("account-management-url-builder-changed", &[]);
+                .emit_by_name::<()>("oauth-server-metadata-changed", &[]);
         }
 
-        /// The builder for the account management URL of the OAuth 2.0
-        /// authorization server, if any.
-        pub(super) fn account_management_url_builder(&self) -> Option<AccountManagementUrlBuilder> {
-            self.account_management_url_builder.borrow().clone()
+        /// The OAuth 2.0 authorization server metadata, if any.
+        pub(super) fn oauth_server_metadata(&self) -> Option<AuthorizationServerMetadata> {
+            self.oauth_server_metadata.borrow().clone()
         }
 
         /// Reload the sessions from the server.
@@ -254,10 +243,9 @@ impl AccountSettings {
         glib::Object::builder().property("session", session).build()
     }
 
-    /// The builder for the account management URL of the OAuth 2.0
-    /// authorization server, if any.
-    fn account_management_url_builder(&self) -> Option<AccountManagementUrlBuilder> {
-        self.imp().account_management_url_builder()
+    /// The OAuth 2.0 authorization server metadata, if any.
+    fn oauth_server_metadata(&self) -> Option<AuthorizationServerMetadata> {
+        self.imp().oauth_server_metadata()
     }
 
     /// Show the "Encryption" tab.
@@ -358,14 +346,14 @@ impl AccountSettings {
         self.push_subpage(&page);
     }
 
-    /// Connect to the signal emitted when the builder for the OAuth 2.0 account
-    /// management URL changed.
-    pub fn connect_account_management_url_builder_changed<F: Fn(&Self) + 'static>(
+    /// Connect to the signal emitted when the OAuth 2.0 authorization server
+    /// metadata changed.
+    pub fn connect_oauth_server_metadata_changed<F: Fn(&Self) + 'static>(
         &self,
         f: F,
     ) -> glib::SignalHandlerId {
         self.connect_closure(
-            "account-management-url-builder-changed",
+            "oauth-server-metadata-changed",
             true,
             closure_local!(move |obj: Self| {
                 f(&obj);

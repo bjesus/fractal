@@ -1,7 +1,9 @@
 use adw::{prelude::*, subclass::prelude::*};
 use gettextrs::gettext;
 use gtk::{glib, glib::clone};
-use matrix_sdk::authentication::oauth::{AccountManagementActionFull, AccountManagementUrlBuilder};
+use ruma::api::client::discovery::get_authorization_server_metadata::v1::{
+    AccountManagementActionData, AuthorizationServerMetadata, DeviceDeleteData,
+};
 use tracing::error;
 
 use crate::{
@@ -124,7 +126,7 @@ mod imp {
 
         /// Set the ancestor [`AccountSettings`].
         fn set_account_settings(&self, account_settings: AccountSettings) {
-            let handler = account_settings.connect_account_management_url_builder_changed(clone!(
+            let handler = account_settings.connect_oauth_server_metadata_changed(clone!(
                 #[weak(rename_to = imp)]
                 self,
                 move |_| {
@@ -134,10 +136,9 @@ mod imp {
             self.account_settings.set(account_settings, vec![handler]);
         }
 
-        /// The builder for the account management URL of the OAuth 2.0
-        /// authorization server, if any.
-        fn account_management_url_builder(&self) -> Option<AccountManagementUrlBuilder> {
-            self.account_settings.obj().account_management_url_builder()
+        /// The OAuth 2.0 authorization server metadata, if any.
+        fn oauth_server_metadata(&self) -> Option<AuthorizationServerMetadata> {
+            self.account_settings.obj().oauth_server_metadata()
         }
 
         /// Update the visible disconnect button.
@@ -158,7 +159,9 @@ mod imp {
             };
 
             let uses_oauth_api = session.uses_oauth_api();
-            let has_account_management_url = self.account_management_url_builder().is_some();
+            let has_account_management_url = self
+                .oauth_server_metadata()
+                .is_some_and(|metadata| metadata.account_management_uri.is_some());
 
             self.log_out_button.set_visible(false);
             self.loading_disconnect_button
@@ -258,21 +261,24 @@ mod imp {
                 return;
             };
 
-            let device_id = user_session.device_id_string().into();
-            let Some(url_builder) = self.account_management_url_builder() else {
-                error!("Could not find account management URL");
+            let device_id = user_session.device_id();
+            let Some(metadata) = self.oauth_server_metadata() else {
+                error!("Could not find OAuth 2.0 authorization server metadata");
                 return;
             };
 
-            let url = url_builder
-                .action(AccountManagementActionFull::SessionEnd { device_id })
-                .build();
+            let Some(url) = metadata.account_management_url_with_action(
+                AccountManagementActionData::DeviceDelete(DeviceDeleteData::new(device_id)),
+            ) else {
+                error!("Could not build OAuth 2.0 account management URL");
+                return;
+            };
 
             if let Err(error) = gtk::UriLauncher::new(url.as_str())
                 .launch_future(self.obj().root().and_downcast_ref::<gtk::Window>())
                 .await
             {
-                error!("Could not launch account management URL: {error}");
+                error!("Could not launch OAuth 2.0 account management URL: {error}");
             }
         }
     }
