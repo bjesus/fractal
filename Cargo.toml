@@ -4,7 +4,7 @@ version = "13.0.0"
 authors = ["Julian Sparber <julian@sparber.net>"]
 license = "GPL-3.0-or-later"
 edition = "2024"
-rust-version = "1.88"
+rust-version = "1.93"
 publish = false
 
 [package.metadata.cargo-machete]
