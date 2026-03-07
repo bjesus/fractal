@@ -1,6 +1,3 @@
-use std::hash::Hasher;
-
-use djb_hash::{HasherU32, x33a_u32::X33aU32};
 use gtk::{gdk, glib, graphene, gsk, pango, prelude::*};
 
 /// The notification icon size, according to GNOME Shell's code.
@@ -101,9 +98,7 @@ pub(crate) fn string_as_notification_icon(
     renderer: &gsk::Renderer,
 ) -> gdk::Texture {
     // Get the avatar colors from the string hash.
-    let mut hasher = X33aU32::new();
-    hasher.write(string.as_bytes());
-    let color_nb = hasher.finish_u32() as usize % AVATAR_COLOR_LIST.len();
+    let color_nb = djb_hash(string) as usize % AVATAR_COLOR_LIST.len();
     let colors = AVATAR_COLOR_LIST[color_nb];
 
     let icon_size = (NOTIFICATION_ICON_SIZE * scale_factor) as f32;
@@ -186,4 +181,42 @@ pub(crate) fn string_as_notification_icon(
         .to_node()
         .expect("snapshot should convert to a node successfully");
     renderer.render_texture(node, None)
+}
+
+/// Compute the "djb" hash of the given string.
+///
+/// This is a reimplementation of `g_str_hash`, which is used by libadwaita but
+/// not available in the bindings.
+fn djb_hash(string: &str) -> u32 {
+    let mut hash = 5381_u32;
+
+    for byte in string.as_bytes() {
+        // The algorithm is `hash * 33 + byte`, it is usually faster on processors to
+        // shift the value: `hash << 5 == hash * 32`.
+        hash = (hash << 5)
+            .wrapping_add(hash)
+            .wrapping_add(u32::from(*byte));
+    }
+
+    hash
+}
+
+#[cfg(test)]
+mod tests {
+    use super::djb_hash;
+
+    #[test]
+    fn compute_djb_hash() {
+        assert_eq!(djb_hash("Ez"), 5_862_308);
+        assert_eq!(djb_hash("FY"), 5_862_308);
+        assert_eq!(djb_hash("abcEzpie"), 1_686_394_568);
+        assert_eq!(djb_hash(""), 5_381);
+        assert_eq!(djb_hash("test"), 2_090_756_197);
+        assert_eq!(djb_hash("test "), 275_477_797);
+        assert_eq!(djb_hash(" test"), 176_384_293);
+        assert_eq!(djb_hash("ab"), 5_863_208);
+        assert_eq!(djb_hash("bA"), 5_863_208);
+        assert_eq!(djb_hash("cb"), 5_863_274);
+        assert_eq!(djb_hash("bC"), 5_863_210);
+    }
 }
