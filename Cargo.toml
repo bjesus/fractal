@@ -8,7 +8,10 @@ rust-version = "1.88"
 publish = false
 
 [package.metadata.cargo-machete]
-ignored = ["serde_bytes"] # Used by the SecretFile API.
+ignored = [
+    # Used by the SecretFile API.
+    "serde_bytes",
+]
 
 [profile.release]
 debug = true
