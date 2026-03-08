@@ -116,36 +116,38 @@ if profile == 'Devel'
     release_date = run_command('git', 'show', '-s', '--format=%cI', check: true).stdout().strip()
 
     # Setup pre-commit hook for ensuring coding style is always consistent
-    checks_build_result = run_command(
-        'env',
-        cargo_env,
+    message('Compiling pre-commit binary…')
+    run_command(
         cargo,
         'build',
         '--manifest-path',
         'hooks/checks/Cargo.toml',
         check: true,
+        env: cargo_env,
+    )
+    cp_bin_result = run_command(
+        'cp',
+        '-f',
+        cargo_target_dir / 'debug/checks',
+        'hooks/checks-bin',
+        check: false,
+    )
+    cp_hook_result = run_command(
+        'cp',
+        '-f',
+        'hooks/pre-commit.hook',
+        '.git/hooks/pre-commit',
+        check: false,
     )
 
-    if checks_build_result.returncode() == 0
-        run_command(
-            'ln',
-            '-s',
-            cargo_target_dir / 'debug/checks',
-            'hooks/checks-bin',
-            check: false,
-        )
-        cp_result = run_command(
-            'cp',
-            '-f',
-            'hooks/pre-commit.hook',
-            '.git/hooks/pre-commit',
-            check: false,
-        )
-
-        if cp_result.returncode() == 0
-            message('Pre-commit hook installed')
-        else
-            message('Could not install pre-commit hook: ' + cp_result.stderr())
+    if cp_bin_result.returncode() == 0 and cp_hook_result.returncode() == 0
+        message('Pre-commit hook installed')
+    else
+        if cp_bin_result.returncode() != 0
+            message('Could not install pre-commit binary: ' + cp_bin_result.stderr())
+        endif
+        if cp_hook_result.returncode() != 0
+            message('Could not install pre-commit hook: ' + cp_hook_result.stderr())
         endif
     endif
 endif

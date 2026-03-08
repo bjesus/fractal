@@ -108,9 +108,8 @@ if not build_env_only
         install: true,
         install_dir: bindir,
         depends: [resources, ui_resources],
+        env: cargo_env,
         command: [
-            'env',
-            cargo_env,
             cargo,
             'build',
             cargo_options,
@@ -128,9 +127,8 @@ if not build_env_only
         output: 'junit.xml',
         console: true,
         depends: [resources, ui_resources],
+        env: cargo_env,
         command: [
-            'env',
-            cargo_env,
             'cargo-nextest',
             'nextest',
             'run',
@@ -180,13 +178,11 @@ cargo_doc_options = ['--package=fractal', '--no-deps', '-Zrustdoc-map']
 
 custom_target(
     'cargo-doc',
-    build_by_default: false,
     build_always_stale: true,
     output: 'doc',
     console: true,
+    env: cargo_env + cargo_doc_env,
     command: [
-        'env',
-        cargo_env + cargo_doc_env,
         cargo,
         'doc',
         cargo_options + cargo_doc_options,
