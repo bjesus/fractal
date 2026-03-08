@@ -87,12 +87,13 @@ run_command(
 
 # Cargo settings
 cargo_options = ['--manifest-path', meson.project_source_root() / 'Cargo.toml']
+cargo_build_options = cargo_options
 
 if profile == 'Devel'
     rust_target = 'debug'
     message('Building in debug mode')
 else
-    cargo_options += ['--release']
+    cargo_build_options += ['--release']
     rust_target = 'release'
     message('Building in release mode')
 endif
@@ -112,11 +113,22 @@ if not build_env_only
         command: [
             cargo,
             'build',
-            cargo_options,
+            cargo_build_options,
             '&&',
             'cp',
             cargo_target_dir / rust_target / meson.project_name(),
             '@OUTPUT@',
+        ],
+    )
+
+    # Lint Rust code with clippy
+    run_target(
+        'cargo-clippy',
+        env: cargo_env,
+        command: [
+            cargo,
+            'clippy',
+            cargo_options,
         ],
     )
 
@@ -127,8 +139,9 @@ if not build_env_only
         output: 'junit.xml',
         console: true,
         depends: [resources, ui_resources],
-        env: cargo_env,
         command: [
+            'env',
+            cargo_env,
             'cargo-nextest',
             'nextest',
             'run',

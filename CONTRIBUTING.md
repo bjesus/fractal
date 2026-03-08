@@ -51,15 +51,50 @@ If you are building the flatpak manually you will also need flatpak-builder on y
 
 ### GNOME Builder
 
-Using [GNOME Builder](https://apps.gnome.org/Builder/) with [flatpak](https://flatpak.org/) is
+Using [GNOME Builder](https://apps.gnome.org/Builder/) with [Flatpak](https://flatpak.org/) is
 the recommended way of building and installing Fractal.
 
 You can find help on cloning and building a project in the [docs of Builder](https://builder.readthedocs.io/).
 
-### Flatpak via fenv
+To open a build terminal to run commands like [Clippy](#pre-commit), you can use the “+” button at
+the left of the header bar of the editor and select “New build terminal”, or use its keyboard
+shortcut <kbd>Shift</kbd>+<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>T</kbd>. The terminal should open in
+the `_build` directory.
 
-As an alternative, [fenv](https://gitlab.gnome.org/ZanderBrown/fenv) allows to setup a flatpak
-environment from the command line and execute commands in that environment.
+### Foundry
+
+As an alternative, [Foundry](https://gitlab.gnome.org/GNOME/foundry) is a command line tool with
+a lot of features similar to an IDE, which we can also use to develop in a Flatpak environment. It
+should be available as the `foundry` package in your distribution.
+
+First, set up the project:
+
+```sh
+foundry init
+```
+
+Then, you can build and run the application directly:
+
+```sh
+foundry run
+```
+
+_Note that Foundry will use `.foundry/cache/build` as build directory._
+
+To test changes you make to the code, re-run that last command.
+
+To run commands like [Clippy](#pre-commit) in the build environment, use:
+
+```sh
+foundry devenv -- {COMMAND}
+```
+
+The command will run in the `.foundry/cache/build` directory by default.
+
+### fenv
+
+Another command line alternative is [fenv](https://gitlab.gnome.org/ZanderBrown/fenv), which focuses
+only on developing with Flatpak.
 
 First, install fenv:
 
@@ -67,7 +102,7 @@ First, install fenv:
 cargo install --git https://gitlab.gnome.org/ZanderBrown/fenv fenv
 ```
 
-After that, setup the project:
+After that, set up the project:
 
 ```sh
 # Set up the flatpak environment
@@ -87,6 +122,14 @@ fenv run
 _Note that fenv will use `_build` as build directory._
 
 To test changes you make to the code, re-run these two last commands.
+
+To run commands like [Clippy](#pre-commit) in the build environment, use:
+
+```sh
+fenv exec -- {COMMAND}
+```
+
+The command will run in the current directory by default.
 
 ### Install the flatpak
 
@@ -134,8 +177,17 @@ quick script that makes sure that the code is correctly formatted with `rustfmt`
 things. Make sure that this script is effectively run before submitting your merge request,
 otherwise CI will probably fail right away.
 
-You should also run `cargo clippy` as that will catch common errors and improve the quality of your
-submissions and is once again checked by our CI.
+You should also run [Clippy](https://doc.rust-lang.org/stable/clippy/index.html) as that will catch
+common errors and improve the quality of your submissions and is once again checked by our CI. To
+reuse the same cache as when building Fractal, you should run the following command in a build
+environment:
+
+```sh
+meson compile -C {BUILD_DIRECTORY} src/cargo-clippy
+```
+
+_ The `-C {BUILD_DIRECTORY}` option can be omitted when the command is run from the build
+directory._
 
 ## Commit
 

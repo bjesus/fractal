@@ -144,10 +144,14 @@ if profile == 'Devel'
         message('Pre-commit hook installed')
     else
         if cp_bin_result.returncode() != 0
-            message('Could not install pre-commit binary: ' + cp_bin_result.stderr())
+            message(
+                'Could not install pre-commit binary: ' + cp_bin_result.stderr(),
+            )
         endif
         if cp_hook_result.returncode() != 0
-            message('Could not install pre-commit hook: ' + cp_hook_result.stderr())
+            message(
+                'Could not install pre-commit hook: ' + cp_hook_result.stderr(),
+            )
         endif
     endif
 endif

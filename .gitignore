@@ -6,10 +6,11 @@ builddir/
 # Cargo
 target/
 
-# Flatpak
+# Supported build systems
 .flatpak-builder
 .flatpak
 .fenv
+.foundry
 
 # Temporary files
 *.ui.in~
