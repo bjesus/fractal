@@ -26,7 +26,12 @@ flatpak-checks:
     # Initialize the Flatpak sandbox.
     - flatpak-builder --keep-build-dirs --user --disable-rofiles-fuse --stop-at=${FLATPAK_MODULE} flatpak_app --repo=repo ${BRANCH:+--default-branch=$BRANCH} ${MANIFEST_PATH}
     # Lint the Rust code with clippy.
-    - echo "cargo clippy --message-format=json -- -D warnings > clippy-report.json " | flatpak-builder --disable-rofiles-fuse --build-shell=${FLATPAK_MODULE} flatpak_app ${MANIFEST_PATH}
+    # We need to run it twice: the first time generates the JSON output for the
+    # code quality report, and the second time generates the regular output with
+    # more details.
+    - echo "cargo clippy --message-format=json -- -D warnings > clippy-report.json || cargo clippy -- -D warnings" | flatpak-builder --disable-rofiles-fuse --build-shell=${FLATPAK_MODULE} flatpak_app ${MANIFEST_PATH}
+    # Move the report file or it will be deleted when running the next command.
+    - mv .flatpak-builder/build/${FLATPAK_MODULE}/_flatpak_build/clippy-report.json ./
     # Lint the Blueprint files.
     - echo "blueprint-compiler format ../src" | flatpak-builder --disable-rofiles-fuse --build-shell=${FLATPAK_MODULE} flatpak_app ${MANIFEST_PATH}
     # Lint the Meson files.
@@ -39,7 +44,7 @@ flatpak-checks:
     - sha256sum -c cargo-codeclimate.sha256sum
     - chmod +x cargo-codeclimate
     # Convert the clippy report to CodeClimate / GitLab Code Quality format.
-    - ./cargo-codeclimate --clippy --clippy-path .flatpak-builder/build/${FLATPAK_MODULE}/_flatpak_build/clippy-report.json
+    - ./cargo-codeclimate --clippy --clippy-path clippy-report.json
   artifacts:
     reports:
       codequality: codeclimate.json
