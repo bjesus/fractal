@@ -3,8 +3,11 @@ use gettextrs::gettext;
 use gtk::glib;
 use matrix_sdk::{
     Error,
-    authentication::oauth::{OAuthAuthorizationData, UrlOrQuery},
-    utils::local_server::{LocalServerRedirectHandle, QueryString},
+    authentication::oauth::OAuthAuthorizationData,
+    utils::{
+        UrlOrQuery,
+        local_server::{LocalServerRedirectHandle, QueryString},
+    },
 };
 use tokio::task::AbortHandle;
 use tracing::{error, warn};
@@ -130,8 +133,8 @@ mod imp {
 
             match data {
                 LoginInBrowserData::Oauth(_) => self.finish_oauth_login(query_string).await,
-                LoginInBrowserData::Matrix(url) => {
-                    self.finish_matrix_login(url, query_string).await;
+                LoginInBrowserData::Matrix(_) => {
+                    self.finish_matrix_login(query_string).await;
                 }
             }
         }
@@ -174,7 +177,7 @@ mod imp {
         }
 
         /// Finish the Matrix SSO login process.
-        async fn finish_matrix_login(&self, mut url: Url, query_string: QueryString) {
+        async fn finish_matrix_login(&self, query_string: QueryString) {
             let Some(login) = self.login.upgrade() else {
                 return;
             };
@@ -185,12 +188,9 @@ mod imp {
                 .expect("login client should be constructed");
             let matrix_auth = client.matrix_auth();
 
-            // We need to rebuild the URL to use the SDK's method.
-            url.set_query(Some(&query_string.0));
-
             let handle = spawn_tokio!(async move {
                 matrix_auth
-                    .login_with_sso_callback(url)
+                    .login_with_sso_callback(query_string.into())
                     .map_err(|error| Error::UnknownError(error.into()))?
                     .initial_device_display_name(APP_NAME)
                     .await

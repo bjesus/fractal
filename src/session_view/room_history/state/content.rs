@@ -2,12 +2,12 @@ use adw::{prelude::*, subclass::prelude::*};
 use gettextrs::gettext;
 use gtk::{glib, glib::clone, pango};
 use matrix_sdk_ui::timeline::{
-    AnyOtherFullStateEventContent, MemberProfileChange, MembershipChange, OtherState,
+    AnyOtherStateEventContentChange, MemberProfileChange, MembershipChange, OtherState,
     RoomMembershipChange, TimelineItemContent,
 };
 use ruma::{
     UserId,
-    events::{FullStateEventContent, room::member::MembershipState},
+    events::{StateEventContentChange, room::member::MembershipState},
 };
 use tracing::warn;
 
@@ -93,21 +93,21 @@ mod imp {
         /// Update this row with the given [`OtherState`].
         fn update_with_other_state(&self, other_state: &OtherState, sender: &Member) {
             let widget = match other_state.content() {
-                AnyOtherFullStateEventContent::RoomCreate(content) => {
+                AnyOtherStateEventContentChange::RoomCreate(content) => {
                     WidgetType::Creation(StateCreation::new(content))
                 }
-                AnyOtherFullStateEventContent::RoomEncryption(_) => {
+                AnyOtherStateEventContentChange::RoomEncryption(_) => {
                     WidgetType::Text(gettext("This room is encrypted from this point on."))
                 }
-                AnyOtherFullStateEventContent::RoomThirdPartyInvite(content) => {
+                AnyOtherStateEventContentChange::RoomThirdPartyInvite(content) => {
                     let display_name = match content {
-                        FullStateEventContent::Original { content, .. } => {
+                        StateEventContentChange::Original { content, .. } => {
                             match &content.display_name {
                                 s if s.is_empty() => other_state.state_key(),
                                 s => s,
                             }
                         }
-                        FullStateEventContent::Redacted(_) => other_state.state_key(),
+                        StateEventContentChange::Redacted(_) => other_state.state_key(),
                     };
                     WidgetType::Text(gettext_f(
                         // Translators: Do NOT translate the content between '{' and '}', this is a
@@ -146,11 +146,11 @@ mod imp {
         ) {
             let sender_display_name = sender.disambiguated_name();
             let target_display_name = match membership_change.content() {
-                FullStateEventContent::Original { content, .. } => content
+                StateEventContentChange::Original { content, .. } => content
                     .displayname
                     .clone()
                     .unwrap_or_else(|| membership_change.user_id().to_string()),
-                FullStateEventContent::Redacted(_) => membership_change.user_id().to_string(),
+                StateEventContentChange::Redacted(_) => membership_change.user_id().to_string(),
             };
 
             let supported_membership_change =
@@ -294,8 +294,8 @@ mod imp {
                 MembershipChange::KnockDenied => MembershipChange::KnockDenied,
                 _ => {
                     let membership = match membership_change.content() {
-                        FullStateEventContent::Original { content, .. } => &content.membership,
-                        FullStateEventContent::Redacted(content) => &content.membership,
+                        StateEventContentChange::Original { content, .. } => &content.membership,
+                        StateEventContentChange::Redacted(content) => &content.membership,
                     };
 
                     match membership {

@@ -78,23 +78,34 @@ sourceview = { version = "0.11", package = "sourceview5" }
 [dependencies.matrix-sdk]
 # version = "0.14"
 git = "https://github.com/matrix-org/matrix-rust-sdk.git"
-rev = "029148ef6e45d51e6325a4f5aadcdee7ec9385cc"
-features = ["socks", "sso-login", "markdown", "qrcode"]
+rev = "74c1044b7dd384cf6436598713c12c915b331d73"
+default-features = false
+features = [
+    "automatic-room-key-forwarding",
+    "e2e-encryption",
+    "markdown",
+    "native-tls",
+    "qrcode",
+    "socks",
+    "sqlite",
+    "sso-login",
+]
 
 [dependencies.matrix-sdk-store-encryption]
 # version = "0.14"
 git = "https://github.com/matrix-org/matrix-rust-sdk.git"
-rev = "029148ef6e45d51e6325a4f5aadcdee7ec9385cc"
+rev = "74c1044b7dd384cf6436598713c12c915b331d73"
 
 [dependencies.matrix-sdk-ui]
 # version = "0.14"
 git = "https://github.com/matrix-org/matrix-rust-sdk.git"
-rev = "029148ef6e45d51e6325a4f5aadcdee7ec9385cc"
+rev = "74c1044b7dd384cf6436598713c12c915b331d73"
+default-features = false
 
 [dependencies.ruma]
 # version = "0.14"
 git = "https://github.com/ruma/ruma.git"
-rev = "4a0ae80fbf42d1b759e108d7315537d13583c144"
+rev = "2455c71ec8bd16318397865d9c6e231e792cb15e"
 features = [
     "client-api-c",
     "markdown",

@@ -23,10 +23,10 @@ impl UserFacingError for HttpError {
             self.as_client_api_error().map(|error| &error.body)
         {
             match kind {
-                ErrorKind::Forbidden { .. } => gettext("Invalid credentials."),
+                ErrorKind::Forbidden => gettext("Invalid credentials."),
                 ErrorKind::UserDeactivated => gettext("Account deactivated."),
-                ErrorKind::LimitExceeded { retry_after } => {
-                    if let Some(retry_after) = retry_after {
+                ErrorKind::LimitExceeded(limit_exceeded) => {
+                    if let Some(retry_after) = &limit_exceeded.retry_after {
                         let duration = match retry_after {
                             RetryAfter::Delay(duration) => *duration,
                             RetryAfter::DateTime(until) => until

@@ -2,7 +2,7 @@ use adw::{prelude::*, subclass::prelude::*};
 use gettextrs::gettext;
 use gtk::glib;
 use matrix_sdk::ruma::events::room::create::RoomCreateEventContent;
-use ruma::events::FullStateEventContent;
+use ruma::events::StateEventContentChange;
 
 mod imp {
     use glib::subclass::InitializingObject;
@@ -39,10 +39,10 @@ mod imp {
 
     impl StateCreation {
         /// Set the room create state event to display.
-        pub(super) fn set_event(&self, event: &FullStateEventContent<RoomCreateEventContent>) {
+        pub(super) fn set_event(&self, event: &StateEventContentChange<RoomCreateEventContent>) {
             let predecessor = match event {
-                FullStateEventContent::Original { content, .. } => content.predecessor.as_ref(),
-                FullStateEventContent::Redacted(_) => None,
+                StateEventContentChange::Original { content, .. } => content.predecessor.as_ref(),
+                StateEventContentChange::Redacted(_) => None,
             };
 
             if let Some(predecessor) = &predecessor {
@@ -71,7 +71,7 @@ glib::wrapper! {
 }
 
 impl StateCreation {
-    pub fn new(event: &FullStateEventContent<RoomCreateEventContent>) -> Self {
+    pub fn new(event: &StateEventContentChange<RoomCreateEventContent>) -> Self {
         let obj: Self = glib::Object::new();
         obj.imp().set_event(event);
         obj

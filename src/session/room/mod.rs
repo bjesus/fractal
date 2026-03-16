@@ -18,7 +18,7 @@ use matrix_sdk::{
 use ruma::{
     EventId, MatrixToUri, OwnedEventId, OwnedRoomId, OwnedUserId, RoomId, UserId,
     api::client::{
-        error::{ErrorKind, RetryAfter},
+        error::{ErrorKind, LimitExceededErrorData, RetryAfter},
         receipt::create_receipt::v3::ReceiptType as ApiReceiptType,
     },
     events::room::{
@@ -1573,9 +1573,12 @@ mod imp {
                                     }
 
                                     let duration = match error.client_api_error_kind() {
-                                        Some(ErrorKind::LimitExceeded {
-                                            retry_after: Some(retry_after),
-                                        }) => match retry_after {
+                                        Some(ErrorKind::LimitExceeded(
+                                            LimitExceededErrorData {
+                                                retry_after: Some(retry_after),
+                                                ..
+                                            },
+                                        )) => match retry_after {
                                             RetryAfter::Delay(duration) => Some(*duration),
                                             RetryAfter::DateTime(time) => {
                                                 time.duration_since(SystemTime::now()).ok()
@@ -1965,7 +1968,7 @@ impl Room {
         let handle = spawn_tokio!(async move {
             let futures = events_clone
                 .into_iter()
-                .map(|(event_id, reason)| matrix_room.report_content(event_id, None, reason));
+                .map(|(event_id, reason)| matrix_room.report_content(event_id, reason));
             futures_util::future::join_all(futures).await
         });
 

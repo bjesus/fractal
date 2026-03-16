@@ -3,7 +3,7 @@ use std::sync::Arc;
 use gtk::{gio, glib, glib::closure_local, prelude::*, subclass::prelude::*};
 use indexmap::IndexMap;
 use matrix_sdk_ui::timeline::{
-    AnyOtherFullStateEventContent, EmbeddedEvent, Error as TimelineError, EventSendState,
+    AnyOtherStateEventContentChange, EmbeddedEvent, Error as TimelineError, EventSendState,
     EventTimelineItem, MembershipChange, Message, MsgLikeKind, TimelineDetails,
     TimelineEventItemId, TimelineItemContent,
 };
@@ -666,7 +666,7 @@ impl Event {
                 // so we do not group it.
                 !matches!(
                     other_state.content(),
-                    AnyOtherFullStateEventContent::RoomCreate(_)
+                    AnyOtherStateEventContentChange::RoomCreate(_)
                 )
             }
             _ => false,
@@ -679,7 +679,7 @@ impl Event {
             TimelineItemContent::OtherState(other_state) => {
                 matches!(
                     other_state.content(),
-                    AnyOtherFullStateEventContent::RoomCreate(_),
+                    AnyOtherStateEventContentChange::RoomCreate(_),
                 )
             }
             _ => false,
