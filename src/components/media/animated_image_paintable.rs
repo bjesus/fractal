@@ -75,7 +75,7 @@ mod imp {
         }
 
         fn flags(&self) -> gdk::PaintableFlags {
-            gdk::PaintableFlags::SIZE
+            gdk::PaintableFlags::STATIC_SIZE
         }
 
         fn current_image(&self) -> gdk::Paintable {
