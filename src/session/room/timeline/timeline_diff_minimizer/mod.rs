@@ -1,5 +1,5 @@
 use std::{
-    collections::{HashMap, VecDeque},
+    collections::{HashMap, HashSet, VecDeque},
     sync::Arc,
 };
 
@@ -12,7 +12,7 @@ use super::TimelineItem;
 
 /// Trait to access data from a type that stores [`TimelineDiffItem`]s.
 pub(super) trait TimelineDiffItemStore: Sized {
-    type Item: TimelineDiffItem;
+    type Item: TimelineDiffItem + std::fmt::Debug;
     type Data: TimelineDiffItemData;
 
     /// The current list of items.
@@ -95,7 +95,7 @@ where
 struct TimelineDiffMinimizer<'a, S, I> {
     store: &'a S,
     item_map: HashMap<String, I>,
-    updated_item_ids: Vec<String>,
+    updated_item_ids: HashSet<String>,
 }
 
 impl<'a, S, I> TimelineDiffMinimizer<'a, S, I> {
@@ -104,7 +104,7 @@ impl<'a, S, I> TimelineDiffMinimizer<'a, S, I> {
         Self {
             store,
             item_map: HashMap::new(),
-            updated_item_ids: Vec::new(),
+            updated_item_ids: HashSet::new(),
         }
     }
 }
@@ -112,7 +112,7 @@ impl<'a, S, I> TimelineDiffMinimizer<'a, S, I> {
 impl<S, I> TimelineDiffMinimizer<'_, S, I>
 where
     S: TimelineDiffItemStore<Item = I>,
-    I: TimelineDiffItem,
+    I: TimelineDiffItem + std::fmt::Debug,
 {
     /// Load the items from the store.
     ///
@@ -136,7 +136,7 @@ where
             .entry(timeline_id)
             .and_modify(|item| {
                 self.store.update_item(item, data);
-                self.updated_item_ids.push(item.timeline_id());
+                self.updated_item_ids.insert(item.timeline_id());
             })
             .or_insert_with(|| self.store.create_item(data))
             .timeline_id()
@@ -203,106 +203,129 @@ where
         old_item_ids: &[String],
         new_item_ids: &[String],
     ) -> Vec<TimelineDiff<S::Item>> {
-        let mut item_diff_list = Vec::new();
-        let mut pos = 0;
-        // Group diffs in batch.
-        let mut n_removals = 0;
-        let mut additions = None;
-        let mut n_updates = 0;
+        if old_item_ids == new_item_ids && self.updated_item_ids.is_empty() {
+            // No items have changed.
+            return Vec::new();
+        }
 
-        for result in diff::slice(old_item_ids, new_item_ids) {
-            match result {
-                diff::Result::Left(_) => {
-                    if let Some(additions) = additions.take() {
-                        let item_diff = SpliceDiff {
-                            pos,
-                            n_removals: 0,
-                            additions,
-                        };
-                        pos += item_diff.additions.len() as u32;
-                        item_diff_list.push(item_diff.into());
-                    } else if n_updates > 0 {
-                        let item_diff = UpdateDiff {
-                            pos,
-                            n_items: n_updates,
-                        };
-                        item_diff_list.push(item_diff.into());
+        // First, ignore unchanged items at the beginning and end of the list, it will
+        // make the diff algorithm faster.
+        let start = old_item_ids
+            .iter()
+            .zip(new_item_ids)
+            .position(|(old_item_id, new_item_id)| {
+                old_item_id != new_item_id || self.updated_item_ids.contains(old_item_id)
+            })
+            .unwrap_or_default();
+        let end = old_item_ids[start..]
+            .iter()
+            .rev()
+            .zip(new_item_ids[start..].iter().rev())
+            .position(|(old_item_id, new_item_id)| {
+                old_item_id != new_item_id || self.updated_item_ids.contains(old_item_id)
+            })
+            .unwrap_or_default();
 
-                        pos += n_updates;
-                        n_updates = 0;
-                    }
+        let old_item_ids = &old_item_ids[start..old_item_ids.len() - end];
+        let new_item_ids = &new_item_ids[start..new_item_ids.len() - end];
 
-                    n_removals += 1;
-                }
-                diff::Result::Both(timeline_id, _) => {
-                    if additions.is_some() || n_removals > 0 {
-                        let item_diff = SpliceDiff {
-                            pos,
-                            n_removals,
-                            additions: additions.take().unwrap_or_default(),
-                        };
-                        pos += item_diff.additions.len() as u32;
-                        item_diff_list.push(item_diff.into());
+        // Get the per-item diff.
+        let per_item_diff = Self::per_item_diff(old_item_ids, new_item_ids);
 
-                        n_removals = 0;
-                    }
+        // Now we can batch the diffs.
+        let mut diff_batches = TimelineDiffBatches::new();
+        let mut pos = start as u32;
 
-                    if self.updated_item_ids.contains(timeline_id) {
-                        n_updates += 1;
-                    } else {
-                        if n_updates > 0 {
-                            let item_diff = UpdateDiff {
-                                pos,
-                                n_items: n_updates,
-                            };
-                            item_diff_list.push(item_diff.into());
-
-                            pos += n_updates;
-                            n_updates = 0;
-                        }
-
-                        pos += 1;
-                    }
-                }
-                diff::Result::Right(timeline_id) => {
-                    if n_updates > 0 {
-                        let item_diff = UpdateDiff {
-                            pos,
-                            n_items: n_updates,
-                        };
-                        item_diff_list.push(item_diff.into());
-
-                        pos += n_updates;
-                        n_updates = 0;
-                    }
-
+        for item_diff in per_item_diff {
+            match item_diff {
+                ItemDiff::Added(timeline_id) => {
                     let item = self
                         .item_map
                         .get(timeline_id)
                         .expect("item should exist in map")
                         .clone();
-                    additions.get_or_insert_with(Vec::new).push(item);
+
+                    diff_batches.push_addition(&mut pos, item);
+                }
+                ItemDiff::Removed => {
+                    diff_batches.push_removal(&mut pos);
+                }
+                ItemDiff::Common(timeline_id) => {
+                    if self.updated_item_ids.contains(timeline_id) {
+                        diff_batches.push_update(&mut pos);
+                    } else {
+                        diff_batches.skip_item(&mut pos);
+                    }
                 }
             }
         }
 
-        // Process the remaining batches.
-        if additions.is_some() || n_removals > 0 {
-            let item_diff = SpliceDiff {
-                pos,
-                n_removals,
-                additions: additions.take().unwrap_or_default(),
-            };
-            item_diff_list.push(item_diff.into());
-        } else if n_updates > 0 {
-            let item_diff = UpdateDiff {
-                pos,
-                n_items: n_updates,
-            };
-            item_diff_list.push(item_diff.into());
+        diff_batches.finalize()
+    }
+
+    /// Get a per-item diff by implementing a simple longest common subsequence
+    /// (LCS) algorithm to find the minimal diff. Given that the list should not
+    /// be too long, we do not need an efficient and more complicated algorithm.
+    ///
+    /// Source: <https://en.wikipedia.org/wiki/Longest_common_subsequence>
+    fn per_item_diff<'a>(
+        old_item_ids: &'a [String],
+        new_item_ids: &'a [String],
+    ) -> Vec<ItemDiff<'a>> {
+        // Early return if either of the lists is empty.
+        if old_item_ids.is_empty() {
+            return new_item_ids
+                .iter()
+                .map(|item_id| ItemDiff::Added(item_id.as_str()))
+                .collect();
+        }
+        if new_item_ids.is_empty() {
+            return old_item_ids.iter().map(|_| ItemDiff::Removed).collect();
         }
 
-        item_diff_list
+        // First, we create a table and fill it to track the differences.
+        let mut table = Table::new(old_item_ids.len() + 1, new_item_ids.len() + 1);
+
+        for (row, old_item_id) in old_item_ids.iter().enumerate() {
+            for (col, new_item_id) in new_item_ids.iter().enumerate() {
+                table.set(
+                    row + 1,
+                    col + 1,
+                    if old_item_id == new_item_id {
+                        table.get(row, col) + 1
+                    } else {
+                        table.get(row, col + 1).max(table.get(row + 1, col))
+                    },
+                );
+            }
+        }
+
+        // Then we go through the table from the bottom-right and go back to the
+        // top-left.
+        let mut row = old_item_ids.len();
+        let mut col = new_item_ids.len();
+        let mut diff = Vec::with_capacity(row.max(col));
+
+        loop {
+            if col > 0 && (row == 0 || table.get(row, col) == table.get(row, col - 1)) {
+                col -= 1;
+                diff.push(ItemDiff::Added(&new_item_ids[col]));
+            } else if row > 0 && (col == 0 || table.get(row, col) == table.get(row - 1, col)) {
+                row -= 1;
+                diff.push(ItemDiff::Removed);
+            } else if row > 0 && col > 0 {
+                row -= 1;
+                col -= 1;
+                diff.push(ItemDiff::Common(&old_item_ids[row]));
+            } else {
+                break;
+            }
+        }
+
+        // Reverse the list to go from beginning to end now.
+        diff.reverse();
+
+        diff
     }
 
     /// Minimize the given diff and apply it to the store.
@@ -354,4 +377,150 @@ pub(super) struct UpdateDiff {
     pub(super) pos: u32,
     /// The number of items to update.
     pub(super) n_items: u32,
+}
+
+/// A struct grouping compatible diffs.
+struct TimelineDiffBatches<T> {
+    /// The final list of diffs.
+    list: Vec<TimelineDiff<T>>,
+
+    /// The current batch of diffs.
+    current_batch: Option<TimelineDiff<T>>,
+}
+
+impl<T> TimelineDiffBatches<T> {
+    /// Create an empty `TimelineDiffBatches`.
+    fn new() -> Self {
+        Self {
+            list: Vec::new(),
+            current_batch: None,
+        }
+    }
+
+    /// Add the given addition to the list.
+    fn push_addition(&mut self, pos: &mut u32, item: T) {
+        // End the previous batch if it is not the right kind.
+        if !matches!(self.current_batch, Some(TimelineDiff::Splice(_))) {
+            self.end_batch(pos);
+        }
+
+        match self.current_batch.get_or_insert_with(|| {
+            TimelineDiff::Splice(SpliceDiff {
+                pos: *pos,
+                n_removals: 0,
+                additions: Vec::new(),
+            })
+        }) {
+            TimelineDiff::Splice(splice) => splice.additions.push(item),
+            TimelineDiff::Update(_) => unreachable!(),
+        }
+    }
+
+    /// Add a removal to the list.
+    fn push_removal(&mut self, pos: &mut u32) {
+        // End the previous batch if it is not the right kind.
+        if !matches!(self.current_batch, Some(TimelineDiff::Splice(_))) {
+            self.end_batch(pos);
+        }
+
+        match self.current_batch.get_or_insert_with(|| {
+            TimelineDiff::Splice(SpliceDiff {
+                pos: *pos,
+                n_removals: 0,
+                additions: Vec::new(),
+            })
+        }) {
+            TimelineDiff::Splice(splice) => splice.n_removals += 1,
+            TimelineDiff::Update(_) => unreachable!(),
+        }
+    }
+
+    /// Add an update to the list.
+    fn push_update(&mut self, pos: &mut u32) {
+        // End the previous batch if it is not the right kind.
+        if !matches!(self.current_batch, Some(TimelineDiff::Update(_))) {
+            self.end_batch(pos);
+        }
+
+        match self.current_batch.get_or_insert_with(|| {
+            TimelineDiff::Update(UpdateDiff {
+                pos: *pos,
+                n_items: 0,
+            })
+        }) {
+            TimelineDiff::Splice(_) => unreachable!(),
+            TimelineDiff::Update(update) => update.n_items += 1,
+        }
+    }
+
+    /// Skip an item.
+    fn skip_item(&mut self, pos: &mut u32) {
+        // End the previous batch if any.
+        self.end_batch(pos);
+        // Take the skipped item into account for the position.
+        *pos += 1;
+    }
+
+    /// End the current batch, if any.
+    fn end_batch(&mut self, pos: &mut u32) {
+        if let Some(batch) = self.current_batch.take() {
+            match &batch {
+                TimelineDiff::Splice(splice) => *pos += splice.additions.len() as u32,
+                TimelineDiff::Update(update) => *pos += update.n_items,
+            }
+
+            self.list.push(batch);
+        }
+    }
+
+    /// Finalize the list.
+    fn finalize(mut self) -> Vec<TimelineDiff<T>> {
+        if let Some(batch) = self.current_batch.take() {
+            self.list.push(batch);
+        }
+
+        self.list
+    }
+}
+
+/// A table containing `u32`s.
+struct Table {
+    /// The number of columns.
+    n_cols: usize,
+
+    /// The data.
+    data: Vec<u32>,
+}
+
+impl Table {
+    /// Construct a table with the given number of rows and columns initialized
+    /// with zeroes.
+    fn new(n_rows: usize, n_cols: usize) -> Self {
+        Self {
+            n_cols,
+            data: vec![0; n_rows * n_cols],
+        }
+    }
+
+    /// Get the value at the given position.
+    fn get(&self, row: usize, col: usize) -> u32 {
+        self.data[row * self.n_cols + col]
+    }
+
+    /// Set the value at the given position.
+    fn set(&mut self, row: usize, col: usize, value: u32) {
+        self.data[row * self.n_cols + col] = value;
+    }
+}
+
+/// The diff of an item.
+enum ItemDiff<'a> {
+    /// The item was added.
+    Added(&'a str),
+
+    /// The item was removed.
+    Removed,
+
+    /// The item is in both lists.
+    Common(&'a str),
 }

@@ -499,6 +499,7 @@ fn minimize_complex_diff() {
             },
         ]),
     }]);
+    assert_eq!(store.items().len(), 7);
     store.reset_processed_items();
 
     let diff_list = vec![
@@ -536,7 +537,6 @@ fn minimize_complex_diff() {
 
     let mut minimizer = TimelineDiffMinimizer::new(&store);
 
-    assert_eq!(store.items().len(), 7);
     let old_item_ids = minimizer.load_items();
     assert_eq!(old_item_ids.len(), 7);
     assert_eq!(old_item_ids[0], "a");

@@ -30,7 +30,6 @@ codegen-units = 16
 [dependencies]
 blurhash = "0.2"
 cfg-if = "1"
-diff = "0.1"
 futures-channel = "0.3"
 futures-util = "0.3"
 geo-uri = "0.2"
