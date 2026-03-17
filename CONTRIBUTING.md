@@ -7,9 +7,9 @@ by working on the code.
 
 Here are a few links to help you get started with Rust and the GTK Rust bindings:
 
-- [Learn Rust](https://www.rust-lang.org/learn)
-- [GUI development with Rust and GTK 4](https://gtk-rs.org/gtk4-rs/stable/latest/book)
-- [gtk-rs website](https://gtk-rs.org/)
+* [Learn Rust](https://www.rust-lang.org/learn)
+* [GUI development with Rust and GTK 4](https://gtk-rs.org/gtk4-rs/stable/latest/book)
+* [gtk-rs website](https://gtk-rs.org/)
 
 [The Rust docs of our application](https://gnome.pages.gitlab.gnome.org/fractal/) and the [GNOME Development Center](https://developer.gnome.org/)
 might also be useful.

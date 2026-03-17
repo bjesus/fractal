@@ -206,6 +206,7 @@ impl CheckCmd {
         self.blueprints()?;
         self.data_gresources()?;
         self.cargo_manifest()?;
+        self.markdown()?;
 
         Ok(())
     }
@@ -640,6 +641,44 @@ impl CheckCmd {
         ).print_output().run()?;
 
         check.merge_output(output);
+        check.end()
+    }
+
+    /// Lint markdown files.
+    fn markdown(&self) -> Result<(), ScriptError> {
+        let staged_markdown_files = self.staged_files.as_ref().map(|staged_files| {
+            staged_files
+                .filter(|file| file.ends_with(".md"))
+                .collect::<Vec<_>>()
+        });
+
+        if staged_markdown_files.as_ref().is_some_and(Vec::is_empty) {
+            // No check necessary.
+            return Ok(());
+        }
+
+        let mut check = Check::start("markdown files")
+            .with_fix("either manually or by running: rumdl check --fix .");
+
+        CheckDependency {
+            name: "rumdl",
+            version: CommandData::new("rumdl", &["--version"]),
+            install: InstallationCommand::Cargo("rumdl"),
+        }
+        .check(self.force_install, self.cargo_install_method)?;
+
+        if let Some(staged_markdown_files) = staged_markdown_files {
+            let output = CommandData::new("rumdl", &["check"])
+                .print_output()
+                .run_with_args(&staged_markdown_files)?;
+            check.merge_output(output);
+        } else {
+            let output = CommandData::new("rumdl", &["check", "."])
+                .print_output()
+                .run()?;
+            check.merge_output(output);
+        }
+
         check.end()
     }
 }

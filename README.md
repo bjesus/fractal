@@ -28,7 +28,8 @@ collaboration in large groups, such as free software projects, and will fit all 
 
 Highlights:
 
-* Find rooms to discuss your favorite topics, or talk privately to people, securely thanks to end-to-end encryption
+* Find rooms to discuss your favorite topics, or talk privately to people, securely thanks to
+  end-to-end encryption
 * Send rich formatted messages, files, or your current location
 * Reply to specific messages, react with emoji, edit or remove messages
 * View images, and play audio and video directly in the conversation
@@ -37,7 +38,14 @@ Highlights:
 
 ## Contents
 
-[TOC]
+<!-- toc -->
+* [Installation instructions](#installation-instructions)
+* [Security Best Practices](#security-best-practices)
+* [Contributing](#contributing)
+* [Frequently Asked Questions](#frequently-asked-questions)
+* [The origin of Fractal](#the-origin-of-fractal)
+* [Code of Conduct](#code-of-conduct)
+<!-- /toc -->
 
 ## Installation instructions
 
@@ -119,8 +127,8 @@ replacing `beta` with `stable`._
 
 ### Development version
 
-If you want to try the upcoming version of Fractal without building it yourself, it is available as a nightly Flatpak
-in [the gnome-nightly repo](https://nightly.gnome.org/).
+If you want to try the upcoming version of Fractal without building it yourself, it is available as
+a nightly Flatpak in [the gnome-nightly repo](https://nightly.gnome.org/).
 
 First, set up the GNOME nightlies.
 
