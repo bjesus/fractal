@@ -8,18 +8,16 @@ curated list of known problems and planned features. -->
 
 Detailed description of the feature. Provide as much information as you can.
 
-Proposed Mockups:
+## Documentation
 
-(Add mockups of the proposed feature)
+<!-- Link to any external documentation that is relevant to the feature such as the Matrix
+specification, the documentation of an upstream library, or the GNOME HIG. You can also quote the
+relevant part of the documentation here if it is not possible to link directly to it. -->
 
-## Design Tasks
+## Prior Art
 
-* [ ]  design tasks
+<!-- If this or a similar feature is available in other Matrix clients, messaging or GNOME apps,
+provide for each application one or several screenshots and/or screencasts, explanations of how to
+use that feature and its pros and cons. -->
 
-## Development Tasks
-
-* [ ]  development tasks
-
-## QA Tasks
-
-* [ ]  quality assurance tasks
+/label ~"1. Feature"
