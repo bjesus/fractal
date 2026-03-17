@@ -329,8 +329,7 @@ impl UpgradeInfo {
             (true, false) => Some(current_room_version),
             (false, true) => Some(&capability.default),
             (true, true) => Some(
-                match numeric_sort::cmp(current_room_version.as_ref(), capability.default.as_ref())
-                {
+                match cmp_room_versions(current_room_version, &capability.default) {
                     Ordering::Less => &capability.default,
                     Ordering::Equal | Ordering::Greater => current_room_version,
                 },
@@ -350,7 +349,7 @@ impl UpgradeInfo {
                         return None;
                     }
 
-                    if numeric_sort::cmp(version.as_ref(), minimum.as_ref()) != Ordering::Less
+                    if cmp_room_versions(version, minimum) != Ordering::Less
                         || maximum_stable_version.is_some_and(|maximum| maximum == version)
                     {
                         Some(version)
@@ -379,20 +378,18 @@ impl UpgradeInfo {
             .collect::<Vec<_>>();
 
         // Sort all the versions.
-        numeric_sort::sort_unstable(&mut self.stable_room_versions);
-        numeric_sort::sort_unstable(&mut self.unstable_room_versions);
+        self.stable_room_versions
+            .sort_unstable_by(cmp_room_versions);
+        self.unstable_room_versions
+            .sort_unstable_by(cmp_room_versions);
 
         // Find the position of the selected version.
         self.selected = self
             .stable_room_versions
-            .binary_search_by(|version| {
-                numeric_sort::cmp(version.as_ref(), selected_room_version.as_ref())
-            })
+            .binary_search_by(|version| cmp_room_versions(version, selected_room_version))
             .or_else(|_| {
                 self.unstable_room_versions
-                    .binary_search_by(|version| {
-                        numeric_sort::cmp(version.as_ref(), selected_room_version.as_ref())
-                    })
+                    .binary_search_by(|version| cmp_room_versions(version, selected_room_version))
                     .map(|pos| self.stable_room_versions.len() + pos)
             })
             .unwrap_or_default();
@@ -439,13 +436,208 @@ impl RoomVersionsCapabilityExt for RoomVersionsCapability {
                 }
 
                 // Keep the maximum.
-                if maximum.is_none_or(|maximum| {
-                    numeric_sort::cmp(version.as_ref(), maximum.as_ref()) == Ordering::Greater
-                }) {
+                if maximum
+                    .is_none_or(|maximum| cmp_room_versions(version, maximum) == Ordering::Greater)
+                {
                     Some(version)
                 } else {
                     maximum
                 }
             })
+    }
+}
+
+/// Compare the given room versions to attempt to order them.
+///
+/// Note that the Matrix specification doesn't actually define a grammar or an
+/// order for room versions, but so far they have been numbers that grow
+/// incrementally.
+fn cmp_room_versions(lhs: &RoomVersionId, rhs: &RoomVersionId) -> Ordering {
+    cmp_numbers_aware_str(lhs.as_str(), rhs.as_str())
+}
+
+/// Compare the given strings by using numbers-aware comparison.
+///
+/// When we encounter a sequence of digits at the same position in both strings,
+/// we compare the values of the numbers. The rest is sorted lexicographically.
+fn cmp_numbers_aware_str(lhs: &str, rhs: &str) -> Ordering {
+    let lhs_seq = CharSequence::new(lhs);
+    let rhs_seq = CharSequence::new(rhs);
+
+    // Early return for empty strings.
+    let (lhs_seq, rhs_seq) = match (lhs_seq, rhs_seq) {
+        (None, None) => return Ordering::Equal,
+        (None, Some(_)) => return Ordering::Less,
+        (Some(_), None) => return Ordering::Greater,
+        // We need to compare the sequences now.
+        (Some(lhs_seq), Some(rhs_seq)) => (lhs_seq, rhs_seq),
+    };
+
+    let cmp = lhs_seq.cmp(rhs_seq);
+
+    if cmp.is_eq() {
+        // Compare the next sequences.
+        cmp_numbers_aware_str(&lhs[lhs_seq.len()..], &rhs[rhs_seq.len()..])
+    } else {
+        cmp
+    }
+}
+
+/// A sequence of consecutive digit or non-digit characters.
+#[derive(Debug, Clone, Copy)]
+enum CharSequence<'a> {
+    /// A sequence of digits characters.
+    Digits(&'a str),
+
+    /// A sequence of non-digit characters.
+    Other(&'a str),
+}
+
+impl<'a> CharSequence<'a> {
+    /// Get the first sequence of consecutive digit or non-digit characters.
+    ///
+    /// Returns `None` if the string is empty.
+    fn new(string: &'a str) -> Option<Self> {
+        // The first character decides the kind of sequence. If there are no characters,
+        // the string is empty so we return early.
+        let is_digit_seq = string.chars().next()?.is_ascii_digit();
+
+        // Find the end of the sequence.
+        let seq_end = string
+            .char_indices()
+            .find(|(_, c)| is_digit_seq ^ c.is_ascii_digit())
+            .map_or(string.len(), |(pos, _)| pos);
+
+        let seq = &string[..seq_end];
+
+        Some(if is_digit_seq {
+            Self::Digits(seq)
+        } else {
+            Self::Other(seq)
+        })
+    }
+
+    /// Get the length of this sequence in bytes.
+    fn len(self) -> usize {
+        match self {
+            Self::Digits(s) | Self::Other(s) => s.len(),
+        }
+    }
+
+    /// Compare this sequence with another one.
+    fn cmp(self, other: Self) -> Ordering {
+        match (self, other) {
+            // If one is a sequence of digits and not the other, we can just compare the strings, it
+            // will be ordered lexicographically by the first character. And if they are both
+            // non-digit sequences, just compare the strings.
+            (Self::Digits(lhs) | Self::Other(lhs), Self::Other(rhs))
+            | (Self::Other(lhs), Self::Digits(rhs)) => lhs.cmp(rhs),
+            // Compare the actual numeric values of digit sequences. To do that we just remove the
+            // leading zeroes and compare the length, then the strings.
+            (Self::Digits(lhs), Self::Digits(rhs)) => {
+                let lhs = lhs.trim_start_matches('0');
+                let rhs = rhs.trim_start_matches('0');
+
+                lhs.len().cmp(&rhs.len()).then_with(|| lhs.cmp(rhs))
+            }
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use std::cmp::Ordering;
+
+    use super::cmp_numbers_aware_str;
+
+    #[test]
+    fn compare_room_versions() {
+        // Compare digits.
+        assert_eq!(cmp_numbers_aware_str("1", "1"), Ordering::Equal);
+        assert_eq!(cmp_numbers_aware_str("1", "2"), Ordering::Less);
+        assert_eq!(cmp_numbers_aware_str("2", "1"), Ordering::Greater);
+        assert_eq!(cmp_numbers_aware_str("2", "10"), Ordering::Less);
+        assert_eq!(cmp_numbers_aware_str("10", "2"), Ordering::Greater);
+        assert_eq!(cmp_numbers_aware_str("0002", "010"), Ordering::Less);
+        assert_eq!(cmp_numbers_aware_str("010", "0002"), Ordering::Greater);
+
+        // Compare non-digits.
+        assert_eq!(cmp_numbers_aware_str("", "abc"), Ordering::Less);
+        assert_eq!(cmp_numbers_aware_str("abc", ""), Ordering::Greater);
+        assert_eq!(cmp_numbers_aware_str("ab", "abc"), Ordering::Less);
+        assert_eq!(cmp_numbers_aware_str("abc", "ab"), Ordering::Greater);
+        assert_eq!(cmp_numbers_aware_str("abc", "abc"), Ordering::Equal);
+        assert_eq!(cmp_numbers_aware_str("abc", "d"), Ordering::Less);
+        assert_eq!(cmp_numbers_aware_str("d", "abc"), Ordering::Greater);
+
+        // Compare digits with non-digits.
+        assert_eq!(cmp_numbers_aware_str("1", "abc"), Ordering::Less);
+        assert_eq!(cmp_numbers_aware_str("abc", "1"), Ordering::Greater);
+        assert_eq!(cmp_numbers_aware_str("9999", "a"), Ordering::Less);
+        assert_eq!(cmp_numbers_aware_str("a", "9999"), Ordering::Greater);
+        assert_eq!(cmp_numbers_aware_str("1", "."), Ordering::Greater);
+        assert_eq!(cmp_numbers_aware_str(".", "1"), Ordering::Less);
+
+        // Compare mix of digits and non-digits.
+        assert_eq!(
+            cmp_numbers_aware_str("org.matrix.msc3757.10", "org.matrix.msc3757.10"),
+            Ordering::Equal
+        );
+        assert_eq!(
+            cmp_numbers_aware_str("org.matrix.11.hydra", "org.matrix.11.hydra"),
+            Ordering::Equal
+        );
+        assert_eq!(
+            cmp_numbers_aware_str("org.matrix.msc3757.10", "org.matrix.msc3757.11"),
+            Ordering::Less
+        );
+        assert_eq!(
+            cmp_numbers_aware_str("org.matrix.msc3757.11", "org.matrix.msc3757.10"),
+            Ordering::Greater
+        );
+        assert_eq!(
+            cmp_numbers_aware_str("org.matrix.msc3757.10", "org.matrix.hydra.11"),
+            Ordering::Greater
+        );
+        assert_eq!(
+            cmp_numbers_aware_str("org.matrix.hydra.11", "org.matrix.msc3757.10"),
+            Ordering::Less
+        );
+        assert_eq!(
+            cmp_numbers_aware_str("org.matrix.msc3757.11", "org.matrix.hydra.11"),
+            Ordering::Greater
+        );
+        assert_eq!(
+            cmp_numbers_aware_str("org.matrix.hydra.11", "org.matrix.msc3757.11"),
+            Ordering::Less
+        );
+        assert_eq!(
+            cmp_numbers_aware_str("org.matrix.10.msc3757", "org.matrix.11.hydra"),
+            Ordering::Less
+        );
+        assert_eq!(
+            cmp_numbers_aware_str("org.matrix.11.hydra", "org.matrix.10.msc3757"),
+            Ordering::Greater
+        );
+        assert_eq!(
+            cmp_numbers_aware_str("org.matrix.12.msc3757", "org.matrix.11.hydra"),
+            Ordering::Greater
+        );
+        assert_eq!(
+            cmp_numbers_aware_str("org.matrix.11.hydra", "org.matrix.12.msc3757"),
+            Ordering::Less
+        );
+        assert_eq!(
+            cmp_numbers_aware_str("org.matrix.11.hydra", "org.matrix.0011.hydra"),
+            Ordering::Equal
+        );
+        assert_eq!(
+            cmp_numbers_aware_str("org.matrix.11.hydra", "org.matrix.0010.hydra"),
+            Ordering::Greater
+        );
+        assert_eq!(
+            cmp_numbers_aware_str("org.matrix.11.hydra", "org.matrix.1.hydra"),
+            Ordering::Greater
+        );
     }
 }
