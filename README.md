@@ -234,16 +234,16 @@ They are translated on [Element’s translation platform](https://translate.elem
 
 ## Frequently Asked Questions
 
-* Does Fractal have encryption support?
+Does Fractal have encryption support?
 
-**Yes**, since Fractal 5, encryption is supported using Cross-Signing. See
-<https://gitlab.gnome.org/World/fractal/-/issues/717> for more info on the state of encryption.
+: **Yes**, since Fractal 5, encryption is supported using Cross-Signing. See
+  <https://gitlab.gnome.org/World/fractal/-/issues/717> for more info on the state of encryption.
 
-* Can I run Fractal with the window closed?
+Can I run Fractal with the window closed?
 
-Currently Fractal does not support this. Fractal is a GNOME application, and accordingly adheres to
-the GNOME guidelines and paradigms. This will be revisited [if or when GNOME gets a proper paradigm
-to interact with apps running in the background](https://gitlab.gnome.org/World/fractal/-/issues/228#note_2054826).
+: Currently Fractal does not support this. Fractal is a GNOME application, and accordingly adheres to
+  the GNOME guidelines and paradigms. This will be revisited [if or when GNOME gets a proper paradigm
+  to interact with apps running in the background](https://gitlab.gnome.org/World/fractal/-/issues/228#note_2054826).
 
 ## The origin of Fractal
 
