@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fractal master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/fractal/issues\n"
-"POT-Creation-Date: 2026-01-30 15:56+0000\n"
-"PO-Revision-Date: 2026-02-01 08:50+0800\n"
+"POT-Creation-Date: 2026-03-18 17:50+0000\n"
+"PO-Revision-Date: 2026-03-30 16:57+0800\n"
 "Last-Translator: lumingzh <lumingzh@qq.com>\n"
 "Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Gtranslator 49.0\n"
+"X-Generator: Gtranslator 50.0\n"
 "X-DL-Lang: zh_CN\n"
 "X-DL-Module: fractal\n"
 "X-DL-Branch: main\n"
@@ -273,7 +273,7 @@ msgstr "加密身份"
 msgid ""
 "Allows you to verify other Matrix accounts and automatically trust their "
 "verified sessions"
-msgstr "允许您验证其他Matrix账号并自动信任其通过验证的会话"
+msgstr "允许您验证其它 Matrix 账号并自动信任其通过验证的会话"
 
 #: src/account_settings/encryption_page/mod.blp:75
 msgid "Account Recovery"
@@ -461,11 +461,11 @@ msgid ""
 "Matrix user ID:"
 msgstr "为确认您真要停用该账号请输入您的 Matrix 用户标识："
 
-#: src/account_settings/general_page/deactivate_account_subpage.rs:150
+#: src/account_settings/general_page/deactivate_account_subpage.rs:156
 msgid "Account successfully deactivated"
 msgstr "账号已成功停用"
 
-#: src/account_settings/general_page/deactivate_account_subpage.rs:158
+#: src/account_settings/general_page/deactivate_account_subpage.rs:164
 msgid "Could not deactivate account"
 msgstr "无法停用账号"
 
@@ -610,43 +610,43 @@ msgstr "复制本地会话标识"
 msgid "Local session ID copied to clipboard"
 msgstr "本地会话标识已复制到剪贴板"
 
-#: src/account_settings/general_page/mod.rs:315
+#: src/account_settings/general_page/mod.rs:323
 #: src/session_view/room_details/edit_details_subpage.rs:149
 msgid "Avatar removed successfully"
 msgstr "头像已成功移除"
 
-#: src/account_settings/general_page/mod.rs:317
+#: src/account_settings/general_page/mod.rs:325
 #: src/session_view/room_details/edit_details_subpage.rs:151
 msgid "Avatar changed successfully"
 msgstr "头像已成功更改"
 
-#: src/account_settings/general_page/mod.rs:335
-#: src/account_settings/general_page/mod.rs:345
+#: src/account_settings/general_page/mod.rs:343
+#: src/account_settings/general_page/mod.rs:353
 #: src/session_view/room_details/edit_details_subpage.rs:176
 #: src/session_view/room_details/edit_details_subpage.rs:186
 msgid "Could not load file"
 msgstr "无法加载文件"
 
-#: src/account_settings/general_page/mod.rs:364
+#: src/account_settings/general_page/mod.rs:372
 #: src/session_view/room_details/edit_details_subpage.rs:213
 msgid "Could not upload avatar"
 msgstr "无法上传头像"
 
-#: src/account_settings/general_page/mod.rs:395
+#: src/account_settings/general_page/mod.rs:403
 #: src/session_view/room_details/edit_details_subpage.rs:236
 msgid "Could not change avatar"
 msgstr "无法更改头像"
 
-#: src/account_settings/general_page/mod.rs:412
+#: src/account_settings/general_page/mod.rs:420
 #: src/session_view/room_details/edit_details_subpage.rs:261
 msgid "Remove Avatar?"
 msgstr "移除头像吗？"
 
-#: src/account_settings/general_page/mod.rs:413
+#: src/account_settings/general_page/mod.rs:421
 msgid "Do you really want to remove your avatar?"
 msgstr "您确定想要移除您的头像吗？"
 
-#: src/account_settings/general_page/mod.rs:416
+#: src/account_settings/general_page/mod.rs:424
 #: src/components/dialogs/message_dialogs.rs:58
 #: src/components/dialogs/message_dialogs.rs:323
 #: src/components/dialogs/message_dialogs.rs:409
@@ -664,23 +664,23 @@ msgstr "您确定想要移除您的头像吗？"
 msgid "Cancel"
 msgstr "取消"
 
-#: src/account_settings/general_page/mod.rs:417
+#: src/account_settings/general_page/mod.rs:425
 #: src/components/dialogs/message_dialogs.rs:232
 #: src/session_view/room_details/edit_details_subpage.rs:268
 #: src/session_view/room_history/event_actions/group.rs:585
 msgid "Remove"
 msgstr "移除"
 
-#: src/account_settings/general_page/mod.rs:451
+#: src/account_settings/general_page/mod.rs:459
 #: src/session_view/room_details/edit_details_subpage.rs:293
 msgid "Could not remove avatar"
 msgstr "无法移除头像"
 
-#: src/account_settings/general_page/mod.rs:500
+#: src/account_settings/general_page/mod.rs:508
 msgid "Name changed successfully"
 msgstr "名字已成功更改"
 
-#: src/account_settings/general_page/mod.rs:550
+#: src/account_settings/general_page/mod.rs:558
 msgid "Could not change display name"
 msgstr "无法更改展示名字"
 
@@ -739,28 +739,28 @@ msgstr ""
 msgid "Add Keyword"
 msgstr "添加关键词"
 
-#: src/account_settings/notifications_page.rs:196
+#: src/account_settings/notifications_page.rs:195
 msgid "Could not enable account notifications"
 msgstr "无法启用账号通知"
 
-#: src/account_settings/notifications_page.rs:198
+#: src/account_settings/notifications_page.rs:197
 msgid "Could not disable account notifications"
 msgstr "无法禁用账号通知"
 
-#: src/account_settings/notifications_page.rs:288
+#: src/account_settings/notifications_page.rs:284
 msgid "Could not change global notifications setting"
 msgstr "无法更改全局通知设置"
 
-#: src/account_settings/notifications_page.rs:341
+#: src/account_settings/notifications_page.rs:337
 #, rust-format
 msgid "Remove “{keyword}”"
 msgstr "移除“{keyword}”"
 
-#: src/account_settings/notifications_page.rs:372
+#: src/account_settings/notifications_page.rs:368
 msgid "Could not remove notification keyword"
 msgstr "无法移除通知关键词"
 
-#: src/account_settings/notifications_page.rs:439
+#: src/account_settings/notifications_page.rs:435
 msgid "Could not add notification keyword"
 msgstr "无法添加通知关键词"
 
@@ -891,14 +891,14 @@ msgstr "无法加载已连接设备列表"
 #. Translators: As in 'The session is verified'.
 #. Translators: As in 'A verified session'.
 #: src/account_settings/user_session/user_session_row.blp:40
-#: src/account_settings/user_session/user_session_subpage.rs:116
+#: src/account_settings/user_session/user_session_subpage.rs:118
 msgid "Verified"
 msgstr "已验证"
 
 #. Translators: As in 'The session is not verified'.
 #. Translators: As in 'A verified session'.
 #: src/account_settings/user_session/user_session_row.blp:51
-#: src/account_settings/user_session/user_session_subpage.rs:120
+#: src/account_settings/user_session/user_session_subpage.rs:122
 msgid "Not verified"
 msgstr "未验证"
 
@@ -931,15 +931,15 @@ msgstr "上次定位"
 msgid "Disconnect"
 msgstr "断开连接"
 
-#: src/account_settings/user_session/user_session_subpage.rs:211
+#: src/account_settings/user_session/user_session_subpage.rs:214
 msgid "Session renamed"
 msgstr "会话已重命名"
 
-#: src/account_settings/user_session/user_session_subpage.rs:215
+#: src/account_settings/user_session/user_session_subpage.rs:218
 msgid "Could not rename session"
 msgstr "无法重命名会话"
 
-#: src/account_settings/user_session/user_session_subpage.rs:245
+#: src/account_settings/user_session/user_session_subpage.rs:248
 #, rust-format
 msgid "Could not disconnect session “{device_name}”"
 msgstr "无法断开会话“{device_name}”的连接"
@@ -1122,12 +1122,12 @@ msgstr "如果有不属于您的设备成功认证了，您应该重置加密身
 msgid "To proceed, you will also need to reset your account recovery key."
 msgstr "要继续进行，您将需要重置您的账号恢复密钥。"
 
-#: src/components/crypto/identity_setup_view.rs:384
+#: src/components/crypto/identity_setup_view.rs:415
 #: src/identity_verification_view/cancelled_page.rs:196
 msgid "Could not send a new verification request"
 msgstr "无法发送新的验证请求"
 
-#: src/components/crypto/identity_setup_view.rs:436
+#: src/components/crypto/identity_setup_view.rs:467
 msgid "Could not create the crypto identity"
 msgstr "无法创建加密身份"
 
@@ -1249,27 +1249,27 @@ msgstr ""
 msgid "Alternatively, you can reset Account Recovery"
 msgstr "或者，您可以重置账号恢复"
 
-#: src/components/crypto/recovery_setup_view.rs:182
+#: src/components/crypto/recovery_setup_view.rs:221
 msgid "Invalidates the verifications of all users and sessions"
 msgstr "使所有用户和会话的认证失效"
 
-#: src/components/crypto/recovery_setup_view.rs:188
+#: src/components/crypto/recovery_setup_view.rs:227
 msgid ""
 "Required because the crypto identity in the recovery data is incomplete. "
 "Invalidates the verifications of all users and sessions."
 msgstr "由于恢复数据中的加密身份不完整需要该操作。使所有用户和会话的认证失效。"
 
-#: src/components/crypto/recovery_setup_view.rs:199
+#: src/components/crypto/recovery_setup_view.rs:238
 msgid "You might not be able to read your past encrypted messages anymore"
 msgstr "您可能再也无法阅读您先前加密的消息了。"
 
-#: src/components/crypto/recovery_setup_view.rs:205
+#: src/components/crypto/recovery_setup_view.rs:244
 msgid ""
 "Required because the backup is not set up properly. You might not be able to "
 "read your past encrypted messages anymore."
 msgstr "由于备份未正确部署需要该操作。您可能再也无法阅读您先前加密的消息了。"
 
-#: src/components/crypto/recovery_setup_view.rs:225
+#: src/components/crypto/recovery_setup_view.rs:265
 msgid ""
 "Make sure to store this recovery key in a safe place. You will need it to "
 "recover your account if you lose access to all your sessions."
@@ -1277,7 +1277,7 @@ msgstr ""
 "确保您的恢复密钥储存在一个安全的地方。您会在您失去了对所有会话的访问的时候需"
 "要它。"
 
-#: src/components/crypto/recovery_setup_view.rs:229
+#: src/components/crypto/recovery_setup_view.rs:269
 msgid ""
 "Make sure to remember your passphrase or to store it in a safe place. You "
 "will need it to recover your account if you lose access to all your sessions."
@@ -1285,29 +1285,29 @@ msgstr ""
 "确保您的口令储存在一个安全的地方。您会在您失去了对所有会话的访问的时候需要"
 "它。"
 
-#: src/components/crypto/recovery_setup_view.rs:290
+#: src/components/crypto/recovery_setup_view.rs:330
 msgid "The recovery passphrase or key is invalid"
 msgstr "提供的恢复口令或密钥无效"
 
-#: src/components/crypto/recovery_setup_view.rs:293
+#: src/components/crypto/recovery_setup_view.rs:333
 msgid "Could not access recovery data"
 msgstr "无法访问恢复数据"
 
-#: src/components/crypto/recovery_setup_view.rs:344
+#: src/components/crypto/recovery_setup_view.rs:384
 msgid "Could not reset the crypto identity"
 msgstr "无法重置加密身份"
 
-#: src/components/crypto/recovery_setup_view.rs:397
-#: src/components/crypto/recovery_setup_view.rs:406
-#: src/components/crypto/recovery_setup_view.rs:431
+#: src/components/crypto/recovery_setup_view.rs:437
+#: src/components/crypto/recovery_setup_view.rs:446
+#: src/components/crypto/recovery_setup_view.rs:471
 msgid "Could not reset account recovery"
 msgstr "无法重置账号恢复"
 
-#: src/components/crypto/recovery_setup_view.rs:466
+#: src/components/crypto/recovery_setup_view.rs:506
 msgid "Could not reset account recovery key"
 msgstr "无法重置账号恢复密钥"
 
-#: src/components/crypto/recovery_setup_view.rs:504
+#: src/components/crypto/recovery_setup_view.rs:544
 msgid "Could not enable account recovery"
 msgstr "无法启用账号恢复"
 
@@ -1345,7 +1345,7 @@ msgstr "确认(_O)"
 msgid "The password is invalid."
 msgstr "密码无效。"
 
-#: src/components/dialogs/auth/mod.rs:315 src/login/in_browser_page.rs:127
+#: src/components/dialogs/auth/mod.rs:315 src/login/in_browser_page.rs:130
 msgid "An unexpected error occurred."
 msgstr "发生了意外错误。"
 
@@ -1686,7 +1686,7 @@ msgstr "查找"
 #: src/components/dialogs/room_preview.rs:239
 #: src/components/dialogs/room_preview.rs:347
 #: src/session_view/explore/public_room_row.rs:182
-#: src/session_view/room_history/message_toolbar/mod.rs:358
+#: src/session_view/room_history/message_toolbar/mod.rs:382
 #: src/session_view/room_history/mod.blp:77
 #: src/session_view/room_history/state/creation.blp:20
 msgid "View"
@@ -1717,7 +1717,7 @@ msgstr "请求邀请"
 
 #: src/components/dialogs/room_preview.rs:351
 #: src/session_view/explore/public_room_row.rs:195
-#: src/session_view/room_history/message_toolbar/mod.rs:360
+#: src/session_view/room_history/message_toolbar/mod.rs:384
 msgid "Join"
 msgstr "加入"
 
@@ -1853,7 +1853,7 @@ msgid "Create Direct Chat"
 msgstr "创建直接聊天"
 
 #: src/components/user_page.rs:305
-#: src/session_view/create_direct_chat_dialog/mod.rs:190
+#: src/session_view/create_direct_chat_dialog/mod.rs:202
 msgid "Could not create a new Direct Chat"
 msgstr "无法创建新的直接聊天"
 
@@ -2020,7 +2020,7 @@ msgstr "请查阅应用程序日志和您的发行版文档获取更多详情。
 msgid "Could Not Initialize Session"
 msgstr "无法初始化会话"
 
-#: src/error_page.rs:93
+#: src/error_page.rs:102
 msgid "Command copied to clipboard"
 msgstr "命令已复制到剪贴板"
 
@@ -2445,7 +2445,7 @@ msgstr "登录(_L)"
 msgid "_Create Account"
 msgstr "创建账号(_C)"
 
-#: src/login/homeserver_page.blp:103 src/login/method_page.blp:141
+#: src/login/homeserver_page.blp:103 src/login/method_page.blp:129
 msgid "Next"
 msgstr "下一步"
 
@@ -2473,8 +2473,8 @@ msgstr "主服务器网址"
 msgid "The URL of your Matrix homeserver, for example {address}"
 msgstr "您的 Matrix 主服务器网址，比如 {address}"
 
-#: src/login/homeserver_page.rs:254 src/login/mod.rs:299 src/login/mod.rs:323
-#: src/login/mod.rs:369
+#: src/login/homeserver_page.rs:254 src/login/mod.rs:324 src/login/mod.rs:348
+#: src/login/mod.rs:397
 msgid "Could not set up login"
 msgstr "无法部署登录"
 
@@ -2482,7 +2482,7 @@ msgstr "无法部署登录"
 msgid "Click on the button below and follow the steps in the browser"
 msgstr "请点击下面的按钮并遵循浏览器中的步骤"
 
-#: src/login/in_browser_page.rs:100
+#: src/login/in_browser_page.rs:103
 msgid "Could not open URL"
 msgstr "无法打开 URL"
 
@@ -2508,28 +2508,20 @@ msgstr "Matrix 用户名"
 msgid "Password"
 msgstr "密码"
 
-#: src/login/method_page.blp:124
-msgid "Single Sign-On Providers"
-msgstr "单点登录提供者"
+#: src/login/method_page.blp:122
+msgid "Login via SSO"
+msgstr "通过 SSO 登录"
 
 #. Translators: Do NOT translate the content between '{' and '}', this is a
 #. variable name.
-#: src/login/method_page.rs:95
+#: src/login/method_page.rs:90
 #, rust-format
 msgid "Log in to {domain_name}"
 msgstr "登录至 {domain_name}"
 
-#: src/login/method_page.rs:102
+#: src/login/method_page.rs:97
 msgid "Log in"
 msgstr "登录"
-
-#: src/login/method_page.rs:144
-msgid "More SSO Providers"
-msgstr "更多 SSO 提供者"
-
-#: src/login/method_page.rs:147
-msgid "Login via SSO"
-msgstr "通过 SSO 登录"
 
 #: src/login/mod.blp:22 src/login/mod.blp:54
 msgid "Login Complete"
@@ -2543,7 +2535,7 @@ msgstr "该会话已准备好发送和接收安全消息"
 msgid "Start Chatting"
 msgstr "开始聊天"
 
-#: src/login/mod.rs:439
+#: src/login/mod.rs:467
 msgid "Could not store session"
 msgstr "无法存储会话"
 
@@ -2554,15 +2546,6 @@ msgstr "会话设置"
 #: src/login/session_setup_view.blp:47 src/window.blp:59
 msgid "Fetching Account Data…"
 msgstr "正在获取账号数据…"
-
-#. Translators: Do NOT translate the content between '{' and '}', this is a
-#. variable name.
-#. This is the tooltip text on buttons to log in via Single Sign-On.
-#. The brand is something like Facebook, Apple, GitHub…
-#: src/login/sso_idp_button.rs:74
-#, rust-format
-msgid "Log in with {brand}"
-msgstr "使用 {brand} 登录"
 
 #. Translators: Do NOT translate the content between '{' and '}', this is a
 #. variable name.
@@ -2988,7 +2971,7 @@ msgstr "未发现匹配搜索方案的用户"
 msgid "An error occurred while searching for matches"
 msgstr "搜索匹配项时发生错误"
 
-#: src/session_view/create_direct_chat_dialog/mod.rs:148
+#: src/session_view/create_direct_chat_dialog/mod.rs:160
 msgid "An error occurred while searching for users"
 msgstr "搜索用户时发生了错误"
 
@@ -4244,7 +4227,7 @@ msgstr "时间戳已复制到剪贴板"
 #: src/session_view/room_history/event_actions/properties_dialog.blp:105
 #: src/session_view/room_history/event_actions/properties_dialog.blp:150
 msgid "View Source"
-msgstr "查看来源"
+msgstr "查看源码"
 
 #: src/session_view/room_history/event_actions/properties_dialog.blp:118
 msgid "Latest Edit"
@@ -4252,23 +4235,23 @@ msgstr "最新编辑"
 
 #: src/session_view/room_history/event_actions/properties_dialog.blp:172
 msgid "Copy Source"
-msgstr "复制来源"
+msgstr "复制源码"
 
 #: src/session_view/room_history/event_actions/properties_dialog.rs:108
 msgid "Original Event Source"
-msgstr "原始事件来源"
+msgstr "原始事件源码"
 
 #: src/session_view/room_history/event_actions/properties_dialog.rs:110
 msgid "Event Source"
-msgstr "事件来源"
+msgstr "事件源码"
 
 #: src/session_view/room_history/event_actions/properties_dialog.rs:124
 msgid "Latest Edit Source"
-msgstr "最新编辑来源"
+msgstr "最新编辑源码"
 
 #: src/session_view/room_history/event_actions/properties_dialog.rs:138
 msgid "Source copied to clipboard"
-msgstr "来源已复制到剪贴板"
+msgstr "源码已复制到剪贴板"
 
 #: src/session_view/room_history/event_actions/quick_reaction_chooser.blp:15
 msgid "Send a Reaction"
@@ -4346,7 +4329,7 @@ msgid "Sent"
 msgstr "已发送"
 
 #. Translators: As in 'Edited message'.
-#: src/session_view/room_history/message_row/message_state_stack.blp:74
+#: src/session_view/room_history/message_row/message_state_stack.blp:75
 msgid "Edited"
 msgstr "已编辑"
 
@@ -4482,93 +4465,93 @@ msgstr "发送消息"
 msgid "You don’t have permission to send messages to this room"
 msgstr "您没有向该聊天室发送消息的权限"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:348
+#: src/session_view/room_history/message_toolbar/mod.rs:372
 msgid "The conversation continues in a new room"
 msgstr "该会话在新聊天室继续"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:350
+#: src/session_view/room_history/message_toolbar/mod.rs:374
 msgid "The conversation has ended"
 msgstr "该会话已结束"
 
 #. Translators: Do NOT translate the content between '{' and '}',
 #. this is a variable name. In this string, 'Reply' is a noun.
-#: src/session_view/room_history/message_toolbar/mod.rs:512
+#: src/session_view/room_history/message_toolbar/mod.rs:536
 #, rust-format
 msgid "Reply to {user}"
 msgstr "对 {user} 的回复"
 
 #. / Update the displayed related event for the given edit.
 #. Translators: In this string, 'Edit' is a noun.
-#: src/session_view/room_history/message_toolbar/mod.rs:530
+#: src/session_view/room_history/message_toolbar/mod.rs:555
 msgctxt "room-history"
 msgid "Edit"
 msgstr "编辑"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:699
+#: src/session_view/room_history/message_toolbar/mod.rs:734
 msgid "Could not send reply"
 msgstr "无法发送回复"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:715
+#: src/session_view/room_history/message_toolbar/mod.rs:750
 msgid "Could not send edit"
 msgstr "无法发送编辑"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:726
+#: src/session_view/room_history/message_toolbar/mod.rs:761
 msgid "Could not send message"
 msgstr "无法发送消息"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:772
+#: src/session_view/room_history/message_toolbar/mod.rs:807
 msgid "Your Location"
 msgstr "您的位置"
 
 #. Translators: Do NOT translate the content between '{' and '}', this is a
 #. variable name.
-#: src/session_view/room_history/message_toolbar/mod.rs:832
+#: src/session_view/room_history/message_toolbar/mod.rs:867
 #, rust-format
 msgid "User Location {geo_uri} at {iso8601_datetime}"
 msgstr "用户定位 {geo_uri} 于 {iso8601_datetime}"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:854
+#: src/session_view/room_history/message_toolbar/mod.rs:889
 msgid "Could not send location"
 msgstr "无法发送位置"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:861
+#: src/session_view/room_history/message_toolbar/mod.rs:896
 msgid "The location request has been cancelled"
 msgstr "定位请求已取消"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:862
+#: src/session_view/room_history/message_toolbar/mod.rs:897
 msgid "The location services are disabled"
 msgstr "定位请求已取消"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:863
+#: src/session_view/room_history/message_toolbar/mod.rs:898
 msgid "Could not retrieve current location"
 msgstr "无法检索当前位置"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:898
+#: src/session_view/room_history/message_toolbar/mod.rs:933
 msgid "Could not send file"
 msgstr "无法发送文件"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:952
+#: src/session_view/room_history/message_toolbar/mod.rs:987
 msgid "Select File"
 msgstr "选择文件"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:954
+#: src/session_view/room_history/message_toolbar/mod.rs:989
 msgid "Select"
 msgstr "选择"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:969
+#: src/session_view/room_history/message_toolbar/mod.rs:1004
 msgid "Could not open file"
 msgstr "无法打开文件"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:995
-#: src/session_view/room_history/message_toolbar/mod.rs:1003
+#: src/session_view/room_history/message_toolbar/mod.rs:1030
+#: src/session_view/room_history/message_toolbar/mod.rs:1038
 msgid "Error reading file"
 msgstr "读取文件时出错"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:1064
+#: src/session_view/room_history/message_toolbar/mod.rs:1099
 msgid "Error getting image from clipboard"
 msgstr "从剪贴板获取图像时出错"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:1081
+#: src/session_view/room_history/message_toolbar/mod.rs:1116
 msgid "Error getting file from clipboard"
 msgstr "从剪贴板获取文件时出错"
 
@@ -5228,6 +5211,16 @@ msgstr "文件"
 #: src/window.blp:80
 msgid "Session"
 msgstr "会话"
+
+#~ msgid "Single Sign-On Providers"
+#~ msgstr "单点登录提供者"
+
+#~ msgid "More SSO Providers"
+#~ msgstr "更多 SSO 提供者"
+
+#, rust-format
+#~ msgid "Log in with {brand}"
+#~ msgstr "使用 {brand} 登录"
 
 #~ msgctxt "members"
 #~ msgid "Invite Request"
