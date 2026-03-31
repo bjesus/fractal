@@ -230,6 +230,9 @@ mod imp {
         /// Whether we already attempted an auto-join.
         #[property(get)]
         attempted_auto_join: Cell<bool>,
+        /// Whether this is a call room as defined by [MSC3417](https://github.com/matrix-org/matrix-spec-proposals/pull/3417)
+        #[property(get = Self::is_call)]
+        is_call: PhantomData<bool>,
     }
 
     #[glib::object_subclass]
@@ -1331,6 +1334,13 @@ mod imp {
                 .create_content()
                 .map(|c| c.room_version.to_string())
                 .unwrap_or_default()
+        }
+
+        /// If this is a Call room as defined by [MSC3417].
+        ///
+        /// [MSC3417]: <https://github.com/matrix-org/matrix-spec-proposals/pull/3417>
+        fn is_call(&self) -> bool {
+            self.matrix_room().is_call()
         }
 
         /// The rules for the version of this room.

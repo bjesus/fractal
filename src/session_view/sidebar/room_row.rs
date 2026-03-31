@@ -1,4 +1,5 @@
 use adw::{prelude::*, subclass::prelude::*};
+use gettextrs::gettext;
 use gtk::{gdk, glib, glib::clone};
 
 use super::SidebarRow;
@@ -11,8 +12,6 @@ use crate::{
 };
 
 mod imp {
-    use std::cell::RefCell;
-
     use glib::subclass::InitializingObject;
 
     use super::*;
@@ -26,10 +25,11 @@ mod imp {
         #[template_child]
         display_name_box: TemplateChild<gtk::Box>,
         #[template_child]
+        room_icon: TemplateChild<gtk::Image>,
+        #[template_child]
         display_name: TemplateChild<gtk::Label>,
         #[template_child]
         notification_count: TemplateChild<gtk::Label>,
-        direct_icon: RefCell<Option<gtk::Image>>,
         /// The room represented by this row.
         #[property(get, set = Self::set_room, explicit_notify, nullable)]
         room: BoundObject<Room>,
@@ -112,7 +112,8 @@ mod imp {
                     #[weak(rename_to = imp)]
                     self,
                     move |_| {
-                        imp.update_direct_icon();
+                        imp.update_room_icon();
+                        imp.update_accessibility_label();
                     }
                 ));
                 let name_handler = room.connect_display_name_notify(clone!(
@@ -153,7 +154,7 @@ mod imp {
 
             self.update_display_name();
             self.update_highlight();
-            self.update_direct_icon();
+            self.update_room_icon();
             self.obj().notify_room();
         }
 
@@ -244,23 +245,24 @@ mod imp {
             row.remove_css_class("drag");
         }
 
-        /// Update the icon showing whether a room is direct or not.
-        fn update_direct_icon(&self) {
+        /// Update the room icon depending on what type of room it is.
+        fn update_room_icon(&self) {
             let is_direct = self.room.obj().is_some_and(|room| room.is_direct());
+            let is_call = self.room.obj().is_some_and(|room| room.is_call());
 
-            if is_direct {
-                if self.direct_icon.borrow().is_none() {
-                    let icon = gtk::Image::builder()
-                        .icon_name("person-symbolic")
-                        .icon_size(gtk::IconSize::Normal)
-                        .css_classes(["dimmed"])
-                        .build();
-
-                    self.display_name_box.prepend(&icon);
-                    self.direct_icon.replace(Some(icon));
-                }
-            } else if let Some(icon) = self.direct_icon.take() {
-                self.display_name_box.remove(&icon);
+            if is_call {
+                self.room_icon.set_icon_name(Some("video-symbolic"));
+                // Translators: A "call room" is a room where an audio or video call
+                // is always active, that users can join and leave at any time.
+                self.room_icon.set_tooltip_text(Some(&gettext("Call room")));
+                self.room_icon.set_visible(true);
+            } else if is_direct {
+                self.room_icon.set_icon_name(Some("person-symbolic"));
+                self.room_icon
+                    .set_tooltip_text(Some(&gettext("Direct chat")));
+                self.room_icon.set_visible(true);
+            } else {
+                self.room_icon.set_visible(false);
             }
         }
 
@@ -278,11 +280,20 @@ mod imp {
                 return String::new();
             };
 
-            let name = if room.is_direct() {
+            let name = if room.is_call() {
                 gettext_f(
                     // Translators: Do NOT translate the content between '{' and '}', this is a
-                    // variable name. Presented to screen readers when a
-                    // room is a direct chat with another user.
+                    // variable name. Presented to screen readers for "call rooms".
+                    // A "call room" is a room where an audio or video call is always active,
+                    // that users can join and leave at any time.
+                    "{name} (call room)",
+                    &[("name", &room.display_name())],
+                )
+            } else if room.is_direct() {
+                gettext_f(
+                    // Translators: Do NOT translate the content between '{' and '}', this is a
+                    // variable name. Presented to screen readers when a room is a direct chat with
+                    // another user.
                     "Direct chat with {name}",
                     &[("name", &room.display_name())],
                 )

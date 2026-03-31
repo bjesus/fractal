@@ -68,6 +68,11 @@ template $ContentRoomHistory: Adw.Bin {
     content: Gtk.Box {
       orientation: vertical;
 
+      Adw.Banner {
+        title: _("Call room - other clients may not show messages you send in this room.");
+        revealed: bind template.timeline as <$Timeline>.room as <$Room>.is-call;
+      }
+
       $ContentVerificationInfoBar verification_info_bar {
         verification: bind template.timeline as <$Timeline>.room as <$Room>.verification;
       }

@@ -17,6 +17,14 @@ template $SidebarRoomRow: Adw.Bin {
     Gtk.Box display_name_box {
       spacing: 6;
 
+      Gtk.Image room_icon {
+        visible: false;
+
+        styles [
+          "dimmed",
+        ]
+      }
+
       Gtk.Label display_name {
         ellipsize: end;
         label: bind template.room as <$Room>.display-name;
