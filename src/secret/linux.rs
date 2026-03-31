@@ -524,7 +524,10 @@ impl UserFacingError for oo7::file::Error {
             | Error::AlgorithmMismatch(_)
             | Error::IncorrectSecret
             | Error::Crypto(_)
-            | Error::Utf8(_) => gettext("The secret storage file is corrupted."),
+            | Error::Utf8(_)
+            | Error::PartiallyCorruptedKeyring { .. } => {
+                gettext("The secret storage file is corrupted.")
+            }
             Error::NoParentDir(_) | Error::NoDataDir => {
                 gettext("Could not access the secret storage file location.")
             }
@@ -546,6 +549,7 @@ impl UserFacingError for oo7::file::Error {
             Error::WeakKey(_) => {
                 gettext("The Flatpak Secret Portal provided a key that is too weak to be secure.")
             }
+            Error::Locked => gettext("The collection or item is locked."),
             // Can only occur when using the `replace_item_index` or `delete_item_index` methods.
             Error::InvalidItemIndex(_) => unreachable!(),
         }

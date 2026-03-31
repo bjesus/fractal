@@ -4,26 +4,26 @@ use std::{cell::OnceCell, sync::Arc};
 
 use ashpd::desktop::{
     Session,
-    location::{Accuracy, Location as PortalLocation, LocationProxy},
+    location::{CreateSessionOptions, Location as PortalLocation, LocationProxy, StartOptions},
 };
 use futures_util::{FutureExt, Stream, StreamExt, future, stream};
 use geo_uri::GeoUri;
 use tracing::error;
 
 use super::{LocationError, LocationExt};
-use crate::spawn_tokio;
+use crate::{RUNTIME, spawn_tokio};
 
 /// Location API under Linux, using the Location XDG Desktop Portal.
 #[derive(Debug, Default)]
 pub(crate) struct LinuxLocation {
-    inner: OnceCell<Arc<ProxyAndSession>>,
+    inner: OnceCell<ProxyAndSession>,
 }
 
 /// A location proxy and it's associated session.
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 struct ProxyAndSession {
-    proxy: LocationProxy<'static>,
-    session: Session<'static, LocationProxy<'static>>,
+    proxy: LocationProxy,
+    session: Arc<Session<LocationProxy>>,
 }
 
 impl LocationExt for LinuxLocation {
@@ -73,15 +73,18 @@ impl LinuxLocation {
             let proxy = LocationProxy::new().await?;
 
             let session = proxy
-                .create_session(Some(0), Some(0), Some(Accuracy::Exact))
+                .create_session(CreateSessionOptions::default())
                 .await?;
 
-            ashpd::Result::Ok(ProxyAndSession { proxy, session })
+            ashpd::Result::Ok(ProxyAndSession {
+                proxy,
+                session: Arc::new(session),
+            })
         })
         .await
         .unwrap()?;
 
-        self.inner.set(inner.into()).unwrap();
+        self.inner.set(inner).unwrap();
         Ok(())
     }
 
@@ -96,14 +99,16 @@ impl LinuxLocation {
             .clone();
 
         spawn_tokio!(async move {
-            let ProxyAndSession { proxy, session } = &*inner;
+            let ProxyAndSession { proxy, session } = &inner;
 
             // We want to be listening for new locations whenever the session is up
             // otherwise we might lose the first response and will have to wait for a future
             // update by geoclue.
             let mut stream = proxy.receive_location_updated().await?;
             let (_, first_location) = future::try_join(
-                proxy.start(session, None).into_future(),
+                proxy
+                    .start(session, None, StartOptions::default())
+                    .into_future(),
                 stream.next().map(|l| l.ok_or(ashpd::Error::NoResponse)),
             )
             .await?;
@@ -117,6 +122,8 @@ impl LinuxLocation {
 
 impl Drop for LinuxLocation {
     fn drop(&mut self) {
+        let _guard = RUNTIME.enter();
+
         if let Some(inner) = self.inner.take() {
             spawn_tokio!(async move {
                 if let Err(error) = inner.session.close().await {
