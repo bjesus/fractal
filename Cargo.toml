@@ -1,6 +1,6 @@
 [package]
 name = "fractal"
-version = "13.0.0"
+version = "14.0.0-beta"
 authors = ["Julian Sparber <julian@sparber.net>"]
 license = "GPL-3.0-or-later"
 edition = "2024"
