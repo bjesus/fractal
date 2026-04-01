@@ -1,0 +1,38 @@
+--- a/lib/cjhtextregion.c
++++ b/lib/cjhtextregion.c
+@@ -673,9 +673,19 @@ _cjh_text_region_insert (CjhTextRegion *region,
+   guint i;
+ 
+   g_assert (region != NULL);
+-  g_assert (offset <= region->length);
+ 
+-  if (length == 0)
++  /* If the offset is beyond the tracked region length, the buffer and
++   * region are out of sync (e.g. due to GtkTextChildAnchor/widget
++   * insertion which occupies a buffer position as U+FFFC). Grow the
++   * region to cover the gap so we don't crash.
++   *
++   * See: https://gitlab.gnome.org/GNOME/libspelling/-/issues/4
++   */
++  if G_UNLIKELY (offset > region->length)
++    _cjh_text_region_insert (region, region->length,
++                             offset - region->length, data);
++
++  if (length == 0 || offset > region->length)
+     return;
+ 
+   target = cjh_text_region_search (region, offset, &offset_within_node);
+@@ -800,8 +810,12 @@ _cjh_text_region_remove (CjhTextRegion *region,
+ 
+   g_assert (region != NULL);
+-  g_assert (length <= region->length);
+-  g_assert (offset < region->length);
++
++  /* Gracefully handle out-of-sync region (see insert workaround above). */
++  if (length > region->length || offset >= region->length)
++    return;
++
++  g_assert (length <= region->length);
+   g_assert (length <= region->length - offset);
+ 
+   if (length == 0)

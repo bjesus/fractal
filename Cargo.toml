@@ -71,6 +71,7 @@ gst_video = { version = "0.25", package = "gstreamer-video" }
 gtk = { version = "0.11", features = ["gnome_49"], package = "gtk4" }
 shumate = { version = "0.8", features = ["v1_1"], package = "libshumate" }
 sourceview = { version = "0.11", package = "sourceview5" }
+spelling = { git = "https://gitlab.gnome.org/World/Rust/libspelling-rs.git", branch = "main", package = "libspelling" }
 
 [dependencies.matrix-sdk]
 # version = "0.14"
@@ -135,6 +136,23 @@ oo7 = { version = "0.6", default-features = false, features = [
 
 [dev-dependencies]
 assert_matches2 = "0.1"
+
+# Patch libspelling-rs git dependencies to use released crate versions,
+# matching the versions used by Fractal.
+[patch."https://github.com/gtk-rs/gtk-rs-core"]
+glib = { version = "0.22" }
+gio = { version = "0.22" }
+glib-sys = { version = "0.22" }
+gio-sys = { version = "0.22" }
+gobject-sys = { version = "0.22" }
+
+[patch."https://github.com/gtk-rs/gtk4-rs"]
+gtk4 = { version = "0.11" }
+gtk4-sys = { version = "0.11" }
+
+[patch."https://gitlab.gnome.org/World/Rust/sourceview5-rs"]
+sourceview5 = { version = "0.11" }
+sourceview5-sys = { version = "0.11" }
 
 [lints.clippy]
 pedantic = { level = "warn", priority = -1 }

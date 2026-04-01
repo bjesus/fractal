@@ -1131,6 +1131,7 @@ dependencies = [
  "libglycin-gtk4-rebind",
  "libglycin-rebind",
  "libshumate",
+ "libspelling",
  "linkify",
  "matrix-sdk",
  "matrix-sdk-store-encryption",
@@ -2603,6 +2604,33 @@ dependencies = [
  "gobject-sys",
  "gtk4-sys",
  "libc",
+ "system-deps",
+]
+
+[[package]]
+name = "libspelling"
+version = "0.5.0"
+source = "git+https://gitlab.gnome.org/World/Rust/libspelling-rs.git?branch=main#24ee693fa24a35319f7ffa4f6a6db8e9f059d52c"
+dependencies = [
+ "gio",
+ "glib",
+ "gtk4",
+ "libc",
+ "libspelling-sys",
+ "sourceview5",
+]
+
+[[package]]
+name = "libspelling-sys"
+version = "0.5.0"
+source = "git+https://gitlab.gnome.org/World/Rust/libspelling-rs.git?branch=main#24ee693fa24a35319f7ffa4f6a6db8e9f059d52c"
+dependencies = [
+ "gio-sys",
+ "glib-sys",
+ "gobject-sys",
+ "gtk4-sys",
+ "libc",
+ "sourceview5-sys",
  "system-deps",
 ]
 

@@ -39,7 +39,7 @@ mod imp {
 
     use super::*;
 
-    #[derive(Debug, Default, glib::Properties)]
+    #[derive(Debug, glib::Properties)]
     #[properties(wrapper_type = super::ComposerState)]
     pub struct ComposerState {
         /// The room associated with this state.
@@ -48,6 +48,8 @@ mod imp {
         /// The buffer of this state.
         #[property(get)]
         buffer: sourceview::Buffer,
+        /// The spell check adapter for this state's buffer.
+        spelling_adapter: spelling::TextBufferAdapter,
         /// The relation of this state.
         related_to: RefCell<Option<RelationInfo>>,
         /// Whether this state has a relation.
@@ -66,6 +68,28 @@ mod imp {
         /// The lock to prevent multiple draft saving operations at the same
         /// time.
         draft_lock: Mutex<()>,
+    }
+
+    impl Default for ComposerState {
+        fn default() -> Self {
+            let buffer = sourceview::Buffer::default();
+            let checker = spelling::Checker::default();
+            let spelling_adapter = spelling::TextBufferAdapter::new(&buffer, &checker);
+            spelling_adapter.set_enabled(true);
+
+            Self {
+                room: Default::default(),
+                buffer,
+                spelling_adapter,
+                related_to: Default::default(),
+                has_relation: Default::default(),
+                widgets: Default::default(),
+                view: Default::default(),
+                saved_draft: Default::default(),
+                draft_timeout: Default::default(),
+                draft_lock: Default::default(),
+            }
+        }
     }
 
     #[glib::object_subclass]
@@ -109,6 +133,11 @@ mod imp {
 
             if let Some(view) = view {
                 view.set_buffer(Some(&self.buffer));
+
+                // Set up spell checking on the view.
+                let extra_menu = self.spelling_adapter.menu_model();
+                view.set_extra_menu(Some(&extra_menu));
+                view.insert_action_group("spelling", Some(&self.spelling_adapter));
 
                 self.update_widgets();
 
