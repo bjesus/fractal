@@ -23,7 +23,7 @@
 .stable_runtime:
   image: 'quay.io/gnome_infrastructure/gnome-runtime-images:gnome-${GNOME_STABLE_VERSION}'
   variables:
-    GNOME_STABLE_VERSION: "49"
+    GNOME_STABLE_VERSION: "50"
   before_script:
     # We want to use the latest stable GNOME runtime instead of the nightly runtime.
     - sed -i "s|master|${GNOME_STABLE_VERSION}|g" ${MANIFEST_PATH}
