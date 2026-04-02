@@ -23,7 +23,8 @@ lint-metainfo:
         exit 1
       fi
     # Extract the metainfo from the flatpak repo.
-    - ostree export --repo=repo --subpath=files/share/metainfo app/${APP_ID}/x86_64/test | tar -x ${METAINFO}
+    - ostree_ref=$(ostree refs --repo=repo --list app/${APP_ID}/x86_64)
+    - ostree export --repo=repo --subpath=files/share/metainfo "${ostree_ref}" | tar -x ${METAINFO}
     # Test also with the pedantic and strict flags.
     - appstreamcli validate --pedantic --explain --strict ${METAINFO}
   needs: ["build@x86_64"]
