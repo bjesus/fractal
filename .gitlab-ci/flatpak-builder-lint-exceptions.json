@@ -1,0 +1,7 @@
+{
+    "org.gnome.Fractal.Devel": [
+        "appstream-external-screenshot-url",
+        "appstream-missing-developer-name",
+        "appstream-screenshots-not-mirrored-in-ostree"
+    ]
+}

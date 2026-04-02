@@ -21,8 +21,6 @@ build@x86_64:
       - $BUNDLE
       - 'repo.tar'
       - '.flatpak-builder/build/${FLATPAK_MODULE}/_flatpak_build/meson-logs/'
-      # Add the metainfo file for the corresponding test.
-      - '${APP_ID}.metainfo.xml'
 
 build@aarch64:
   extends:

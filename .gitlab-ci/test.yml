@@ -12,8 +12,18 @@ lint-metainfo:
     METAINFO: "${APP_ID}.metainfo.xml"
   interruptible: true
   script:
+    # Extract the flatpak repo.
+    - tar -xf repo.tar
     # This tool has extra tests on top of appstreamcli and is required to pass for Flathub.
-    - flatpak-builder-lint appstream ${METAINFO}
+    - flatpak-builder-lint --debug --exceptions --user-exceptions .gitlab-ci/flatpak-builder-lint-exceptions.json repo repo > flatpak-builder-lint-report.json || exit 0
+    - cat flatpak-builder-lint-report.json
+    # If the report is not empty, fail the job.
+    - |-
+      if [[ -s flatpak-builder-lint-report.json ]]; then
+        exit 1
+      fi
+    # Extract the metainfo from the flatpak repo.
+    - ostree export --repo=repo --subpath=files/share/metainfo app/${APP_ID}/x86_64/test | tar -x ${METAINFO}
     # Test also with the pedantic and strict flags.
     - appstreamcli validate --pedantic --explain --strict ${METAINFO}
   needs: ["build@x86_64"]
