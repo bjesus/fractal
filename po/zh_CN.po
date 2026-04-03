@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fractal master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/fractal/issues\n"
-"POT-Creation-Date: 2026-03-18 17:50+0000\n"
-"PO-Revision-Date: 2026-03-30 16:57+0800\n"
+"POT-Creation-Date: 2026-04-02 15:32+0000\n"
+"PO-Revision-Date: 2026-04-03 09:14+0800\n"
 "Last-Translator: lumingzh <lumingzh@qq.com>\n"
 "Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -505,7 +505,7 @@ msgstr ""
 #: src/session_view/room_details/history_viewer/file.blp:49
 #: src/session_view/room_details/history_viewer/visual_media.blp:55
 #: src/session_view/room_details/members_page/members_list_view/mod.blp:77
-#: src/session_view/room_history/mod.blp:106
+#: src/session_view/room_history/mod.blp:111
 msgid "Try Again"
 msgstr "重试"
 
@@ -985,7 +985,7 @@ msgstr "确认更改"
 #: src/session_view/room_details/history_viewer/audio.blp:17
 #: src/session_view/room_details/history_viewer/file.blp:16
 #: src/session_view/room_details/history_viewer/visual_media.blp:22
-#: src/session_view/room_history/mod.blp:87 src/window.blp:17
+#: src/session_view/room_history/mod.blp:92 src/window.blp:17
 msgid "Loading"
 msgstr "正在加载"
 
@@ -1687,7 +1687,7 @@ msgstr "查找"
 #: src/components/dialogs/room_preview.rs:347
 #: src/session_view/explore/public_room_row.rs:182
 #: src/session_view/room_history/message_toolbar/mod.rs:382
-#: src/session_view/room_history/mod.blp:77
+#: src/session_view/room_history/mod.blp:82
 #: src/session_view/room_history/state/creation.blp:20
 msgid "View"
 msgstr "查看"
@@ -2554,29 +2554,29 @@ msgstr "正在获取账号数据…"
 msgid "Fractal: Matrix credentials for {user_id}"
 msgstr "Fractal：用于 {user_id} 的 Matrix 证书"
 
-#: src/secret/linux.rs:527
+#: src/secret/linux.rs:529
 msgid "The secret storage file is corrupted."
 msgstr "该保密存储文件已损坏。"
 
-#: src/secret/linux.rs:529
+#: src/secret/linux.rs:532
 msgid "Could not access the secret storage file location."
 msgstr "无法访问保密存储文件位置。"
 
-#: src/secret/linux.rs:532
+#: src/secret/linux.rs:535
 msgid "An unexpected error occurred when accessing the secret storage file."
 msgstr "访问保密存储文件时发生意外错误。"
 
-#: src/secret/linux.rs:535
+#: src/secret/linux.rs:538
 msgid "The secret storage file has been changed by another process."
 msgstr "保密存储文件已被其它进程修改。"
 
-#: src/secret/linux.rs:538
+#: src/secret/linux.rs:541
 msgid ""
 "The request to the Flatpak Secret Portal was cancelled. Make sure to accept "
 "any prompt asking to access it."
 msgstr "对 Flatpak 保密门户的请求已取消。请确保接受任何即时询问来访问它。"
 
-#: src/secret/linux.rs:541
+#: src/secret/linux.rs:544
 msgid ""
 "The Flatpak Secret Portal is not available. Make sure xdg-desktop-portal is "
 "installed, and it is at least at version 1.5.0."
@@ -2584,44 +2584,44 @@ msgstr ""
 "Flatpak 保密门户不可用。请确保 xdg-desktop-portal 已安装，且其版本至少为 "
 "1.5.0。"
 
-#: src/secret/linux.rs:544
+#: src/secret/linux.rs:547
 msgid ""
 "An unexpected error occurred when interacting with the D-Bus Secret Portal "
 "backend."
 msgstr "与 D-Bus 保密服务门户后端交互时发生意外错误。"
 
-#: src/secret/linux.rs:547
+#: src/secret/linux.rs:550
 msgid "The Flatpak Secret Portal provided a key that is too weak to be secure."
 msgstr "Flatpak 保密门户提供了一个太弱而不安全的密钥。"
 
-#: src/secret/linux.rs:560
+#: src/secret/linux.rs:552 src/secret/linux.rs:569
+msgid "The collection or item is locked."
+msgstr "该集合或项目已锁定。"
+
+#: src/secret/linux.rs:564
 msgid "The item was deleted."
 msgstr "该项目已删除。"
 
-#: src/secret/linux.rs:563 src/secret/linux.rs:578
+#: src/secret/linux.rs:567 src/secret/linux.rs:582
 msgid ""
 "An unexpected error occurred when interacting with the D-Bus Secret Service."
 msgstr "与 D-Bus 保密服务交互时发生意外错误。"
 
-#: src/secret/linux.rs:565
-msgid "The collection or item is locked."
-msgstr "该集合或项目已锁定。"
-
-#: src/secret/linux.rs:567
+#: src/secret/linux.rs:571
 msgid "The D-Bus Secret Service session does not exist."
 msgstr "D-Bus 保密服务会话不存在。"
 
-#: src/secret/linux.rs:569
+#: src/secret/linux.rs:573
 msgid "The collection or item does not exist."
 msgstr "该集合或项目不存在。"
 
-#: src/secret/linux.rs:572
+#: src/secret/linux.rs:576
 msgid ""
 "The request to the D-Bus Secret Service was cancelled. Make sure to accept "
 "any prompt asking to access it."
 msgstr "对 D-Bus 保密服务的请求已取消。请确保接受任何即时询问来访问它。"
 
-#: src/secret/linux.rs:575
+#: src/secret/linux.rs:579
 msgid ""
 "Could not access the default collection. Make sure a keyring was created and "
 "set as default."
@@ -2721,18 +2721,18 @@ msgstr "不支持的规则"
 #. Translators: This is the name of a room that is empty but had another
 #. user before. Do NOT translate the content between
 #. '{' and '}', this is a variable name.
-#: src/session/room/mod.rs:389
+#: src/session/room/mod.rs:392
 #, rust-format
 msgid "Empty Room (was {user})"
 msgstr "空聊天室（曾有成员 {user}）"
 
 #. Translators: This is the name of a room without other users.
-#: src/session/room/mod.rs:392
+#: src/session/room/mod.rs:395
 msgid "Empty Room"
 msgstr "空聊天室"
 
 #. Translators: This is displayed when the room name is unknown yet.
-#: src/session/room/mod.rs:402
+#: src/session/room/mod.rs:405
 msgid "Unknown"
 msgstr "未知"
 
@@ -2916,7 +2916,7 @@ msgstr "未选择聊天室"
 msgid "Join a room to start chatting"
 msgstr "加入聊天室开始聊天"
 
-#: src/session_view/content.blp:36 src/session_view/room_history/mod.blp:119
+#: src/session_view/content.blp:36 src/session_view/room_history/mod.blp:124
 msgid "Room History"
 msgstr "聊天室历史"
 
@@ -3585,7 +3585,7 @@ msgstr "无法加载音频"
 #: src/session_view/room_details/history_viewer/audio.blp:46
 #: src/session_view/room_details/history_viewer/file.blp:45
 #: src/session_view/room_details/history_viewer/visual_media.blp:51
-#: src/session_view/room_history/mod.blp:102
+#: src/session_view/room_history/mod.blp:107
 msgid "Check your network connection"
 msgstr "检查您的网络连接"
 
@@ -4582,16 +4582,20 @@ msgstr "忘记聊天室(_F)"
 msgid "Room Menu"
 msgstr "聊天室菜单"
 
-#: src/session_view/room_history/mod.blp:94
-#: src/session_view/room_history/mod.blp:101
+#: src/session_view/room_history/mod.blp:72
+msgid "Call room - other clients may not show messages you send in this room."
+msgstr "呼叫聊天室 — 其它客户端可能不会显示您在此聊天室中发送的消息。"
+
+#: src/session_view/room_history/mod.blp:99
+#: src/session_view/room_history/mod.blp:106
 msgid "Could Not Load Room"
 msgstr "无法加载聊天室"
 
-#: src/session_view/room_history/mod.blp:133
+#: src/session_view/room_history/mod.blp:138
 msgid "Scroll to Bottom"
 msgstr "滚动到底部"
 
-#: src/session_view/room_history/mod.blp:145
+#: src/session_view/room_history/mod.blp:150
 msgid "Drop Here to Send"
 msgstr "拖到这里发送"
 
@@ -4936,10 +4940,29 @@ msgstr "账号恢复已禁用"
 msgid "Account recovery incomplete"
 msgstr "账号恢复不完全"
 
+#. Translators: A "call room" is a room where an audio or video call
+#. is always active, that users can join and leave at any time.
+#: src/session_view/sidebar/room_row.rs:257
+msgid "Call room"
+msgstr "呼叫聊天室"
+
+#: src/session_view/sidebar/room_row.rs:262
+msgid "Direct chat"
+msgstr "直接聊天"
+
 #. Translators: Do NOT translate the content between '{' and '}', this is a
-#. variable name. Presented to screen readers when a
-#. room is a direct chat with another user.
-#: src/session_view/sidebar/room_row.rs:286
+#. variable name. Presented to screen readers for "call rooms".
+#. A "call room" is a room where an audio or video call is always active,
+#. that users can join and leave at any time.
+#: src/session_view/sidebar/room_row.rs:289
+#, rust-format
+msgid "{name} (call room)"
+msgstr "{name}（呼叫聊天室）"
+
+#. Translators: Do NOT translate the content between '{' and '}', this is a
+#. variable name. Presented to screen readers when a room is a direct chat with
+#. another user.
+#: src/session_view/sidebar/room_row.rs:297
 #, rust-format
 msgid "Direct chat with {name}"
 msgstr "与 {name} 的直接聊天"
@@ -4947,7 +4970,7 @@ msgstr "与 {name} 的直接聊天"
 #. Translators: Do NOT translate the content between '{' and '}', this is a
 #. variable name. Presented to screen readers when a room has notifications
 #. for unread messages.
-#: src/session_view/sidebar/room_row.rs:298
+#: src/session_view/sidebar/room_row.rs:309
 #, rust-format
 msgid "1 notification"
 msgid_plural "{count} notifications"
@@ -6054,9 +6077,6 @@ msgstr "会话"
 
 #~ msgid "User"
 #~ msgstr "用户"
-
-#~ msgid "No room"
-#~ msgstr "没有聊天室"
 
 #~ msgid "Default Matrix Server"
 #~ msgstr "默认 Matrix 服务器"
