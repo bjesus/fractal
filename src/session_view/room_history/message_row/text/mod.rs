@@ -64,24 +64,6 @@ mod imp {
     impl BinImpl for MessageText {}
 
     impl MessageText {
-        /// Display the given plain text.
-        pub(super) fn with_plain_text(&self, mut body: String, format: ContentFormat) {
-            body.clean_string();
-
-            if !self.original_text_changed(&body) && !self.format_changed(format) {
-                return;
-            }
-
-            self.reset();
-            self.set_format(format);
-
-            let mut escaped_body = body.escape_markup();
-            escaped_body.truncate_end_whitespaces();
-
-            self.build_plain_text(escaped_body);
-            self.set_original_text(body);
-        }
-
         /// Display the given text with possible markup.
         ///
         /// It will detect if it should display the body or the formatted body.
@@ -403,11 +385,6 @@ impl MessageText {
     /// Creates a text widget.
     pub fn new() -> Self {
         glib::Object::new()
-    }
-
-    /// Display the given plain text.
-    pub(crate) fn with_plain_text(&self, body: String, format: ContentFormat) {
-        self.imp().with_plain_text(body, format);
     }
 
     /// Display the given text with possible markup.

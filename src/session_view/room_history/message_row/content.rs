@@ -6,8 +6,14 @@ use ruma::{OwnedEventId, OwnedTransactionId, events::room::message::MessageType}
 use tracing::{error, warn};
 
 use super::{
-    audio::MessageAudio, caption::MessageCaption, file::MessageFile, location::MessageLocation,
-    reply::MessageReply, text::MessageText, visual_media::MessageVisualMedia,
+    audio::MessageAudio,
+    caption::MessageCaption,
+    file::MessageFile,
+    info::{MessageInfo, MessageInfoIcon},
+    location::MessageLocation,
+    reply::MessageReply,
+    text::MessageText,
+    visual_media::MessageVisualMedia,
 };
 use crate::{
     components::AudioPlayerMessage,
@@ -305,29 +311,28 @@ trait MessageContentContainer: ChildPropertyExt {
                     );
                 }
                 MsgLikeKind::UnableToDecrypt(_) => {
-                    let child = self.child_or_default::<MessageText>();
-                    child.with_plain_text(gettext("Could not decrypt this message, decryption will be retried once the keys are available."), format);
+                    let child = self.child_or_default::<MessageInfo>();
+                    child.set_info(
+                        MessageInfoIcon::Warning,
+                        &gettext("Could not decrypt this message, decryption will be retried once the keys are available.")
+                    );
                 }
                 MsgLikeKind::Redacted => {
-                    let child = self.child_or_default::<MessageText>();
-                    child.with_plain_text(gettext("This message was removed."), format);
+                    let child = self.child_or_default::<MessageInfo>();
+                    child.set_info(MessageInfoIcon::Info, &gettext("This message was removed."));
                 }
                 msg_like_kind => {
                     warn!("Unsupported message-like event content: {msg_like_kind:?}");
-                    self.build_unsupported_content(format);
+                    let child = self.child_or_default::<MessageInfo>();
+                    child.set_info(MessageInfoIcon::Warning, &gettext("Unsupported event"));
                 }
             },
             content => {
                 warn!("Unsupported event content: {content:?}");
-                self.build_unsupported_content(format);
+                let child = self.child_or_default::<MessageInfo>();
+                child.set_info(MessageInfoIcon::Warning, &gettext("Unsupported event"));
             }
         }
-    }
-
-    /// Build the widget of an unsupported content as a child of this widget.
-    fn build_unsupported_content(&self, format: ContentFormat) {
-        let child = self.child_or_default::<MessageText>();
-        child.with_plain_text(gettext("Unsupported event"), format);
     }
 
     /// Build the content widget of the given message as a child of this widget.
@@ -379,8 +384,8 @@ trait MessageContentContainer: ChildPropertyExt {
                 );
             }
             MessageType::ServerNotice(message) => {
-                let child = self.child_or_default::<MessageText>();
-                child.with_plain_text(message.body.clone(), format);
+                let child = self.child_or_default::<MessageInfo>();
+                child.set_info(MessageInfoIcon::Warning, &message.body.clone());
             }
             MessageType::Text(message) => {
                 let child = self.child_or_default::<MessageText>();
@@ -394,8 +399,8 @@ trait MessageContentContainer: ChildPropertyExt {
             }
             msgtype => {
                 warn!("Event not supported: {msgtype:?}");
-                let child = self.child_or_default::<MessageText>();
-                child.with_plain_text(gettext("Unsupported event"), format);
+                let child = self.child_or_default::<MessageInfo>();
+                child.set_info(MessageInfoIcon::Warning, &gettext("Unsupported event"));
             }
         }
     }

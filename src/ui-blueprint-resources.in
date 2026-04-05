@@ -117,6 +117,7 @@ session_view/room_history/event_actions/quick_reaction_chooser.blp
 session_view/room_history/member_timestamp/row.blp
 session_view/room_history/message_row/audio.blp
 session_view/room_history/message_row/file.blp
+session_view/room_history/message_row/info.blp
 session_view/room_history/message_row/location.blp
 session_view/room_history/message_row/message_state_stack.blp
 session_view/room_history/message_row/mod.blp

@@ -6,6 +6,7 @@ mod audio;
 mod caption;
 mod content;
 mod file;
+mod info;
 mod location;
 mod message_state_stack;
 mod reaction;
