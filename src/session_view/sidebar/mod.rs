@@ -54,6 +54,8 @@ mod imp {
         #[template_child]
         room_search_entry: TemplateChild<gtk::SearchEntry>,
         #[template_child]
+        room_stack: TemplateChild<gtk::Stack>,
+        #[template_child]
         pub(super) room_search: TemplateChild<gtk::SearchBar>,
         #[template_child]
         room_row_menu: TemplateChild<gio::MenuModel>,
@@ -270,6 +272,16 @@ mod imp {
                 )
                 .bind(&list_model.string_filter(), "search", None::<&glib::Object>);
                 self.expr_watch.replace(Some(expr_watch));
+
+                self.update_room_stack(&list_model.selection_model());
+
+                list_model.selection_model().connect_is_empty_notify(clone!(
+                    #[weak(rename_to = imp)]
+                    self,
+                    move |list| {
+                        imp.update_room_stack(list);
+                    }
+                ));
             }
 
             self.list_model.set(list_model);
@@ -279,6 +291,16 @@ mod imp {
         /// The current session, if any.
         fn session(&self) -> Option<Session> {
             self.user.borrow().as_ref().map(User::session)
+        }
+
+        /// Switch between room list and placeholder status page
+        /// depending on if the users search has any results or not
+        fn update_room_stack(&self, list: &FixedSelection) {
+            self.room_stack.set_visible_child_name(if list.is_empty() {
+                "no-results"
+            } else {
+                "room-list"
+            });
         }
 
         /// Update the security banner.
@@ -415,6 +437,19 @@ mod imp {
             dialog.show_subpage(subpage);
 
             dialog.present(Some(&*self.obj()));
+        }
+
+        /// Select the first room found in search result,
+        /// or noop if no search term has been entered.
+        #[template_callback]
+        fn activate_first_search_result(&self) {
+            if self.room_search_entry.text().is_empty() {
+                return;
+            }
+
+            let _ = self
+                .listview
+                .activate_action("list.activate-item", Some(&0u32.into()));
         }
     }
 }

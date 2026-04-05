@@ -155,6 +155,7 @@ template $Sidebar: Adw.NavigationPage {
     [top]
     Gtk.SearchBar room_search {
       child: Gtk.SearchEntry room_search_entry {
+        activate => $activate_first_search_result() swapped;
         hexpand: true;
       };
 
@@ -176,24 +177,46 @@ template $Sidebar: Adw.NavigationPage {
         button-clicked => $fix_security_issue() swapped;
       }
 
-      Gtk.ScrolledWindow scrolled_window {
-        vexpand: true;
-        hscrollbar-policy: never;
+      Stack room_stack {
+        transition-type: crossfade;
 
-        child: Gtk.ListView listview {
-          single-click-activate: true;
-          tab-behavior: item;
+        StackPage {
+          name: "no-results";
 
-          styles [
-            "navigation-sidebar",
-            "sidebar-list",
-          ]
+          child: Adw.StatusPage {
+            icon-name: "system-search-symbolic";
+            title: _("No Rooms");
+            description: _("No rooms matching the search were found");
 
-          accessibility {
-            label: _("Room List");
-            description: _("Allows to navigate between rooms");
-          }
-        };
+            styles [
+              "compact",
+            ]
+          };
+        }
+
+        StackPage {
+          name: "room-list";
+
+          child: Gtk.ScrolledWindow scrolled_window {
+            vexpand: true;
+            hscrollbar-policy: never;
+
+            child: Gtk.ListView listview {
+              single-click-activate: true;
+              tab-behavior: item;
+
+              styles [
+                "navigation-sidebar",
+                "sidebar-list",
+              ]
+
+              accessibility {
+                label: _("Room List");
+                description: _("Allows to navigate between rooms");
+              }
+            };
+          };
+        }
       }
     };
   }
