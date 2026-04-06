@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fractal main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/fractal/issues\n"
-"POT-Creation-Date: 2026-01-30 15:56+0000\n"
-"PO-Revision-Date: 2026-01-31 06:47+0100\n"
+"POT-Creation-Date: 2026-04-05 12:50+0000\n"
+"PO-Revision-Date: 2026-04-06 02:20+0200\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <ka@li.org>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.8\n"
+"X-Generator: Poedit 3.9\n"
 
 #: data/org.gnome.Fractal.desktop.in.in:2
 #: data/org.gnome.Fractal.metainfo.xml.in.in:7
@@ -156,7 +156,7 @@ msgstr "აირჩიეთ…"
 #: src/account_settings/encryption_page/import_export_keys_subpage.rs:150
 #: src/account_settings/encryption_page/mod.blp:150
 msgid "Export Room Encryption Keys"
-msgstr ""
+msgstr "ოთახის დაშიფვრის გასაღებების გატანა"
 
 #. Translators: 'Room encryption keys' are encryption keys for all rooms.
 #: src/account_settings/encryption_page/import_export_keys_subpage.rs:153
@@ -208,7 +208,7 @@ msgstr ""
 
 #: src/account_settings/encryption_page/import_export_keys_subpage.rs:199
 msgid "Save Encryption Keys To…"
-msgstr ""
+msgstr "ოთახის დაშიფვრის გასაღებების შენახვა…"
 
 #: src/account_settings/encryption_page/import_export_keys_subpage.rs:202
 msgid "Import Encryption Keys From…"
@@ -446,11 +446,11 @@ msgid ""
 "Matrix user ID:"
 msgstr ""
 
-#: src/account_settings/general_page/deactivate_account_subpage.rs:150
+#: src/account_settings/general_page/deactivate_account_subpage.rs:156
 msgid "Account successfully deactivated"
 msgstr ""
 
-#: src/account_settings/general_page/deactivate_account_subpage.rs:158
+#: src/account_settings/general_page/deactivate_account_subpage.rs:164
 msgid "Could not deactivate account"
 msgstr ""
 
@@ -474,7 +474,7 @@ msgstr ""
 
 #: src/account_settings/general_page/log_out_subpage.blp:102
 msgid "Logout Failed"
-msgstr ""
+msgstr "გასვლა ჩავარდა"
 
 #: src/account_settings/general_page/log_out_subpage.blp:121
 msgid ""
@@ -489,7 +489,7 @@ msgstr ""
 #: src/session_view/room_details/history_viewer/file.blp:49
 #: src/session_view/room_details/history_viewer/visual_media.blp:55
 #: src/session_view/room_details/members_page/members_list_view/mod.blp:77
-#: src/session_view/room_history/mod.blp:106
+#: src/session_view/room_history/mod.blp:111
 msgid "Try Again"
 msgstr "კიდევ სცადეთ"
 
@@ -588,43 +588,43 @@ msgstr "ლოკალური სესიის ID-ის კოპირე
 msgid "Local session ID copied to clipboard"
 msgstr "ლოკალური სესიის ID დაკოპირდა ბუფერში"
 
-#: src/account_settings/general_page/mod.rs:315
+#: src/account_settings/general_page/mod.rs:323
 #: src/session_view/room_details/edit_details_subpage.rs:149
 msgid "Avatar removed successfully"
 msgstr ""
 
-#: src/account_settings/general_page/mod.rs:317
+#: src/account_settings/general_page/mod.rs:325
 #: src/session_view/room_details/edit_details_subpage.rs:151
 msgid "Avatar changed successfully"
 msgstr "ავატარი წარმატებით შეიცვალა"
 
-#: src/account_settings/general_page/mod.rs:335
-#: src/account_settings/general_page/mod.rs:345
+#: src/account_settings/general_page/mod.rs:343
+#: src/account_settings/general_page/mod.rs:353
 #: src/session_view/room_details/edit_details_subpage.rs:176
 #: src/session_view/room_details/edit_details_subpage.rs:186
 msgid "Could not load file"
 msgstr ""
 
-#: src/account_settings/general_page/mod.rs:364
+#: src/account_settings/general_page/mod.rs:372
 #: src/session_view/room_details/edit_details_subpage.rs:213
 msgid "Could not upload avatar"
 msgstr ""
 
-#: src/account_settings/general_page/mod.rs:395
+#: src/account_settings/general_page/mod.rs:403
 #: src/session_view/room_details/edit_details_subpage.rs:236
 msgid "Could not change avatar"
 msgstr ""
 
-#: src/account_settings/general_page/mod.rs:412
+#: src/account_settings/general_page/mod.rs:420
 #: src/session_view/room_details/edit_details_subpage.rs:261
 msgid "Remove Avatar?"
 msgstr ""
 
-#: src/account_settings/general_page/mod.rs:413
+#: src/account_settings/general_page/mod.rs:421
 msgid "Do you really want to remove your avatar?"
 msgstr ""
 
-#: src/account_settings/general_page/mod.rs:416
+#: src/account_settings/general_page/mod.rs:424
 #: src/components/dialogs/message_dialogs.rs:58
 #: src/components/dialogs/message_dialogs.rs:323
 #: src/components/dialogs/message_dialogs.rs:409
@@ -642,23 +642,23 @@ msgstr ""
 msgid "Cancel"
 msgstr "გაუქმება"
 
-#: src/account_settings/general_page/mod.rs:417
+#: src/account_settings/general_page/mod.rs:425
 #: src/components/dialogs/message_dialogs.rs:232
 #: src/session_view/room_details/edit_details_subpage.rs:268
 #: src/session_view/room_history/event_actions/group.rs:585
 msgid "Remove"
 msgstr "წაშლა"
 
-#: src/account_settings/general_page/mod.rs:451
+#: src/account_settings/general_page/mod.rs:459
 #: src/session_view/room_details/edit_details_subpage.rs:293
 msgid "Could not remove avatar"
 msgstr ""
 
-#: src/account_settings/general_page/mod.rs:500
+#: src/account_settings/general_page/mod.rs:508
 msgid "Name changed successfully"
 msgstr ""
 
-#: src/account_settings/general_page/mod.rs:550
+#: src/account_settings/general_page/mod.rs:558
 msgid "Could not change display name"
 msgstr ""
 
@@ -714,30 +714,30 @@ msgstr ""
 #: src/account_settings/notifications_page.blp:61
 #: src/account_settings/notifications_page.blp:62
 msgid "Add Keyword"
-msgstr ""
+msgstr "საკვანძო სიტყვის დამატება"
 
-#: src/account_settings/notifications_page.rs:196
+#: src/account_settings/notifications_page.rs:195
 msgid "Could not enable account notifications"
 msgstr ""
 
-#: src/account_settings/notifications_page.rs:198
+#: src/account_settings/notifications_page.rs:197
 msgid "Could not disable account notifications"
 msgstr ""
 
-#: src/account_settings/notifications_page.rs:288
+#: src/account_settings/notifications_page.rs:284
 msgid "Could not change global notifications setting"
 msgstr ""
 
-#: src/account_settings/notifications_page.rs:341
+#: src/account_settings/notifications_page.rs:337
 #, rust-format
 msgid "Remove “{keyword}”"
 msgstr ""
 
-#: src/account_settings/notifications_page.rs:372
+#: src/account_settings/notifications_page.rs:368
 msgid "Could not remove notification keyword"
 msgstr ""
 
-#: src/account_settings/notifications_page.rs:439
+#: src/account_settings/notifications_page.rs:435
 msgid "Could not add notification keyword"
 msgstr ""
 
@@ -826,7 +826,7 @@ msgstr ""
 
 #: src/account_settings/safety_page/mod.blp:55
 msgid "Hide in all rooms"
-msgstr ""
+msgstr "დამალვა ყველა ოთახში"
 
 #: src/account_settings/safety_page/mod.blp:63
 msgid "Show Avatars for Invites"
@@ -865,14 +865,14 @@ msgstr ""
 #. Translators: As in 'The session is verified'.
 #. Translators: As in 'A verified session'.
 #: src/account_settings/user_session/user_session_row.blp:40
-#: src/account_settings/user_session/user_session_subpage.rs:116
+#: src/account_settings/user_session/user_session_subpage.rs:118
 msgid "Verified"
 msgstr "დამოწმებულია"
 
 #. Translators: As in 'The session is not verified'.
 #. Translators: As in 'A verified session'.
 #: src/account_settings/user_session/user_session_row.blp:51
-#: src/account_settings/user_session/user_session_subpage.rs:120
+#: src/account_settings/user_session/user_session_subpage.rs:122
 msgid "Not verified"
 msgstr "შემოწმებული არაა"
 
@@ -905,15 +905,15 @@ msgstr "ბოლო მდებარეობა"
 msgid "Disconnect"
 msgstr "გათიშვა"
 
-#: src/account_settings/user_session/user_session_subpage.rs:211
+#: src/account_settings/user_session/user_session_subpage.rs:214
 msgid "Session renamed"
 msgstr "სესიის სახელი შეიცვალა"
 
-#: src/account_settings/user_session/user_session_subpage.rs:215
+#: src/account_settings/user_session/user_session_subpage.rs:218
 msgid "Could not rename session"
 msgstr "სესიის სახელის გადარქმევა შეუძლებელია"
 
-#: src/account_settings/user_session/user_session_subpage.rs:245
+#: src/account_settings/user_session/user_session_subpage.rs:248
 #, rust-format
 msgid "Could not disconnect session “{device_name}”"
 msgstr ""
@@ -957,7 +957,7 @@ msgstr "ცვლილების დადასტურება"
 #: src/session_view/room_details/history_viewer/audio.blp:17
 #: src/session_view/room_details/history_viewer/file.blp:16
 #: src/session_view/room_details/history_viewer/visual_media.blp:22
-#: src/session_view/room_history/mod.blp:87 src/window.blp:17
+#: src/session_view/room_history/mod.blp:92 src/window.blp:17
 msgid "Loading"
 msgstr "იტვირთება"
 
@@ -1094,12 +1094,12 @@ msgstr ""
 msgid "To proceed, you will also need to reset your account recovery key."
 msgstr ""
 
-#: src/components/crypto/identity_setup_view.rs:384
+#: src/components/crypto/identity_setup_view.rs:415
 #: src/identity_verification_view/cancelled_page.rs:196
 msgid "Could not send a new verification request"
 msgstr "ახალი გადამოწმების მოთხოვნის გაგზავნა შეუძლებელია"
 
-#: src/components/crypto/identity_setup_view.rs:436
+#: src/components/crypto/identity_setup_view.rs:467
 msgid "Could not create the crypto identity"
 msgstr "კრიპტოგრაფიის იდენტიფიკატორის შექმნა შეუძლებელია"
 
@@ -1118,7 +1118,7 @@ msgid "Recovery Passphrase or Key"
 msgstr "აღდგენის საკვანძო ფრაზა ან გასაღები"
 
 #: src/components/crypto/recovery_setup_view.blp:77
-#: src/session_view/sidebar/mod.rs:329
+#: src/session_view/sidebar/mod.rs:351
 msgid "Recover"
 msgstr "აღდგენა"
 
@@ -1213,61 +1213,61 @@ msgstr ""
 msgid "Alternatively, you can reset Account Recovery"
 msgstr ""
 
-#: src/components/crypto/recovery_setup_view.rs:182
+#: src/components/crypto/recovery_setup_view.rs:221
 msgid "Invalidates the verifications of all users and sessions"
 msgstr ""
 
-#: src/components/crypto/recovery_setup_view.rs:188
+#: src/components/crypto/recovery_setup_view.rs:227
 msgid ""
 "Required because the crypto identity in the recovery data is incomplete. "
 "Invalidates the verifications of all users and sessions."
 msgstr ""
 
-#: src/components/crypto/recovery_setup_view.rs:199
+#: src/components/crypto/recovery_setup_view.rs:238
 msgid "You might not be able to read your past encrypted messages anymore"
 msgstr ""
 
-#: src/components/crypto/recovery_setup_view.rs:205
+#: src/components/crypto/recovery_setup_view.rs:244
 msgid ""
 "Required because the backup is not set up properly. You might not be able to "
 "read your past encrypted messages anymore."
 msgstr ""
 
-#: src/components/crypto/recovery_setup_view.rs:225
+#: src/components/crypto/recovery_setup_view.rs:265
 msgid ""
 "Make sure to store this recovery key in a safe place. You will need it to "
 "recover your account if you lose access to all your sessions."
 msgstr ""
 
-#: src/components/crypto/recovery_setup_view.rs:229
+#: src/components/crypto/recovery_setup_view.rs:269
 msgid ""
 "Make sure to remember your passphrase or to store it in a safe place. You "
 "will need it to recover your account if you lose access to all your sessions."
 msgstr ""
 
-#: src/components/crypto/recovery_setup_view.rs:290
+#: src/components/crypto/recovery_setup_view.rs:330
 msgid "The recovery passphrase or key is invalid"
 msgstr ""
 
-#: src/components/crypto/recovery_setup_view.rs:293
+#: src/components/crypto/recovery_setup_view.rs:333
 msgid "Could not access recovery data"
 msgstr "აღდგენის მონაცემებთან წვდომა შეუძლებელია"
 
-#: src/components/crypto/recovery_setup_view.rs:344
+#: src/components/crypto/recovery_setup_view.rs:384
 msgid "Could not reset the crypto identity"
 msgstr ""
 
-#: src/components/crypto/recovery_setup_view.rs:397
-#: src/components/crypto/recovery_setup_view.rs:406
-#: src/components/crypto/recovery_setup_view.rs:431
+#: src/components/crypto/recovery_setup_view.rs:437
+#: src/components/crypto/recovery_setup_view.rs:446
+#: src/components/crypto/recovery_setup_view.rs:471
 msgid "Could not reset account recovery"
 msgstr "ანგარიშის აღდგენის ჩამოყრა შეუძლებელია"
 
-#: src/components/crypto/recovery_setup_view.rs:466
+#: src/components/crypto/recovery_setup_view.rs:506
 msgid "Could not reset account recovery key"
 msgstr ""
 
-#: src/components/crypto/recovery_setup_view.rs:504
+#: src/components/crypto/recovery_setup_view.rs:544
 msgid "Could not enable account recovery"
 msgstr ""
 
@@ -1305,7 +1305,7 @@ msgstr "_დასტური"
 msgid "The password is invalid."
 msgstr "პაროლი არასწორია."
 
-#: src/components/dialogs/auth/mod.rs:315 src/login/in_browser_page.rs:127
+#: src/components/dialogs/auth/mod.rs:315 src/login/in_browser_page.rs:130
 msgid "An unexpected error occurred."
 msgstr "აღმოჩენილია მოულოდნელი შეცდომა."
 
@@ -1520,7 +1520,7 @@ msgstr[1] ""
 #: src/components/dialogs/message_dialogs.rs:380
 #, rust-format
 msgid "Mute {user}?"
-msgstr ""
+msgstr "დადუმდეს {user}?"
 
 #: src/components/dialogs/message_dialogs.rs:384
 msgid "Mute Members?"
@@ -1551,7 +1551,7 @@ msgstr "დადუმება"
 #: src/components/dialogs/message_dialogs.rs:440
 #, rust-format
 msgid "Promote {user}?"
-msgstr ""
+msgstr "დაინაურდეს {user}?"
 
 #: src/components/dialogs/message_dialogs.rs:444
 msgid "Promote Members?"
@@ -1634,14 +1634,14 @@ msgstr ""
 #: src/components/dialogs/room_preview.blp:90
 #: src/components/dialogs/room_preview.rs:242
 msgid "Look Up"
-msgstr ""
+msgstr "ძებნა"
 
 #. Translators: This is a verb, as in 'View Room'.
 #: src/components/dialogs/room_preview.rs:239
 #: src/components/dialogs/room_preview.rs:347
 #: src/session_view/explore/public_room_row.rs:182
-#: src/session_view/room_history/message_toolbar/mod.rs:358
-#: src/session_view/room_history/mod.blp:77
+#: src/session_view/room_history/message_toolbar/mod.rs:382
+#: src/session_view/room_history/mod.blp:82
 #: src/session_view/room_history/state/creation.blp:20
 msgid "View"
 msgstr "ნახვა"
@@ -1670,7 +1670,7 @@ msgstr "მოსაწვევის მოთხოვნა"
 
 #: src/components/dialogs/room_preview.rs:351
 #: src/session_view/explore/public_room_row.rs:195
-#: src/session_view/room_history/message_toolbar/mod.rs:360
+#: src/session_view/room_history/message_toolbar/mod.rs:384
 msgid "Join"
 msgstr "შეერთება"
 
@@ -1688,7 +1688,7 @@ msgstr "თამაში"
 
 #: src/components/media/audio_player/mod.rs:387
 msgid "Error reading audio file"
-msgstr ""
+msgstr "აუდიოსფაილის წაკითხვის შეცდომა"
 
 #: src/components/media/audio_player/mod.rs:475
 msgid "Could not retrieve audio file"
@@ -1696,7 +1696,7 @@ msgstr ""
 
 #: src/components/media/content_viewer.rs:121
 msgid "Image not Viewable"
-msgstr ""
+msgstr "გამოსახულების ჩვენება შეუძლებელია"
 
 #: src/components/media/content_viewer.rs:122
 msgid "Audio Clip not Playable"
@@ -1704,7 +1704,7 @@ msgstr ""
 
 #: src/components/media/content_viewer.rs:123
 msgid "Video not Playable"
-msgstr ""
+msgstr "ვიდეოს დაკვრა შეუძლებელია"
 
 #: src/components/media/content_viewer.rs:124
 msgid "File not Viewable"
@@ -1789,7 +1789,7 @@ msgstr "უსაფრთხოება"
 #: src/components/user_page.blp:199
 #: src/identity_verification_view/accept_request_page.blp:66
 #: src/session_view/room_history/verification_info_bar.rs:172
-#: src/session_view/sidebar/mod.rs:322
+#: src/session_view/sidebar/mod.rs:344
 msgid "Verify"
 msgstr "შემოწმება"
 
@@ -1802,7 +1802,7 @@ msgid "Create Direct Chat"
 msgstr ""
 
 #: src/components/user_page.rs:305
-#: src/session_view/create_direct_chat_dialog/mod.rs:190
+#: src/session_view/create_direct_chat_dialog/mod.rs:202
 msgid "Could not create a new Direct Chat"
 msgstr ""
 
@@ -1971,7 +1971,7 @@ msgstr ""
 msgid "Could Not Initialize Session"
 msgstr ""
 
-#: src/error_page.rs:93
+#: src/error_page.rs:102
 msgid "Command copied to clipboard"
 msgstr "ბრძანება დაკოპირდა ბუფერში"
 
@@ -2391,7 +2391,7 @@ msgstr "_შესვლა"
 msgid "_Create Account"
 msgstr "ანგარიშის _შექმნა"
 
-#: src/login/homeserver_page.blp:103 src/login/method_page.blp:141
+#: src/login/homeserver_page.blp:103 src/login/method_page.blp:129
 msgid "Next"
 msgstr "შემდეგი"
 
@@ -2419,8 +2419,8 @@ msgstr ""
 msgid "The URL of your Matrix homeserver, for example {address}"
 msgstr ""
 
-#: src/login/homeserver_page.rs:254 src/login/mod.rs:299 src/login/mod.rs:323
-#: src/login/mod.rs:369
+#: src/login/homeserver_page.rs:254 src/login/mod.rs:324 src/login/mod.rs:348
+#: src/login/mod.rs:397
 msgid "Could not set up login"
 msgstr "შესვლის მორგება შეუძლებელია"
 
@@ -2428,7 +2428,7 @@ msgstr "შესვლის მორგება შეუძლებელ�
 msgid "Click on the button below and follow the steps in the browser"
 msgstr ""
 
-#: src/login/in_browser_page.rs:100
+#: src/login/in_browser_page.rs:103
 msgid "Could not open URL"
 msgstr "URL-ის გახსნის შეცდომა"
 
@@ -2454,28 +2454,20 @@ msgstr ""
 msgid "Password"
 msgstr "პაროლი"
 
-#: src/login/method_page.blp:124
-msgid "Single Sign-On Providers"
+#: src/login/method_page.blp:122
+msgid "Login via SSO"
 msgstr ""
 
 #. Translators: Do NOT translate the content between '{' and '}', this is a
 #. variable name.
-#: src/login/method_page.rs:95
+#: src/login/method_page.rs:90
 #, rust-format
 msgid "Log in to {domain_name}"
 msgstr "{domain_name}-ში შესვლა"
 
-#: src/login/method_page.rs:102
+#: src/login/method_page.rs:97
 msgid "Log in"
 msgstr "შესვლა"
-
-#: src/login/method_page.rs:144
-msgid "More SSO Providers"
-msgstr ""
-
-#: src/login/method_page.rs:147
-msgid "Login via SSO"
-msgstr ""
 
 #: src/login/mod.blp:22 src/login/mod.blp:54
 msgid "Login Complete"
@@ -2489,7 +2481,7 @@ msgstr ""
 msgid "Start Chatting"
 msgstr "საუბრის დაწყება"
 
-#: src/login/mod.rs:439
+#: src/login/mod.rs:467
 msgid "Could not store session"
 msgstr ""
 
@@ -2503,86 +2495,77 @@ msgstr "ანგარიშის მონაცემების გამ�
 
 #. Translators: Do NOT translate the content between '{' and '}', this is a
 #. variable name.
-#. This is the tooltip text on buttons to log in via Single Sign-On.
-#. The brand is something like Facebook, Apple, GitHub…
-#: src/login/sso_idp_button.rs:74
-#, rust-format
-msgid "Log in with {brand}"
-msgstr ""
-
-#. Translators: Do NOT translate the content between '{' and '}', this is a
-#. variable name.
 #: src/secret/linux.rs:175
 #, rust-format
 msgid "Fractal: Matrix credentials for {user_id}"
 msgstr ""
 
-#: src/secret/linux.rs:527
+#: src/secret/linux.rs:529
 msgid "The secret storage file is corrupted."
 msgstr ""
 
-#: src/secret/linux.rs:529
+#: src/secret/linux.rs:532
 msgid "Could not access the secret storage file location."
 msgstr ""
 
-#: src/secret/linux.rs:532
+#: src/secret/linux.rs:535
 msgid "An unexpected error occurred when accessing the secret storage file."
 msgstr ""
 
-#: src/secret/linux.rs:535
+#: src/secret/linux.rs:538
 msgid "The secret storage file has been changed by another process."
 msgstr ""
 
-#: src/secret/linux.rs:538
+#: src/secret/linux.rs:541
 msgid ""
 "The request to the Flatpak Secret Portal was cancelled. Make sure to accept "
 "any prompt asking to access it."
 msgstr ""
 
-#: src/secret/linux.rs:541
+#: src/secret/linux.rs:544
 msgid ""
 "The Flatpak Secret Portal is not available. Make sure xdg-desktop-portal is "
 "installed, and it is at least at version 1.5.0."
 msgstr ""
 
-#: src/secret/linux.rs:544
+#: src/secret/linux.rs:547
 msgid ""
 "An unexpected error occurred when interacting with the D-Bus Secret Portal "
 "backend."
 msgstr ""
 
-#: src/secret/linux.rs:547
+#: src/secret/linux.rs:550
 msgid "The Flatpak Secret Portal provided a key that is too weak to be secure."
 msgstr ""
 
-#: src/secret/linux.rs:560
+#: src/secret/linux.rs:552 src/secret/linux.rs:569
+msgid "The collection or item is locked."
+msgstr ""
+
+#: src/secret/linux.rs:564
 msgid "The item was deleted."
 msgstr ""
 
-#: src/secret/linux.rs:563 src/secret/linux.rs:578
+#: src/secret/linux.rs:567 src/secret/linux.rs:582
 msgid ""
 "An unexpected error occurred when interacting with the D-Bus Secret Service."
 msgstr ""
 
-#: src/secret/linux.rs:565
-msgid "The collection or item is locked."
-msgstr ""
-
-#: src/secret/linux.rs:567
+#: src/secret/linux.rs:571
 msgid "The D-Bus Secret Service session does not exist."
 msgstr ""
 
-#: src/secret/linux.rs:569
+#: src/secret/linux.rs:573
 msgid "The collection or item does not exist."
 msgstr ""
 
-#: src/secret/linux.rs:572
+#: src/secret/linux.rs:576
 msgid ""
 "The request to the D-Bus Secret Service was cancelled. Make sure to accept "
 "any prompt asking to access it."
 msgstr ""
 
-#: src/secret/linux.rs:575
+#: src/secret/linux.rs:579
 msgid ""
 "Could not access the default collection. Make sure a keyring was created and "
 "set as default."
@@ -2682,18 +2665,18 @@ msgstr ""
 #. Translators: This is the name of a room that is empty but had another
 #. user before. Do NOT translate the content between
 #. '{' and '}', this is a variable name.
-#: src/session/room/mod.rs:389
+#: src/session/room/mod.rs:392
 #, rust-format
 msgid "Empty Room (was {user})"
 msgstr ""
 
 #. Translators: This is the name of a room without other users.
-#: src/session/room/mod.rs:392
+#: src/session/room/mod.rs:395
 msgid "Empty Room"
 msgstr ""
 
 #. Translators: This is displayed when the room name is unknown yet.
-#: src/session/room/mod.rs:402
+#: src/session/room/mod.rs:405
 msgid "Unknown"
 msgstr "უცნობი"
 
@@ -2877,7 +2860,7 @@ msgstr ""
 msgid "Join a room to start chatting"
 msgstr ""
 
-#: src/session_view/content.blp:36 src/session_view/room_history/mod.blp:119
+#: src/session_view/content.blp:36 src/session_view/room_history/mod.blp:124
 msgid "Room History"
 msgstr "ოთახის ისტორია"
 
@@ -2898,7 +2881,7 @@ msgstr "ოთახების დათვალიერება"
 
 #: src/session_view/create_direct_chat_dialog/mod.blp:5
 msgid "Direct Chat"
-msgstr ""
+msgstr "პირდაპირი ჩატი"
 
 #: src/session_view/create_direct_chat_dialog/mod.blp:31
 msgid "New Direct Chat"
@@ -2932,7 +2915,7 @@ msgstr ""
 msgid "An error occurred while searching for matches"
 msgstr ""
 
-#: src/session_view/create_direct_chat_dialog/mod.rs:148
+#: src/session_view/create_direct_chat_dialog/mod.rs:160
 msgid "An error occurred while searching for users"
 msgstr ""
 
@@ -3022,11 +3005,11 @@ msgstr ""
 msgid "Switch servers"
 msgstr ""
 
-#: src/session_view/explore/mod.blp:70
+#: src/session_view/explore/mod.blp:70 src/session_view/sidebar/mod.blp:188
 msgid "No Rooms"
 msgstr ""
 
-#: src/session_view/explore/mod.blp:76
+#: src/session_view/explore/mod.blp:76 src/session_view/sidebar/mod.blp:189
 msgid "No rooms matching the search were found"
 msgstr ""
 
@@ -3499,7 +3482,7 @@ msgid ""
 msgstr ""
 
 #: src/session_view/room_details/general_page.rs:1000
-#: src/session_view/sidebar/mod.rs:320 src/session_view/sidebar/mod.rs:326
+#: src/session_view/sidebar/mod.rs:342 src/session_view/sidebar/mod.rs:348
 msgid "Enable"
 msgstr "ჩართვა"
 
@@ -3542,7 +3525,7 @@ msgstr ""
 #: src/session_view/room_details/history_viewer/audio.blp:46
 #: src/session_view/room_details/history_viewer/file.blp:45
 #: src/session_view/room_details/history_viewer/visual_media.blp:51
-#: src/session_view/room_history/mod.blp:102
+#: src/session_view/room_history/mod.blp:107
 msgid "Check your network connection"
 msgstr "გადაამოწმეთ ქსელთან კავშირის მდგომარეობა"
 
@@ -4051,7 +4034,7 @@ msgid "Re_move"
 msgstr "_წაშლა"
 
 #: src/session_view/room_history/event_actions/context_menu.rs:83
-#: src/session_view/sidebar/mod.rs:372
+#: src/session_view/sidebar/mod.rs:394
 msgid "Context Menu"
 msgstr "კონტექსტური მენიუ"
 
@@ -4224,18 +4207,19 @@ msgstr ""
 msgid "Audio: {filename}"
 msgstr ""
 
-#: src/session_view/room_history/message_row/content.rs:309
+#: src/session_view/room_history/message_row/content.rs:317
 msgid ""
 "Could not decrypt this message, decryption will be retried once the keys are "
 "available."
 msgstr ""
 
-#: src/session_view/room_history/message_row/content.rs:313
+#: src/session_view/room_history/message_row/content.rs:322
 msgid "This message was removed."
 msgstr ""
 
-#: src/session_view/room_history/message_row/content.rs:330
-#: src/session_view/room_history/message_row/content.rs:398
+#: src/session_view/room_history/message_row/content.rs:327
+#: src/session_view/room_history/message_row/content.rs:333
+#: src/session_view/room_history/message_row/content.rs:403
 msgid "Unsupported event"
 msgstr ""
 
@@ -4271,7 +4255,7 @@ msgid "Sent"
 msgstr "გაგზავნილია"
 
 #. Translators: As in 'Edited message'.
-#: src/session_view/room_history/message_row/message_state_stack.blp:74
+#: src/session_view/room_history/message_row/message_state_stack.blp:75
 msgid "Edited"
 msgstr "ჩასწორებულია"
 
@@ -4279,7 +4263,7 @@ msgstr "ჩასწორებულია"
 msgid "Show Sender Profile"
 msgstr "გამგზავნის პროფილის ჩვენება"
 
-#: src/session_view/room_history/message_row/mod.rs:254
+#: src/session_view/room_history/message_row/mod.rs:255
 #, rust-format
 msgid "Sent at {time}"
 msgstr ""
@@ -4408,93 +4392,93 @@ msgstr "შეტყობინების გაგზავნა"
 msgid "You don’t have permission to send messages to this room"
 msgstr ""
 
-#: src/session_view/room_history/message_toolbar/mod.rs:348
+#: src/session_view/room_history/message_toolbar/mod.rs:372
 msgid "The conversation continues in a new room"
 msgstr ""
 
-#: src/session_view/room_history/message_toolbar/mod.rs:350
+#: src/session_view/room_history/message_toolbar/mod.rs:374
 msgid "The conversation has ended"
 msgstr ""
 
 #. Translators: Do NOT translate the content between '{' and '}',
 #. this is a variable name. In this string, 'Reply' is a noun.
-#: src/session_view/room_history/message_toolbar/mod.rs:512
+#: src/session_view/room_history/message_toolbar/mod.rs:536
 #, rust-format
 msgid "Reply to {user}"
 msgstr ""
 
 #. / Update the displayed related event for the given edit.
 #. Translators: In this string, 'Edit' is a noun.
-#: src/session_view/room_history/message_toolbar/mod.rs:530
+#: src/session_view/room_history/message_toolbar/mod.rs:555
 msgctxt "room-history"
 msgid "Edit"
 msgstr "ჩასწორება"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:699
+#: src/session_view/room_history/message_toolbar/mod.rs:734
 msgid "Could not send reply"
 msgstr "პასუხის გაგზავნა შეუძლებელია"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:715
+#: src/session_view/room_history/message_toolbar/mod.rs:750
 msgid "Could not send edit"
 msgstr ""
 
-#: src/session_view/room_history/message_toolbar/mod.rs:726
+#: src/session_view/room_history/message_toolbar/mod.rs:761
 msgid "Could not send message"
 msgstr ""
 
-#: src/session_view/room_history/message_toolbar/mod.rs:772
+#: src/session_view/room_history/message_toolbar/mod.rs:807
 msgid "Your Location"
 msgstr ""
 
 #. Translators: Do NOT translate the content between '{' and '}', this is a
 #. variable name.
-#: src/session_view/room_history/message_toolbar/mod.rs:832
+#: src/session_view/room_history/message_toolbar/mod.rs:867
 #, rust-format
 msgid "User Location {geo_uri} at {iso8601_datetime}"
 msgstr ""
 
-#: src/session_view/room_history/message_toolbar/mod.rs:854
+#: src/session_view/room_history/message_toolbar/mod.rs:889
 msgid "Could not send location"
 msgstr ""
 
-#: src/session_view/room_history/message_toolbar/mod.rs:861
+#: src/session_view/room_history/message_toolbar/mod.rs:896
 msgid "The location request has been cancelled"
 msgstr ""
 
-#: src/session_view/room_history/message_toolbar/mod.rs:862
+#: src/session_view/room_history/message_toolbar/mod.rs:897
 msgid "The location services are disabled"
 msgstr ""
 
-#: src/session_view/room_history/message_toolbar/mod.rs:863
+#: src/session_view/room_history/message_toolbar/mod.rs:898
 msgid "Could not retrieve current location"
 msgstr ""
 
-#: src/session_view/room_history/message_toolbar/mod.rs:898
+#: src/session_view/room_history/message_toolbar/mod.rs:933
 msgid "Could not send file"
 msgstr ""
 
-#: src/session_view/room_history/message_toolbar/mod.rs:952
+#: src/session_view/room_history/message_toolbar/mod.rs:987
 msgid "Select File"
 msgstr "აირჩიეთ ფაილი"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:954
+#: src/session_view/room_history/message_toolbar/mod.rs:989
 msgid "Select"
 msgstr "არჩევა"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:969
+#: src/session_view/room_history/message_toolbar/mod.rs:1004
 msgid "Could not open file"
 msgstr "ფაილის გახსნა შეუძლებელია"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:995
-#: src/session_view/room_history/message_toolbar/mod.rs:1003
+#: src/session_view/room_history/message_toolbar/mod.rs:1030
+#: src/session_view/room_history/message_toolbar/mod.rs:1038
 msgid "Error reading file"
 msgstr "ფაილის წაკითხვის შეცდომა"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:1064
+#: src/session_view/room_history/message_toolbar/mod.rs:1099
 msgid "Error getting image from clipboard"
 msgstr ""
 
-#: src/session_view/room_history/message_toolbar/mod.rs:1081
+#: src/session_view/room_history/message_toolbar/mod.rs:1116
 msgid "Error getting file from clipboard"
 msgstr ""
 
@@ -4525,16 +4509,20 @@ msgstr ""
 msgid "Room Menu"
 msgstr ""
 
-#: src/session_view/room_history/mod.blp:94
-#: src/session_view/room_history/mod.blp:101
+#: src/session_view/room_history/mod.blp:72
+msgid "Call room - other clients may not show messages you send in this room."
+msgstr ""
+
+#: src/session_view/room_history/mod.blp:99
+#: src/session_view/room_history/mod.blp:106
 msgid "Could Not Load Room"
 msgstr ""
 
-#: src/session_view/room_history/mod.blp:133
+#: src/session_view/room_history/mod.blp:138
 msgid "Scroll to Bottom"
 msgstr ""
 
-#: src/session_view/room_history/mod.blp:145
+#: src/session_view/room_history/mod.blp:150
 msgid "Drop Here to Send"
 msgstr ""
 
@@ -4851,42 +4839,61 @@ msgstr "მთავარი მენიუ"
 msgid "Toggle Room Search"
 msgstr ""
 
-#: src/session_view/sidebar/mod.blp:162
+#: src/session_view/sidebar/mod.blp:163
 msgid "Room Search"
 msgstr "ოთახის ძებნა"
 
-#: src/session_view/sidebar/mod.blp:163
+#: src/session_view/sidebar/mod.blp:164
 msgid "Search for a room"
 msgstr "ოთახში ძებნა"
 
-#: src/session_view/sidebar/mod.blp:193
+#: src/session_view/sidebar/mod.blp:214
 msgid "Room List"
 msgstr "ოთახების სია"
 
-#: src/session_view/sidebar/mod.blp:194
+#: src/session_view/sidebar/mod.blp:215
 msgid "Allows to navigate between rooms"
 msgstr ""
 
-#: src/session_view/sidebar/mod.rs:320
+#: src/session_view/sidebar/mod.rs:342
 msgid "No crypto identity"
 msgstr ""
 
-#: src/session_view/sidebar/mod.rs:322
+#: src/session_view/sidebar/mod.rs:344
 msgid "Crypto identity incomplete"
 msgstr ""
 
-#: src/session_view/sidebar/mod.rs:326
+#: src/session_view/sidebar/mod.rs:348
 msgid "Account recovery disabled"
 msgstr ""
 
-#: src/session_view/sidebar/mod.rs:329
+#: src/session_view/sidebar/mod.rs:351
 msgid "Account recovery incomplete"
 msgstr ""
 
+#. Translators: A "call room" is a room where an audio or video call
+#. is always active, that users can join and leave at any time.
+#: src/session_view/sidebar/room_row.rs:257
+msgid "Call room"
+msgstr "ზარის ოთახი"
+
+#: src/session_view/sidebar/room_row.rs:262
+msgid "Direct chat"
+msgstr ""
+
 #. Translators: Do NOT translate the content between '{' and '}', this is a
-#. variable name. Presented to screen readers when a
-#. room is a direct chat with another user.
-#: src/session_view/sidebar/room_row.rs:286
+#. variable name. Presented to screen readers for "call rooms".
+#. A "call room" is a room where an audio or video call is always active,
+#. that users can join and leave at any time.
+#: src/session_view/sidebar/room_row.rs:289
+#, rust-format
+msgid "{name} (call room)"
+msgstr ""
+
+#. Translators: Do NOT translate the content between '{' and '}', this is a
+#. variable name. Presented to screen readers when a room is a direct chat with
+#. another user.
+#: src/session_view/sidebar/room_row.rs:297
 #, rust-format
 msgid "Direct chat with {name}"
 msgstr ""
@@ -4894,7 +4901,7 @@ msgstr ""
 #. Translators: Do NOT translate the content between '{' and '}', this is a
 #. variable name. Presented to screen readers when a room has notifications
 #. for unread messages.
-#: src/session_view/sidebar/room_row.rs:298
+#: src/session_view/sidebar/room_row.rs:309
 #, rust-format
 msgid "1 notification"
 msgid_plural "{count} notifications"
