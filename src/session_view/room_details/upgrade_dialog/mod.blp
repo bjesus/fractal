@@ -2,7 +2,7 @@ using Gtk 4.0;
 using Adw 1;
 
 template $RoomDetailsUpgradeDialog: Adw.Dialog {
-  title: _("Upgrade Room");
+  title: C_("dialog title", "Upgrade Room");
   follows-content-size: true;
 
   styles [
@@ -46,7 +46,7 @@ template $RoomDetailsUpgradeDialog: Adw.Dialog {
             Gtk.Label {
               justify: center;
               xalign: 0.5;
-              label: _("Upgrade Room");
+              label: C_("dialog title", "Upgrade Room");
 
               styles [
                 "title-2",
