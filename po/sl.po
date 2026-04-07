@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fractal master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/fractal/issues\n"
-"POT-Creation-Date: 2026-04-01 13:49+0000\n"
-"PO-Revision-Date: 2026-04-01 18:38+0200\n"
+"POT-Creation-Date: 2026-04-07 14:10+0000\n"
+"PO-Revision-Date: 2026-04-07 20:30+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: sl_SI\n"
@@ -1101,7 +1101,7 @@ msgstr ""
 msgid "Recovery Passphrase or Key"
 msgstr "Obnovitveno geslo ali ključ"
 
-#: src/components/crypto/recovery_setup_view.blp:77 src/session_view/sidebar/mod.rs:329
+#: src/components/crypto/recovery_setup_view.blp:77 src/session_view/sidebar/mod.rs:351
 msgid "Recover"
 msgstr "Obnovi"
 
@@ -1775,7 +1775,7 @@ msgid "Security"
 msgstr "Varnost"
 
 #: src/components/user_page.blp:199 src/identity_verification_view/accept_request_page.blp:66
-#: src/session_view/room_history/verification_info_bar.rs:172 src/session_view/sidebar/mod.rs:322
+#: src/session_view/room_history/verification_info_bar.rs:172 src/session_view/sidebar/mod.rs:344
 msgid "Verify"
 msgstr "Preveri"
 
@@ -2958,11 +2958,11 @@ msgstr "Iščite klepetalnice v javnem imeniku izbranega strežnika"
 msgid "Switch servers"
 msgstr "Preklopi strežnike"
 
-#: src/session_view/explore/mod.blp:70
+#: src/session_view/explore/mod.blp:70 src/session_view/sidebar/mod.blp:188
 msgid "No Rooms"
 msgstr "Ni klepetalnic"
 
-#: src/session_view/explore/mod.blp:76
+#: src/session_view/explore/mod.blp:76 src/session_view/sidebar/mod.blp:189
 msgid "No rooms matching the search were found"
 msgstr "Ni bilo najdenih klepetalnic, ki bi ustrezale iskanju"
 
@@ -3432,8 +3432,8 @@ msgstr ""
 "Če omogočite šifriranje, novi člani ne bodo mogli prebrati zgodovine pred svojo včlanitvijo. Tega "
 "pozneje ni možno onemogočiti."
 
-#: src/session_view/room_details/general_page.rs:1000 src/session_view/sidebar/mod.rs:320
-#: src/session_view/sidebar/mod.rs:326
+#: src/session_view/room_details/general_page.rs:1000 src/session_view/sidebar/mod.rs:342
+#: src/session_view/sidebar/mod.rs:348
 msgid "Enable"
 msgstr "Omogoči"
 
@@ -3821,8 +3821,6 @@ msgid "Change Server Access Control List"
 msgstr "Spremeni seznam za nadzor dostopa do strežnika"
 
 #: src/session_view/room_details/permissions/permissions_subpage.blp:192
-#: src/session_view/room_details/upgrade_dialog/mod.blp:5
-#: src/session_view/room_details/upgrade_dialog/mod.blp:49
 msgid "Upgrade Room"
 msgstr "Nadgradi klepetalnico"
 
@@ -3854,6 +3852,12 @@ msgstr "Privzeta raven moči"
 #: src/session_view/room_details/permissions/permissions_subpage.rs:584
 msgid "Could not save permissions"
 msgstr "Dovoljenj ni bilo mogoče shraniti"
+
+#: src/session_view/room_details/upgrade_dialog/mod.blp:5
+#: src/session_view/room_details/upgrade_dialog/mod.blp:49
+msgctxt "dialog title"
+msgid "Upgrade Room"
+msgstr "Nadgradi klepetalnico"
 
 #: src/session_view/room_details/upgrade_dialog/mod.blp:65
 msgid ""
@@ -3993,7 +3997,7 @@ msgstr "P_oročaj ..."
 msgid "Re_move"
 msgstr "_Odstrani"
 
-#: src/session_view/room_history/event_actions/context_menu.rs:83 src/session_view/sidebar/mod.rs:372
+#: src/session_view/room_history/event_actions/context_menu.rs:83 src/session_view/sidebar/mod.rs:394
 msgid "Context Menu"
 msgstr "Kontekstni meni"
 
@@ -4167,18 +4171,19 @@ msgstr "%-e. %b ob %H:%M"
 msgid "Audio: {filename}"
 msgstr "Zvok: {filename}"
 
-#: src/session_view/room_history/message_row/content.rs:309
+#: src/session_view/room_history/message_row/content.rs:317
 msgid "Could not decrypt this message, decryption will be retried once the keys are available."
 msgstr ""
 "Tega sporočila ni bilo mogoče dešifrirati, zato bo poskus dešifriranja znova izveden, ko bodo ključi na "
 "voljo."
 
-#: src/session_view/room_history/message_row/content.rs:313
+#: src/session_view/room_history/message_row/content.rs:322
 msgid "This message was removed."
 msgstr "Sporočilo je bilo odstranjeno."
 
-#: src/session_view/room_history/message_row/content.rs:330
-#: src/session_view/room_history/message_row/content.rs:398
+#: src/session_view/room_history/message_row/content.rs:327
+#: src/session_view/room_history/message_row/content.rs:333
+#: src/session_view/room_history/message_row/content.rs:403
 msgid "Unsupported event"
 msgstr "Dogodek ni podprt"
 
@@ -4222,7 +4227,7 @@ msgstr "Urejeno"
 msgid "Show Sender Profile"
 msgstr "Pokaži profil pošiljatelja"
 
-#: src/session_view/room_history/message_row/mod.rs:254
+#: src/session_view/room_history/message_row/mod.rs:255
 #, rust-format
 msgid "Sent at {time}"
 msgstr "Poslano {time}"
@@ -4797,35 +4802,35 @@ msgstr "Glavni meni"
 msgid "Toggle Room Search"
 msgstr "Preklopi iskanje klepetalnic"
 
-#: src/session_view/sidebar/mod.blp:162
+#: src/session_view/sidebar/mod.blp:163
 msgid "Room Search"
 msgstr "Iskanje klepetalnic"
 
-#: src/session_view/sidebar/mod.blp:163
+#: src/session_view/sidebar/mod.blp:164
 msgid "Search for a room"
 msgstr "Išči v tej klepetalnici"
 
-#: src/session_view/sidebar/mod.blp:193
+#: src/session_view/sidebar/mod.blp:214
 msgid "Room List"
 msgstr "Seznam klepetalnic"
 
-#: src/session_view/sidebar/mod.blp:194
+#: src/session_view/sidebar/mod.blp:215
 msgid "Allows to navigate between rooms"
 msgstr "Omogoča krmarjenje med klepetalnicami"
 
-#: src/session_view/sidebar/mod.rs:320
+#: src/session_view/sidebar/mod.rs:342
 msgid "No crypto identity"
 msgstr "Brez kripto identitete"
 
-#: src/session_view/sidebar/mod.rs:322
+#: src/session_view/sidebar/mod.rs:344
 msgid "Crypto identity incomplete"
 msgstr "Kripto identiteta ni popolna"
 
-#: src/session_view/sidebar/mod.rs:326
+#: src/session_view/sidebar/mod.rs:348
 msgid "Account recovery disabled"
 msgstr "Obnovitev računa je onemogočena"
 
-#: src/session_view/sidebar/mod.rs:329
+#: src/session_view/sidebar/mod.rs:351
 msgid "Account recovery incomplete"
 msgstr "Obnovitev računa ni dokončana"
 
