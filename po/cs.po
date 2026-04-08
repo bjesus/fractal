@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fractal\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/fractal/issues\n"
-"POT-Creation-Date: 2026-04-05 12:50+0000\n"
-"PO-Revision-Date: 2026-04-06 11:52+0200\n"
+"POT-Creation-Date: 2026-04-07 14:10+0000\n"
+"PO-Revision-Date: 2026-04-08 11:44+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "Language: cs\n"
@@ -4025,8 +4025,6 @@ msgid "Change Server Access Control List"
 msgstr "Změnit seznam řízení přístupu k serveru"
 
 #: src/session_view/room_details/permissions/permissions_subpage.blp:192
-#: src/session_view/room_details/upgrade_dialog/mod.blp:5
-#: src/session_view/room_details/upgrade_dialog/mod.blp:49
 msgid "Upgrade Room"
 msgstr "Vylepšit místnost"
 
@@ -4058,6 +4056,12 @@ msgstr "Výchozí úroveň oprávnění"
 #: src/session_view/room_details/permissions/permissions_subpage.rs:584
 msgid "Could not save permissions"
 msgstr "Nezdařilo se uložit oprávnění"
+
+#: src/session_view/room_details/upgrade_dialog/mod.blp:5
+#: src/session_view/room_details/upgrade_dialog/mod.blp:49
+msgctxt "dialog title"
+msgid "Upgrade Room"
+msgstr "Vylepšit místnost"
 
 #: src/session_view/room_details/upgrade_dialog/mod.blp:65
 msgid ""
