@@ -506,11 +506,15 @@ mod imp {
             match composer_state.related_to() {
                 Some(RelationInfo::Reply(event)) => {
                     self.update_for_reply(&event);
+                    self.enable_sending_non_text_messages(false);
                 }
                 Some(RelationInfo::Edit(_)) => {
                     self.update_for_edit();
+                    self.enable_sending_non_text_messages(false);
                 }
-                None => {}
+                None => {
+                    self.enable_sending_non_text_messages(true);
+                }
             }
         }
 
@@ -546,7 +550,6 @@ mod imp {
             self.related_event_content
                 .update_for_related_event(&msgtype, message_event, &sender);
             self.related_event_content.set_visible(true);
-            self.enable_sending_non_text_messages(false);
         }
 
         /// Update the displayed related event for the given edit.
@@ -556,7 +559,6 @@ mod imp {
             self.related_event_header
                 .set_label_and_widgets::<gtk::Widget>(label, vec![]);
             self.related_event_content.set_visible(false);
-            self.enable_sending_non_text_messages(false);
         }
 
         /// Toggle UI for sending non-text messages.
@@ -572,7 +574,6 @@ mod imp {
         #[template_callback]
         fn clear_related_event(&self) {
             self.current_composer_state().set_related_to(None);
-            self.enable_sending_non_text_messages(true);
         }
 
         /// Add a mention of the given member to the message composer.
