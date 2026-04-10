@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fractal master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/fractal/issues\n"
-"POT-Creation-Date: 2026-04-01 13:49+0000\n"
-"PO-Revision-Date: 2026-04-02 07:07+0200\n"
-"Last-Translator: Марко М. Костић <marko.m.kostic@gmail.com>\n"
+"POT-Creation-Date: 2026-04-10 08:44+0000\n"
+"PO-Revision-Date: 2026-04-10 17:33+0200\n"
+"Last-Translator: Марко Костић <marko.m.kostic@gmail.com>\n"
 "Language-Team: српски <gnome-sr@googlegroups.org>\n"
 "Language: sr\n"
 "MIME-Version: 1.0\n"
@@ -1058,7 +1058,7 @@ msgstr ""
 msgid "Recovery Passphrase or Key"
 msgstr "Фраза или кључ за опоравак"
 
-#: src/components/crypto/recovery_setup_view.blp:77 src/session_view/sidebar/mod.rs:329
+#: src/components/crypto/recovery_setup_view.blp:77 src/session_view/sidebar/mod.rs:351
 msgid "Recover"
 msgstr "Опорави"
 
@@ -1703,7 +1703,7 @@ msgid "Security"
 msgstr "Безбедност"
 
 #: src/components/user_page.blp:199 src/identity_verification_view/accept_request_page.blp:66
-#: src/session_view/room_history/verification_info_bar.rs:172 src/session_view/sidebar/mod.rs:322
+#: src/session_view/room_history/verification_info_bar.rs:172 src/session_view/sidebar/mod.rs:344
 msgid "Verify"
 msgstr "Провери"
 
@@ -2849,11 +2849,11 @@ msgstr "Потражите собу у јавном директоријуму �
 msgid "Switch servers"
 msgstr "Промени сервере"
 
-#: src/session_view/explore/mod.blp:70
+#: src/session_view/explore/mod.blp:70 src/session_view/sidebar/mod.blp:188
 msgid "No Rooms"
 msgstr "Нема соба"
 
-#: src/session_view/explore/mod.blp:76
+#: src/session_view/explore/mod.blp:76 src/session_view/sidebar/mod.blp:189
 msgid "No rooms matching the search were found"
 msgstr "Нису пронађене собе које се подударају са претрагом"
 
@@ -3305,8 +3305,8 @@ msgstr ""
 "Омогућавање шифровања ће спречити нове чланове да читају историјат пре него што су дошли. Ово се не може накнадно "
 "онемогућити."
 
-#: src/session_view/room_details/general_page.rs:1000 src/session_view/sidebar/mod.rs:320
-#: src/session_view/sidebar/mod.rs:326
+#: src/session_view/room_details/general_page.rs:1000 src/session_view/sidebar/mod.rs:342
+#: src/session_view/sidebar/mod.rs:348
 msgid "Enable"
 msgstr "Омогући"
 
@@ -3682,7 +3682,6 @@ msgid "Change Server Access Control List"
 msgstr "Измена серверског списка контроле приступа"
 
 #: src/session_view/room_details/permissions/permissions_subpage.blp:192
-#: src/session_view/room_details/upgrade_dialog/mod.blp:5 src/session_view/room_details/upgrade_dialog/mod.blp:49
 msgid "Upgrade Room"
 msgstr "Надогради собу"
 
@@ -3714,6 +3713,11 @@ msgstr "Подразумевани ниво овлашћења"
 #: src/session_view/room_details/permissions/permissions_subpage.rs:584
 msgid "Could not save permissions"
 msgstr "Не могу да сачувам овлашћења"
+
+#: src/session_view/room_details/upgrade_dialog/mod.blp:5 src/session_view/room_details/upgrade_dialog/mod.blp:49
+msgctxt "dialog title"
+msgid "Upgrade Room"
+msgstr "Надогради собу"
 
 #: src/session_view/room_details/upgrade_dialog/mod.blp:65
 msgid ""
@@ -3846,7 +3850,7 @@ msgstr "Прија_ви…"
 msgid "Re_move"
 msgstr "Укло_ни"
 
-#: src/session_view/room_history/event_actions/context_menu.rs:83 src/session_view/sidebar/mod.rs:372
+#: src/session_view/room_history/event_actions/context_menu.rs:83 src/session_view/sidebar/mod.rs:394
 msgid "Context Menu"
 msgstr "Контекстни мени"
 
@@ -4020,15 +4024,16 @@ msgstr "%-e. %B у %H:%M"
 msgid "Audio: {filename}"
 msgstr "Звук: {filename}"
 
-#: src/session_view/room_history/message_row/content.rs:309
+#: src/session_view/room_history/message_row/content.rs:317
 msgid "Could not decrypt this message, decryption will be retried once the keys are available."
 msgstr "Ова порука се не може дешифровати, дешифровање ће бити поново покушано када кључеви буду доступни."
 
-#: src/session_view/room_history/message_row/content.rs:313
+#: src/session_view/room_history/message_row/content.rs:322
 msgid "This message was removed."
 msgstr "Ова порука је уклоњена."
 
-#: src/session_view/room_history/message_row/content.rs:330 src/session_view/room_history/message_row/content.rs:398
+#: src/session_view/room_history/message_row/content.rs:327 src/session_view/room_history/message_row/content.rs:333
+#: src/session_view/room_history/message_row/content.rs:403
 msgid "Unsupported event"
 msgstr "Неподржан догађај"
 
@@ -4072,7 +4077,7 @@ msgstr "Уређено"
 msgid "Show Sender Profile"
 msgstr "Прикажи профил пошиљаоца"
 
-#: src/session_view/room_history/message_row/mod.rs:254
+#: src/session_view/room_history/message_row/mod.rs:255
 #, rust-format
 msgid "Sent at {time}"
 msgstr "Послато у {time}"
@@ -4210,82 +4215,82 @@ msgstr "Преписка је завршена"
 
 #. Translators: Do NOT translate the content between '{' and '}',
 #. this is a variable name. In this string, 'Reply' is a noun.
-#: src/session_view/room_history/message_toolbar/mod.rs:536
+#: src/session_view/room_history/message_toolbar/mod.rs:540
 #, rust-format
 msgid "Reply to {user}"
 msgstr "Одговор кориснику {user}"
 
 #. / Update the displayed related event for the given edit.
 #. Translators: In this string, 'Edit' is a noun.
-#: src/session_view/room_history/message_toolbar/mod.rs:555
+#: src/session_view/room_history/message_toolbar/mod.rs:558
 msgctxt "room-history"
 msgid "Edit"
 msgstr "Уређивање"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:734
+#: src/session_view/room_history/message_toolbar/mod.rs:735
 msgid "Could not send reply"
 msgstr "Не могу да пошаљем одговор"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:750
+#: src/session_view/room_history/message_toolbar/mod.rs:751
 msgid "Could not send edit"
 msgstr "Не могу да пошаљем измену"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:761
+#: src/session_view/room_history/message_toolbar/mod.rs:762
 msgid "Could not send message"
 msgstr "Не могу да пошаљем поруку"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:807
+#: src/session_view/room_history/message_toolbar/mod.rs:808
 msgid "Your Location"
 msgstr "Ваше место"
 
 #. Translators: Do NOT translate the content between '{' and '}', this is a
 #. variable name.
-#: src/session_view/room_history/message_toolbar/mod.rs:867
+#: src/session_view/room_history/message_toolbar/mod.rs:868
 #, rust-format
 msgid "User Location {geo_uri} at {iso8601_datetime}"
 msgstr "Место корисника {geo_uri} у {iso8601_datetime}"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:889
+#: src/session_view/room_history/message_toolbar/mod.rs:890
 msgid "Could not send location"
 msgstr "Не могу да пошаљем место"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:896
+#: src/session_view/room_history/message_toolbar/mod.rs:897
 msgid "The location request has been cancelled"
 msgstr "Захтев за местом је отказан"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:897
+#: src/session_view/room_history/message_toolbar/mod.rs:898
 msgid "The location services are disabled"
 msgstr "Услуге места су онемогућене"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:898
+#: src/session_view/room_history/message_toolbar/mod.rs:899
 msgid "Could not retrieve current location"
 msgstr "Не могу да дохватим тренутно место"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:933
+#: src/session_view/room_history/message_toolbar/mod.rs:934
 msgid "Could not send file"
 msgstr "Не могу да пошаљем датотеку"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:987
+#: src/session_view/room_history/message_toolbar/mod.rs:988
 msgid "Select File"
 msgstr "Изаберите датотеку"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:989
+#: src/session_view/room_history/message_toolbar/mod.rs:990
 msgid "Select"
 msgstr "Изабери"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:1004
+#: src/session_view/room_history/message_toolbar/mod.rs:1005
 msgid "Could not open file"
 msgstr "Не могу да отворим датотеку"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:1030 src/session_view/room_history/message_toolbar/mod.rs:1038
+#: src/session_view/room_history/message_toolbar/mod.rs:1031 src/session_view/room_history/message_toolbar/mod.rs:1039
 msgid "Error reading file"
 msgstr "Грешка при читању датотеке"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:1099
+#: src/session_view/room_history/message_toolbar/mod.rs:1100
 msgid "Error getting image from clipboard"
 msgstr "Грешка при набављању слике из оставе"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:1116
+#: src/session_view/room_history/message_toolbar/mod.rs:1117
 msgid "Error getting file from clipboard"
 msgstr "Грешка при набављању датотеке из оставе"
 
@@ -4645,35 +4650,35 @@ msgstr "Главни мени"
 msgid "Toggle Room Search"
 msgstr "Прикажи претрагу соба"
 
-#: src/session_view/sidebar/mod.blp:162
+#: src/session_view/sidebar/mod.blp:163
 msgid "Room Search"
 msgstr "Претрага соба"
 
-#: src/session_view/sidebar/mod.blp:163
+#: src/session_view/sidebar/mod.blp:164
 msgid "Search for a room"
 msgstr "Претражи собу"
 
-#: src/session_view/sidebar/mod.blp:193
+#: src/session_view/sidebar/mod.blp:214
 msgid "Room List"
 msgstr "Списак соба"
 
-#: src/session_view/sidebar/mod.blp:194
+#: src/session_view/sidebar/mod.blp:215
 msgid "Allows to navigate between rooms"
 msgstr "Омогућава кретање између соба"
 
-#: src/session_view/sidebar/mod.rs:320
+#: src/session_view/sidebar/mod.rs:342
 msgid "No crypto identity"
 msgstr "Нема криптографског идентитета"
 
-#: src/session_view/sidebar/mod.rs:322
+#: src/session_view/sidebar/mod.rs:344
 msgid "Crypto identity incomplete"
 msgstr "Криптографски идентитет је непотпун"
 
-#: src/session_view/sidebar/mod.rs:326
+#: src/session_view/sidebar/mod.rs:348
 msgid "Account recovery disabled"
 msgstr "Опоравак налога је онемогућен"
 
-#: src/session_view/sidebar/mod.rs:329
+#: src/session_view/sidebar/mod.rs:351
 msgid "Account recovery incomplete"
 msgstr "Опоравак налога је непотпун"
 
