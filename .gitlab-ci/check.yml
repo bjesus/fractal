@@ -8,6 +8,7 @@ pre-commit-checks:
   image: "rustlang/rust:nightly-slim"
   interruptible: true
   script:
+    - apt-get update && apt-get install -y --no-install-recommends git
     - RUST_BACKTRACE=1 cargo run --manifest-path hooks/checks/Cargo.toml -- --verbose --force-install --cargo-binstall
 
 # Checks needing dependencies in the Flatpak runtime
