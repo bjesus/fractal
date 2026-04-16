@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fractal master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/fractal/issues\n"
-"POT-Creation-Date: 2026-04-02 15:32+0000\n"
-"PO-Revision-Date: 2026-04-02 21:26+0500\n"
+"POT-Creation-Date: 2026-04-10 08:44+0000\n"
+"PO-Revision-Date: 2026-04-16 22:58+0500\n"
 "Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
 "Language-Team: Kazakh <kk_KZ@googlegroups.com>\n"
 "Language: kk\n"
@@ -1196,7 +1196,7 @@ msgid "Recovery Passphrase or Key"
 msgstr "Қалпына келтіру кілттік фразасы немесе кілті"
 
 #: src/components/crypto/recovery_setup_view.blp:77
-#: src/session_view/sidebar/mod.rs:329
+#: src/session_view/sidebar/mod.rs:351
 msgid "Recover"
 msgstr "Қалпына келтіру"
 
@@ -1937,7 +1937,7 @@ msgstr "Қауіпсіздік"
 #: src/components/user_page.blp:199
 #: src/identity_verification_view/accept_request_page.blp:66
 #: src/session_view/room_history/verification_info_bar.rs:172
-#: src/session_view/sidebar/mod.rs:322
+#: src/session_view/sidebar/mod.rs:344
 msgid "Verify"
 msgstr "Растау"
 
@@ -3224,11 +3224,11 @@ msgstr "Таңдалған сервердің ашық бумасынан бөл
 msgid "Switch servers"
 msgstr "Серверлерді ауыстыру"
 
-#: src/session_view/explore/mod.blp:70
+#: src/session_view/explore/mod.blp:70 src/session_view/sidebar/mod.blp:188
 msgid "No Rooms"
 msgstr "Бөлмелер жоқ"
 
-#: src/session_view/explore/mod.blp:76
+#: src/session_view/explore/mod.blp:76 src/session_view/sidebar/mod.blp:189
 msgid "No rooms matching the search were found"
 msgstr "Іздеуге сәйкес келетін бөлмелер табылмады"
 
@@ -3708,7 +3708,7 @@ msgstr ""
 "жол бермейді. Бұл кейін сөндіру мүмкін емес."
 
 #: src/session_view/room_details/general_page.rs:1000
-#: src/session_view/sidebar/mod.rs:320 src/session_view/sidebar/mod.rs:326
+#: src/session_view/sidebar/mod.rs:342 src/session_view/sidebar/mod.rs:348
 msgid "Enable"
 msgstr "Қосу"
 
@@ -4096,8 +4096,6 @@ msgid "Change Server Access Control List"
 msgstr "Серверге қол жеткізуді бақылау тізімін өзгерту"
 
 #: src/session_view/room_details/permissions/permissions_subpage.blp:192
-#: src/session_view/room_details/upgrade_dialog/mod.blp:5
-#: src/session_view/room_details/upgrade_dialog/mod.blp:49
 msgid "Upgrade Room"
 msgstr "Бөлмені жаңғырту"
 
@@ -4131,6 +4129,12 @@ msgstr "Бастапқы артықшылық деңгейі"
 #: src/session_view/room_details/permissions/permissions_subpage.rs:584
 msgid "Could not save permissions"
 msgstr "Рұқсаттарды сақтау сәтсіз аяқталды"
+
+#: src/session_view/room_details/upgrade_dialog/mod.blp:5
+#: src/session_view/room_details/upgrade_dialog/mod.blp:49
+msgctxt "dialog title"
+msgid "Upgrade Room"
+msgstr "Бөлмені жаңғырту"
 
 #: src/session_view/room_details/upgrade_dialog/mod.blp:65
 msgid ""
@@ -4284,7 +4288,7 @@ msgid "Re_move"
 msgstr "Ө_шіру"
 
 #: src/session_view/room_history/event_actions/context_menu.rs:83
-#: src/session_view/sidebar/mod.rs:372
+#: src/session_view/sidebar/mod.rs:394
 msgid "Context Menu"
 msgstr "Контекстік мәзір"
 
@@ -4466,7 +4470,7 @@ msgstr "%B %-e, сағат %H:%M"
 msgid "Audio: {filename}"
 msgstr "Аудио: {filename}"
 
-#: src/session_view/room_history/message_row/content.rs:309
+#: src/session_view/room_history/message_row/content.rs:317
 msgid ""
 "Could not decrypt this message, decryption will be retried once the keys "
 "are available."
@@ -4474,12 +4478,13 @@ msgstr ""
 "Бұл хабарламаны шифрден шешу мүмкін болмады, кілттер қолжетімді болған "
 "кезде шифрден шешу қайтадан орындалады."
 
-#: src/session_view/room_history/message_row/content.rs:313
+#: src/session_view/room_history/message_row/content.rs:322
 msgid "This message was removed."
 msgstr "Бұл хабарлама өшірілген."
 
-#: src/session_view/room_history/message_row/content.rs:330
-#: src/session_view/room_history/message_row/content.rs:398
+#: src/session_view/room_history/message_row/content.rs:327
+#: src/session_view/room_history/message_row/content.rs:333
+#: src/session_view/room_history/message_row/content.rs:403
 msgid "Unsupported event"
 msgstr "Қолдау көрсетілмейтін оқиға"
 
@@ -4523,7 +4528,7 @@ msgstr "Түзетілген"
 msgid "Show Sender Profile"
 msgstr "Жіберуші профилін көрсету"
 
-#: src/session_view/room_history/message_row/mod.rs:254
+#: src/session_view/room_history/message_row/mod.rs:255
 #, rust-format
 msgid "Sent at {time}"
 msgstr "{time} уақытында жіберілген"
@@ -4661,83 +4666,83 @@ msgstr "Сөйлесу аяқталды"
 
 #. Translators: Do NOT translate the content between '{' and '}',
 #. this is a variable name. In this string, 'Reply' is a noun.
-#: src/session_view/room_history/message_toolbar/mod.rs:536
+#: src/session_view/room_history/message_toolbar/mod.rs:540
 #, rust-format
 msgid "Reply to {user}"
 msgstr "{user} пайдаланушысына жауап беру"
 
 #. / Update the displayed related event for the given edit.
 #. Translators: In this string, 'Edit' is a noun.
-#: src/session_view/room_history/message_toolbar/mod.rs:555
+#: src/session_view/room_history/message_toolbar/mod.rs:558
 msgctxt "room-history"
 msgid "Edit"
 msgstr "Түзету"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:734
+#: src/session_view/room_history/message_toolbar/mod.rs:735
 msgid "Could not send reply"
 msgstr "Жауап жіберу сәтсіз аяқталды"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:750
+#: src/session_view/room_history/message_toolbar/mod.rs:751
 msgid "Could not send edit"
 msgstr "Түзетуді жіберу сәтсіз аяқталды"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:761
+#: src/session_view/room_history/message_toolbar/mod.rs:762
 msgid "Could not send message"
 msgstr "Хабарлама жіберу сәтсіз аяқталды"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:807
+#: src/session_view/room_history/message_toolbar/mod.rs:808
 msgid "Your Location"
 msgstr "Сіздің орналасқан жеріңіз"
 
 #. Translators: Do NOT translate the content between '{' and '}', this is a
 #. variable name.
-#: src/session_view/room_history/message_toolbar/mod.rs:867
+#: src/session_view/room_history/message_toolbar/mod.rs:868
 #, rust-format
 msgid "User Location {geo_uri} at {iso8601_datetime}"
 msgstr "Пайдаланушы орналасқан жері: {geo_uri}, уақыты: {iso8601_datetime}"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:889
+#: src/session_view/room_history/message_toolbar/mod.rs:890
 msgid "Could not send location"
 msgstr "Орналасқан жерді жіберу сәтсіз аяқталды"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:896
+#: src/session_view/room_history/message_toolbar/mod.rs:897
 msgid "The location request has been cancelled"
 msgstr "Орналасқан жерді анықтау сұранысынан бас тартылды"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:897
+#: src/session_view/room_history/message_toolbar/mod.rs:898
 msgid "The location services are disabled"
 msgstr "Орналасқан жерді анықтау қызметтері сөндірілген"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:898
+#: src/session_view/room_history/message_toolbar/mod.rs:899
 msgid "Could not retrieve current location"
 msgstr "Ағымдағы орналасқан жерді алу мүмкін болмады"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:933
+#: src/session_view/room_history/message_toolbar/mod.rs:934
 msgid "Could not send file"
 msgstr "Файлды жіберу сәтсіз аяқталды"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:987
+#: src/session_view/room_history/message_toolbar/mod.rs:988
 msgid "Select File"
 msgstr "Файлды таңдау"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:989
+#: src/session_view/room_history/message_toolbar/mod.rs:990
 msgid "Select"
 msgstr "Таңдау"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:1004
+#: src/session_view/room_history/message_toolbar/mod.rs:1005
 msgid "Could not open file"
 msgstr "Файлды ашу мүмкін болмады"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:1030
-#: src/session_view/room_history/message_toolbar/mod.rs:1038
+#: src/session_view/room_history/message_toolbar/mod.rs:1031
+#: src/session_view/room_history/message_toolbar/mod.rs:1039
 msgid "Error reading file"
 msgstr "Файлды оқу қатесі"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:1099
+#: src/session_view/room_history/message_toolbar/mod.rs:1100
 msgid "Error getting image from clipboard"
 msgstr "Алмасу буферінен суретті алу қатесі"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:1116
+#: src/session_view/room_history/message_toolbar/mod.rs:1117
 msgid "Error getting file from clipboard"
 msgstr "Алмасу буферінен файлды алу қатесі"
 
@@ -5100,35 +5105,35 @@ msgstr "Басты мәзір"
 msgid "Toggle Room Search"
 msgstr "Бөлмелерді іздеуді қосу/өшіру"
 
-#: src/session_view/sidebar/mod.blp:162
+#: src/session_view/sidebar/mod.blp:163
 msgid "Room Search"
 msgstr "Бөлмелерді іздеу"
 
-#: src/session_view/sidebar/mod.blp:163
+#: src/session_view/sidebar/mod.blp:164
 msgid "Search for a room"
 msgstr "Бөлмені іздеу"
 
-#: src/session_view/sidebar/mod.blp:193
+#: src/session_view/sidebar/mod.blp:214
 msgid "Room List"
 msgstr "Бөлмелер тізімі"
 
-#: src/session_view/sidebar/mod.blp:194
+#: src/session_view/sidebar/mod.blp:215
 msgid "Allows to navigate between rooms"
 msgstr "Бөлмелер арасында ауысуға мүмкіндік береді"
 
-#: src/session_view/sidebar/mod.rs:320
+#: src/session_view/sidebar/mod.rs:342
 msgid "No crypto identity"
 msgstr "Криптографиялық идентификатор жоқ"
 
-#: src/session_view/sidebar/mod.rs:322
+#: src/session_view/sidebar/mod.rs:344
 msgid "Crypto identity incomplete"
 msgstr "Криптографиялық идентификатор толық емес"
 
-#: src/session_view/sidebar/mod.rs:326
+#: src/session_view/sidebar/mod.rs:348
 msgid "Account recovery disabled"
 msgstr "Тіркелгіні қалпына келтіру сөндірілген"
 
-#: src/session_view/sidebar/mod.rs:329
+#: src/session_view/sidebar/mod.rs:351
 msgid "Account recovery incomplete"
 msgstr "Тіркелгіні қалпына келтіру толық емес"
 
