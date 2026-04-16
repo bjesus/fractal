@@ -13,21 +13,22 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fractal main\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/World/fractal/issues\n"
-"POT-Creation-Date: 2026-03-03 15:03+0000\n"
-"PO-Revision-Date: 2026-03-06 22:35-0300\n"
+"POT-Creation-Date: 2026-04-10 08:44+0000\n"
+"PO-Revision-Date: 2026-04-16 17:09-0300\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
-"Language-Team: Brazilian Portuguese <https://br.gnome.org/traducao/>\n"
+"Language-Team: Brazilian Portuguese <https://br.gnome.org/traducao>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Gtranslator 49.0\n"
+"X-Generator: Gtranslator 50.0\n"
 "X-DL-Lang: pt_BR\n"
 "X-DL-Module: fractal\n"
 "X-DL-Branch: main\n"
 "X-DL-Domain: po\n"
 "X-DL-State: None\n"
+"X-DL-VCS-Web: https://gitlab.gnome.org/World/fractal\n"
 
 #: data/org.gnome.Fractal.desktop.in.in:2
 #: data/org.gnome.Fractal.metainfo.xml.in.in:7
@@ -533,7 +534,7 @@ msgstr ""
 #: src/session_view/room_details/history_viewer/file.blp:49
 #: src/session_view/room_details/history_viewer/visual_media.blp:55
 #: src/session_view/room_details/members_page/members_list_view/mod.blp:77
-#: src/session_view/room_history/mod.blp:106
+#: src/session_view/room_history/mod.blp:111
 msgid "Try Again"
 msgstr "Tente novamente"
 
@@ -1034,7 +1035,7 @@ msgstr "Confirmar mudança"
 #: src/session_view/room_details/history_viewer/audio.blp:17
 #: src/session_view/room_details/history_viewer/file.blp:16
 #: src/session_view/room_details/history_viewer/visual_media.blp:22
-#: src/session_view/room_history/mod.blp:87 src/window.blp:17
+#: src/session_view/room_history/mod.blp:92 src/window.blp:17
 msgid "Loading"
 msgstr "Carregando"
 
@@ -1208,7 +1209,7 @@ msgid "Recovery Passphrase or Key"
 msgstr "Senha de recuperação ou chave"
 
 #: src/components/crypto/recovery_setup_view.blp:77
-#: src/session_view/sidebar/mod.rs:329
+#: src/session_view/sidebar/mod.rs:351
 msgid "Recover"
 msgstr "Recuperação"
 
@@ -1426,7 +1427,7 @@ msgstr "C_onfirmar"
 msgid "The password is invalid."
 msgstr "A senha é inválida."
 
-#: src/components/dialogs/auth/mod.rs:315 src/login/in_browser_page.rs:127
+#: src/components/dialogs/auth/mod.rs:315 src/login/in_browser_page.rs:130
 msgid "An unexpected error occurred."
 msgstr "Ocorreu um erro desconhecido."
 
@@ -1796,8 +1797,8 @@ msgstr "Procurar"
 #: src/components/dialogs/room_preview.rs:239
 #: src/components/dialogs/room_preview.rs:347
 #: src/session_view/explore/public_room_row.rs:182
-#: src/session_view/room_history/message_toolbar/mod.rs:380
-#: src/session_view/room_history/mod.blp:77
+#: src/session_view/room_history/message_toolbar/mod.rs:382
+#: src/session_view/room_history/mod.blp:82
 #: src/session_view/room_history/state/creation.blp:20
 msgid "View"
 msgstr "Ver"
@@ -1829,7 +1830,7 @@ msgstr "Solicitar um convite"
 
 #: src/components/dialogs/room_preview.rs:351
 #: src/session_view/explore/public_room_row.rs:195
-#: src/session_view/room_history/message_toolbar/mod.rs:382
+#: src/session_view/room_history/message_toolbar/mod.rs:384
 msgid "Join"
 msgstr "Entrar"
 
@@ -1954,7 +1955,7 @@ msgstr "Segurança"
 #: src/components/user_page.blp:199
 #: src/identity_verification_view/accept_request_page.blp:66
 #: src/session_view/room_history/verification_info_bar.rs:172
-#: src/session_view/sidebar/mod.rs:322
+#: src/session_view/sidebar/mod.rs:344
 msgid "Verify"
 msgstr "Verificar"
 
@@ -2632,7 +2633,7 @@ msgstr "Falha ao definir login"
 msgid "Click on the button below and follow the steps in the browser"
 msgstr "Clique no botão abaixo e siga os passos no navegador"
 
-#: src/login/in_browser_page.rs:100
+#: src/login/in_browser_page.rs:103
 msgid "Could not open URL"
 msgstr "Falha ao abrir URL"
 
@@ -2706,24 +2707,24 @@ msgstr "Buscando dados da conta…"
 msgid "Fractal: Matrix credentials for {user_id}"
 msgstr "Fractal: credenciais Matrix para {user_id}"
 
-#: src/secret/linux.rs:527
+#: src/secret/linux.rs:529
 msgid "The secret storage file is corrupted."
 msgstr "O armazenamento de segredos foi corrompido."
 
-#: src/secret/linux.rs:529
+#: src/secret/linux.rs:532
 msgid "Could not access the secret storage file location."
 msgstr "Falha ao acessar o armazenamento de segredos."
 
-#: src/secret/linux.rs:532
+#: src/secret/linux.rs:535
 msgid "An unexpected error occurred when accessing the secret storage file."
 msgstr ""
 "Ocorreu um erro desconhecido ao interagir com o armazenamento de segredos."
 
-#: src/secret/linux.rs:535
+#: src/secret/linux.rs:538
 msgid "The secret storage file has been changed by another process."
 msgstr "O armazenamento de segredos foi mudado por outro processo."
 
-#: src/secret/linux.rs:538
+#: src/secret/linux.rs:541
 msgid ""
 "The request to the Flatpak Secret Portal was cancelled. Make sure to accept "
 "any prompt asking to access it."
@@ -2732,7 +2733,7 @@ msgstr ""
 "certeza de aceitar qualquer mensagem pedindo para acessar isto."
 
 # Não acho que xdg-desktop-portal tenha uma tradução, mas deixo em aproximada por precaução
-#: src/secret/linux.rs:541
+#: src/secret/linux.rs:544
 msgid ""
 "The Flatpak Secret Portal is not available. Make sure xdg-desktop-portal is "
 "installed, and it is at least at version 1.5.0."
@@ -2740,7 +2741,7 @@ msgstr ""
 "O Portar de Segredos Flatpak não está disponível. Tenha certeza que xdg-"
 "desktop-portal está instalado, e está pelo menos na versão 1.5.0."
 
-#: src/secret/linux.rs:544
+#: src/secret/linux.rs:547
 msgid ""
 "An unexpected error occurred when interacting with the D-Bus Secret Portal "
 "backend."
@@ -2748,34 +2749,34 @@ msgstr ""
 "Ocorreu um erro desconhecido ao interagir com o backend do D-Bus Secret "
 "Portal."
 
-#: src/secret/linux.rs:547
+#: src/secret/linux.rs:550
 msgid "The Flatpak Secret Portal provided a key that is too weak to be secure."
 msgstr ""
 "O Portal de Segredos Flatpak providenciou uma chave que é muito fraca para "
 "ser segura."
 
-#: src/secret/linux.rs:560
+#: src/secret/linux.rs:552 src/secret/linux.rs:569
+msgid "The collection or item is locked."
+msgstr "A coleção ou item está trancado."
+
+#: src/secret/linux.rs:564
 msgid "The item was deleted."
 msgstr "O item foi excluído."
 
-#: src/secret/linux.rs:563 src/secret/linux.rs:578
+#: src/secret/linux.rs:567 src/secret/linux.rs:582
 msgid ""
 "An unexpected error occurred when interacting with the D-Bus Secret Service."
 msgstr "Ocorreu um erro desconhecido ao interagir com o D-Bus Secret Service."
 
-#: src/secret/linux.rs:565
-msgid "The collection or item is locked."
-msgstr "A coleção ou item está trancado."
-
-#: src/secret/linux.rs:567
+#: src/secret/linux.rs:571
 msgid "The D-Bus Secret Service session does not exist."
 msgstr "A sessão do D-Bus Secret Service não existe."
 
-#: src/secret/linux.rs:569
+#: src/secret/linux.rs:573
 msgid "The collection or item does not exist."
 msgstr "A coleção ou item não existe."
 
-#: src/secret/linux.rs:572
+#: src/secret/linux.rs:576
 msgid ""
 "The request to the D-Bus Secret Service was cancelled. Make sure to accept "
 "any prompt asking to access it."
@@ -2783,7 +2784,7 @@ msgstr ""
 "A solicitação para o serviço de segredos do D-Bus foi cancelada. Tenha "
 "certeza de aceitar qualquer mensagem pedindo acesso."
 
-#: src/secret/linux.rs:575
+#: src/secret/linux.rs:579
 msgid ""
 "Could not access the default collection. Make sure a keyring was created and "
 "set as default."
@@ -2886,18 +2887,18 @@ msgstr "Regra sem suporte"
 #. Translators: This is the name of a room that is empty but had another
 #. user before. Do NOT translate the content between
 #. '{' and '}', this is a variable name.
-#: src/session/room/mod.rs:389
+#: src/session/room/mod.rs:392
 #, rust-format
 msgid "Empty Room (was {user})"
 msgstr "Sala vazia (foi {user})"
 
 #. Translators: This is the name of a room without other users.
-#: src/session/room/mod.rs:392
+#: src/session/room/mod.rs:395
 msgid "Empty Room"
 msgstr "Sala vazia"
 
 #. Translators: This is displayed when the room name is unknown yet.
-#: src/session/room/mod.rs:402
+#: src/session/room/mod.rs:405
 msgid "Unknown"
 msgstr "Desconhecido"
 
@@ -3081,7 +3082,7 @@ msgstr "Nenhuma sala selecionada"
 msgid "Join a room to start chatting"
 msgstr "Entre em uma sala para começar a conversar"
 
-#: src/session_view/content.blp:36 src/session_view/room_history/mod.blp:119
+#: src/session_view/content.blp:36 src/session_view/room_history/mod.blp:124
 msgid "Room History"
 msgstr "Histórico da sala"
 
@@ -3226,11 +3227,11 @@ msgstr "Procurar por uma sala no repositório público do servidor selecionado"
 msgid "Switch servers"
 msgstr "Mudar servidor"
 
-#: src/session_view/explore/mod.blp:70
+#: src/session_view/explore/mod.blp:70 src/session_view/sidebar/mod.blp:188
 msgid "No Rooms"
 msgstr "Nenhuma sala"
 
-#: src/session_view/explore/mod.blp:76
+#: src/session_view/explore/mod.blp:76 src/session_view/sidebar/mod.blp:189
 msgid "No rooms matching the search were found"
 msgstr "Nenhuma sala correspondente à pesquisa foi encontrada"
 
@@ -3714,7 +3715,7 @@ msgstr ""
 "sua chegada. Isso não pode ser desativado depois."
 
 #: src/session_view/room_details/general_page.rs:1000
-#: src/session_view/sidebar/mod.rs:320 src/session_view/sidebar/mod.rs:326
+#: src/session_view/sidebar/mod.rs:342 src/session_view/sidebar/mod.rs:348
 msgid "Enable"
 msgstr "Habilitar"
 
@@ -3757,7 +3758,7 @@ msgstr "Falha ao carregar áudio"
 #: src/session_view/room_details/history_viewer/audio.blp:46
 #: src/session_view/room_details/history_viewer/file.blp:45
 #: src/session_view/room_details/history_viewer/visual_media.blp:51
-#: src/session_view/room_history/mod.blp:102
+#: src/session_view/room_history/mod.blp:107
 msgid "Check your network connection"
 msgstr "Verifique sua conexão de rede"
 
@@ -4106,8 +4107,6 @@ msgid "Change Server Access Control List"
 msgstr "Mudar lista de controle de acesso do servidor"
 
 #: src/session_view/room_details/permissions/permissions_subpage.blp:192
-#: src/session_view/room_details/upgrade_dialog/mod.blp:5
-#: src/session_view/room_details/upgrade_dialog/mod.blp:49
 msgid "Upgrade Room"
 msgstr "Atualizar sala"
 
@@ -4140,6 +4139,12 @@ msgstr "Nível de poder padrão"
 #: src/session_view/room_details/permissions/permissions_subpage.rs:584
 msgid "Could not save permissions"
 msgstr "Falha ao salvar permissões"
+
+#: src/session_view/room_details/upgrade_dialog/mod.blp:5
+#: src/session_view/room_details/upgrade_dialog/mod.blp:49
+msgctxt "dialog title"
+msgid "Upgrade Room"
+msgstr "Atualizar sala"
 
 #: src/session_view/room_details/upgrade_dialog/mod.blp:65
 msgid ""
@@ -4288,7 +4293,7 @@ msgid "Re_move"
 msgstr "Re_mover"
 
 #: src/session_view/room_history/event_actions/context_menu.rs:83
-#: src/session_view/sidebar/mod.rs:372
+#: src/session_view/sidebar/mod.rs:394
 msgid "Context Menu"
 msgstr "Menu de contexto"
 
@@ -4465,7 +4470,7 @@ msgstr "%B %-e às %H:%M"
 msgid "Audio: {filename}"
 msgstr "Áudio: {filename}"
 
-#: src/session_view/room_history/message_row/content.rs:309
+#: src/session_view/room_history/message_row/content.rs:317
 msgid ""
 "Could not decrypt this message, decryption will be retried once the keys are "
 "available."
@@ -4473,12 +4478,13 @@ msgstr ""
 "Falha ao descriptografar esta mensagem, a descriptografia será tentada "
 "novamente assim que as chaves estiverem disponíveis."
 
-#: src/session_view/room_history/message_row/content.rs:313
+#: src/session_view/room_history/message_row/content.rs:322
 msgid "This message was removed."
 msgstr "Essa mensagem foi removida."
 
-#: src/session_view/room_history/message_row/content.rs:330
-#: src/session_view/room_history/message_row/content.rs:398
+#: src/session_view/room_history/message_row/content.rs:327
+#: src/session_view/room_history/message_row/content.rs:333
+#: src/session_view/room_history/message_row/content.rs:403
 msgid "Unsupported event"
 msgstr "Evento sem suporte"
 
@@ -4522,7 +4528,7 @@ msgstr "Editado"
 msgid "Show Sender Profile"
 msgstr "Mostrar perfil do remetente"
 
-#: src/session_view/room_history/message_row/mod.rs:254
+#: src/session_view/room_history/message_row/mod.rs:255
 #, rust-format
 msgid "Sent at {time}"
 msgstr "Enviado às {time}"
@@ -4654,93 +4660,93 @@ msgstr "Enviar mensagem"
 msgid "You don’t have permission to send messages to this room"
 msgstr "Você não tem permissão para enviar mensagens para esta sala"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:370
+#: src/session_view/room_history/message_toolbar/mod.rs:372
 msgid "The conversation continues in a new room"
 msgstr "A conversa continua em uma nova sala"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:372
+#: src/session_view/room_history/message_toolbar/mod.rs:374
 msgid "The conversation has ended"
 msgstr "A conversa acabou"
 
 #. Translators: Do NOT translate the content between '{' and '}',
 #. this is a variable name. In this string, 'Reply' is a noun.
-#: src/session_view/room_history/message_toolbar/mod.rs:534
+#: src/session_view/room_history/message_toolbar/mod.rs:540
 #, rust-format
 msgid "Reply to {user}"
 msgstr "Responder a {user}"
 
 #. / Update the displayed related event for the given edit.
 #. Translators: In this string, 'Edit' is a noun.
-#: src/session_view/room_history/message_toolbar/mod.rs:552
+#: src/session_view/room_history/message_toolbar/mod.rs:558
 msgctxt "room-history"
 msgid "Edit"
 msgstr "Edição"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:721
+#: src/session_view/room_history/message_toolbar/mod.rs:735
 msgid "Could not send reply"
 msgstr "Falha ao enviar resposta"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:737
+#: src/session_view/room_history/message_toolbar/mod.rs:751
 msgid "Could not send edit"
 msgstr "Falha ao enviar edição"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:748
+#: src/session_view/room_history/message_toolbar/mod.rs:762
 msgid "Could not send message"
 msgstr "Falha ao enviar mensagem"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:794
+#: src/session_view/room_history/message_toolbar/mod.rs:808
 msgid "Your Location"
 msgstr "Seu local"
 
 #. Translators: Do NOT translate the content between '{' and '}', this is a
 #. variable name.
-#: src/session_view/room_history/message_toolbar/mod.rs:854
+#: src/session_view/room_history/message_toolbar/mod.rs:868
 #, rust-format
 msgid "User Location {geo_uri} at {iso8601_datetime}"
 msgstr "Local do usuário {geo_uri} em {iso8601_datetime}"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:876
+#: src/session_view/room_history/message_toolbar/mod.rs:890
 msgid "Could not send location"
 msgstr "Falha ao enviar local"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:883
+#: src/session_view/room_history/message_toolbar/mod.rs:897
 msgid "The location request has been cancelled"
 msgstr "A solicitação de local foi cancelada"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:884
+#: src/session_view/room_history/message_toolbar/mod.rs:898
 msgid "The location services are disabled"
 msgstr "O serviço de localização está desabilitado"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:885
+#: src/session_view/room_history/message_toolbar/mod.rs:899
 msgid "Could not retrieve current location"
 msgstr "Falha ao recuperar a localização atual"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:920
+#: src/session_view/room_history/message_toolbar/mod.rs:934
 msgid "Could not send file"
 msgstr "Falha ao enviar arquivo"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:974
+#: src/session_view/room_history/message_toolbar/mod.rs:988
 msgid "Select File"
 msgstr "Selecionar um arquivo"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:976
+#: src/session_view/room_history/message_toolbar/mod.rs:990
 msgid "Select"
 msgstr "Selecionar"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:991
+#: src/session_view/room_history/message_toolbar/mod.rs:1005
 msgid "Could not open file"
 msgstr "Falha ao abrir o arquivo"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:1017
-#: src/session_view/room_history/message_toolbar/mod.rs:1025
+#: src/session_view/room_history/message_toolbar/mod.rs:1031
+#: src/session_view/room_history/message_toolbar/mod.rs:1039
 msgid "Error reading file"
 msgstr "Erro ao ler o arquivo"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:1086
+#: src/session_view/room_history/message_toolbar/mod.rs:1100
 msgid "Error getting image from clipboard"
 msgstr "Erro ao pegar imagem da área de transferência"
 
-#: src/session_view/room_history/message_toolbar/mod.rs:1103
+#: src/session_view/room_history/message_toolbar/mod.rs:1117
 msgid "Error getting file from clipboard"
 msgstr "Erro ao pegar arquivo da área de transferência"
 
@@ -4772,16 +4778,22 @@ msgstr "E_squecer da sala"
 msgid "Room Menu"
 msgstr "Menu da sala"
 
-#: src/session_view/room_history/mod.blp:94
-#: src/session_view/room_history/mod.blp:101
+#: src/session_view/room_history/mod.blp:72
+msgid "Call room - other clients may not show messages you send in this room."
+msgstr ""
+"Sala de ligação - outros clientes podem não mostrar mensagens que você envia "
+"nesta sala."
+
+#: src/session_view/room_history/mod.blp:99
+#: src/session_view/room_history/mod.blp:106
 msgid "Could Not Load Room"
 msgstr "Falha ao carregar sala"
 
-#: src/session_view/room_history/mod.blp:133
+#: src/session_view/room_history/mod.blp:138
 msgid "Scroll to Bottom"
 msgstr "Rolar à parte inferior"
 
-#: src/session_view/room_history/mod.blp:145
+#: src/session_view/room_history/mod.blp:150
 msgid "Drop Here to Send"
 msgstr "Solte aqui para enviar"
 
@@ -5099,42 +5111,61 @@ msgstr "Menu principal"
 msgid "Toggle Room Search"
 msgstr "Ativar pesquisa de sala"
 
-#: src/session_view/sidebar/mod.blp:162
+#: src/session_view/sidebar/mod.blp:163
 msgid "Room Search"
 msgstr "Pesquisa de sala"
 
-#: src/session_view/sidebar/mod.blp:163
+#: src/session_view/sidebar/mod.blp:164
 msgid "Search for a room"
 msgstr "Pesquisa por uma sala"
 
-#: src/session_view/sidebar/mod.blp:193
+#: src/session_view/sidebar/mod.blp:214
 msgid "Room List"
 msgstr "Lista de salas"
 
-#: src/session_view/sidebar/mod.blp:194
+#: src/session_view/sidebar/mod.blp:215
 msgid "Allows to navigate between rooms"
 msgstr "Permite navegar entre salas"
 
-#: src/session_view/sidebar/mod.rs:320
+#: src/session_view/sidebar/mod.rs:342
 msgid "No crypto identity"
 msgstr "Nenhuma identidade criptográfica"
 
-#: src/session_view/sidebar/mod.rs:322
+#: src/session_view/sidebar/mod.rs:344
 msgid "Crypto identity incomplete"
 msgstr "Identidade criptográfica incompleta"
 
-#: src/session_view/sidebar/mod.rs:326
+#: src/session_view/sidebar/mod.rs:348
 msgid "Account recovery disabled"
 msgstr "Recuperação de conta desativada"
 
-#: src/session_view/sidebar/mod.rs:329
+#: src/session_view/sidebar/mod.rs:351
 msgid "Account recovery incomplete"
 msgstr "Recuperação de conta incompleta"
 
+#. Translators: A "call room" is a room where an audio or video call
+#. is always active, that users can join and leave at any time.
+#: src/session_view/sidebar/room_row.rs:257
+msgid "Call room"
+msgstr "Sala de ligação"
+
+#: src/session_view/sidebar/room_row.rs:262
+msgid "Direct chat"
+msgstr "Bate-papo direto"
+
 #. Translators: Do NOT translate the content between '{' and '}', this is a
-#. variable name. Presented to screen readers when a
-#. room is a direct chat with another user.
-#: src/session_view/sidebar/room_row.rs:286
+#. variable name. Presented to screen readers for "call rooms".
+#. A "call room" is a room where an audio or video call is always active,
+#. that users can join and leave at any time.
+#: src/session_view/sidebar/room_row.rs:289
+#, rust-format
+msgid "{name} (call room)"
+msgstr "{name} (sala de ligação)"
+
+#. Translators: Do NOT translate the content between '{' and '}', this is a
+#. variable name. Presented to screen readers when a room is a direct chat with
+#. another user.
+#: src/session_view/sidebar/room_row.rs:297
 #, rust-format
 msgid "Direct chat with {name}"
 msgstr "Conversa direta com {name}"
@@ -5142,7 +5173,7 @@ msgstr "Conversa direta com {name}"
 #. Translators: Do NOT translate the content between '{' and '}', this is a
 #. variable name. Presented to screen readers when a room has notifications
 #. for unread messages.
-#: src/session_view/sidebar/room_row.rs:298
+#: src/session_view/sidebar/room_row.rs:309
 #, rust-format
 msgid "1 notification"
 msgid_plural "{count} notifications"
