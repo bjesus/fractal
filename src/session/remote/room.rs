@@ -22,7 +22,7 @@ use crate::{
 /// The time after which the data of a room is assumed to be stale.
 ///
 /// This matches 1 day.
-const DATA_VALIDITY_DURATION: Duration = Duration::from_secs(24 * 60 * 60);
+const DATA_VALIDITY_DURATION: Duration = Duration::from_hours(24);
 
 mod imp {
     use std::{

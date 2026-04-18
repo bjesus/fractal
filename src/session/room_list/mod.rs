@@ -440,8 +440,8 @@ impl RoomList {
         // The alias is shared between upgraded rooms. We want the latest room, so
         // filter out those that are predecessors.
         let predecessors = matches
-            .iter()
-            .filter_map(|(_, room)| room.predecessor_id().cloned())
+            .values()
+            .filter_map(|room| room.predecessor_id().cloned())
             .collect::<Vec<_>>();
         for room_id in predecessors {
             matches.remove(&room_id);

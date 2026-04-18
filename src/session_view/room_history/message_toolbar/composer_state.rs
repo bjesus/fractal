@@ -398,7 +398,7 @@ mod imp {
                 mentions.push(DetectedMention { pill, start, end });
 
                 // Make sure the list is sorted.
-                mentions.sort_by(|lhs, rhs| lhs.start.cmp(&rhs.start));
+                mentions.sort_by_key(|mention| mention.start);
             }
 
             if mentions.is_empty() {

@@ -14,7 +14,7 @@ use crate::{
 /// The time after which the profile of a user is assumed to be stale.
 ///
 /// This matches 1 hour.
-const PROFILE_VALIDITY_DURATION: Duration = Duration::from_secs(60 * 60);
+const PROFILE_VALIDITY_DURATION: Duration = Duration::from_hours(1);
 
 mod imp {
     use std::cell::Cell;

@@ -341,13 +341,12 @@ mod imp {
                         toast!(obj, gettext("Could not export the keys"));
                     } else if error
                         .downcast_ref::<RoomKeyImportError>()
-                        .filter(|error| {
+                        .is_some_and(|error| {
                             matches!(
                                 error,
                                 RoomKeyImportError::Export(KeyExportError::InvalidMac)
                             )
                         })
-                        .is_some()
                     {
                         toast!(
                             obj,
